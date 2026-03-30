@@ -1,6 +1,7 @@
 """Tests for db.py — schema initialization and connection management."""
+from pathlib import Path
+
 import duckdb
-import pytest
 
 
 def test_init_schema_creates_tables(con: duckdb.DuckDBPyConnection) -> None:
@@ -96,7 +97,7 @@ def test_brent_prices_table(con: duckdb.DuckDBPyConnection) -> None:
     assert abs(row[1] - 80.5) < 0.001
 
 
-def test_get_connection_creates_db(tmp_path: pytest.TempPathFactory) -> None:
+def test_get_connection_creates_db(tmp_path: Path) -> None:
     """get_connection creates a database at the given path."""
     from fuel_cartel_monitor.db import get_connection
 
