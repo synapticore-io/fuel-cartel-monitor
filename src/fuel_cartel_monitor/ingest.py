@@ -11,16 +11,16 @@ logger = logging.getLogger(__name__)
 
 TANKERKOENIG_API_KEY = os.environ.get("TANKERKOENIG_API_KEY", "")
 TANKERKOENIG_API_BASE = "https://creativecommons.tankerkoenig.de/json"
-
-# Tankerkoenig Azure DevOps raw file URL pattern
-AZURE_DEVOPS_BASE = (
-    "https://dev.azure.com/tankerkoenig/tankerkoenig-data/"
-    "_apis/git/repositories/tankerkoenig-data/items"
+TANKERKOENIG_DATA_USER = os.environ.get("TANKERKOENIG_DATA_USER", "")
+TANKERKOENIG_DATA_PASS = os.environ.get("TANKERKOENIG_DATA_PASS", "")
+TANKERKOENIG_DATA_BASE = (
+    "https://data.tankerkoenig.de/tankerkoenig-organization/"
+    "tankerkoenig-data/raw/branch/master"
 )
 
 
 def download_csv(target_date: date, data_type: str = "prices") -> str:
-    """Download a single day's CSV from Azure DevOps.
+    """Download a single day's CSV from Tankerkoenig data server.
 
     Args:
         target_date: The date to download
@@ -31,15 +31,23 @@ def download_csv(target_date: date, data_type: str = "prices") -> str:
 
     Raises:
         httpx.HTTPStatusError: If the request fails
+        ValueError: If credentials are not configured
     """
+    if not TANKERKOENIG_DATA_USER or not TANKERKOENIG_DATA_PASS:
+        raise ValueError(
+            "TANKERKOENIG_DATA_USER and TANKERKOENIG_DATA_PASS not set. "
+            "Check your .env file."
+        )
+
     path = (
         f"/{data_type}/{target_date.year}/{target_date.month:02d}/"
         f"{target_date.isoformat()}-{data_type}.csv"
     )
-    url = f"{AZURE_DEVOPS_BASE}?path={path}&api-version=7.0"
+    url = f"{TANKERKOENIG_DATA_BASE}{path}"
+    auth = (TANKERKOENIG_DATA_USER, TANKERKOENIG_DATA_PASS)
 
-    with httpx.Client(timeout=60.0) as client:
-        response = client.get(url)
+    with httpx.Client(timeout=120.0) as client:
+        response = client.get(url, auth=auth, follow_redirects=True)
         response.raise_for_status()
         return response.text
 

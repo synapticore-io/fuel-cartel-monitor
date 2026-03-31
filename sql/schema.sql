@@ -1,7 +1,7 @@
 -- Stations master data
 CREATE TABLE IF NOT EXISTS stations (
     uuid VARCHAR PRIMARY KEY,
-    name VARCHAR NOT NULL,
+    name VARCHAR,
     brand VARCHAR,
     street VARCHAR,
     house_number VARCHAR,
