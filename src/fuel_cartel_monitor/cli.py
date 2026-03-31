@@ -5,6 +5,10 @@ import logging
 import sys
 from datetime import date, timedelta
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fuel_cartel_monitor import analysis
 from fuel_cartel_monitor.db import get_connection
 from fuel_cartel_monitor.ingest import (
@@ -118,11 +122,9 @@ def cmd_analyze(args: argparse.Namespace) -> None:
 
 def cmd_serve(_args: argparse.Namespace) -> None:
     """Handle the 'serve' subcommand — start the MCP server."""
-    import asyncio
-
     from fuel_cartel_monitor.server import main
 
-    asyncio.run(main())
+    main()
 
 
 def cmd_stats(_args: argparse.Namespace) -> None:
