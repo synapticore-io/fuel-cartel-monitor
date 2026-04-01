@@ -211,5 +211,6 @@ __marimo__/
 *.duckdb
 *.duckdb.wal
 COMMIT_MSG.tmp
+commitmsg.txt
 _*.py
 _msg
