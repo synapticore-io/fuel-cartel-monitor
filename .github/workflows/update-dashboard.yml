@@ -34,6 +34,7 @@ jobs:
         env:
           TANKERKOENIG_DATA_USER: ${{ secrets.TANKERKOENIG_DATA_USER }}
           TANKERKOENIG_DATA_PASS: ${{ secrets.TANKERKOENIG_DATA_PASS }}
+          CRUDE_PRICE_API_KEY: ${{ secrets.CRUDE_PRICE_API_KEY }}
         run: |
           uv run fuel-cartel-monitor ingest --days 31
           uv run fuel-cartel-monitor ingest --brent
