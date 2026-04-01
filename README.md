@@ -1,235 +1,173 @@
 # fuel-cartel-monitor
 
-**Detect oligopolistic pricing patterns in German fuel markets using Tankerkoenig MTS-K data.**
+**Die Gier-Lücke: Wie viel der Tankstellen-Preiserhöhung tatsächlich vom Ölpreis kommt.**
 
-[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Dashboard](https://img.shields.io/badge/Live_Dashboard-GitHub_Pages-green.svg)](https://synapticore-io.github.io/fuel-cartel-monitor/)
+
+**[→ Live-Dashboard ansehen](https://synapticore-io.github.io/fuel-cartel-monitor/)**
 
 ---
 
-## Background
+## Kernbefund (März 2026)
 
-The German Federal Cartel Office (Bundeskartellamt) has documented that five major oil companies — **BP/Aral, Shell, ExxonMobil/Esso, TotalEnergies, and ConocoPhillips/Jet** — form a market-dominating oligopoly in the German retail fuel market. Their documented behavior:
+**70% der Diesel-Preiserhöhung** im März 2026 sind nicht durch den gestiegenen Ölpreis erklärbar.
 
-- **Aral or Shell** initiates nationwide price increases (the "leaders")
-- The other oligopolist follows within a characteristic **3-hour window**
-- Remaining oligopolists follow in fixed time corridors
-- Price **increases** are large and nationwide ("rockets")
-- Price **decreases** are small and local ("feathers")
+| Kennzahl | Diesel | Super E5 |
+|----------|--------|----------|
+| Zapfsäulen-Anstieg | +48,9 Ct/L | +23,7 Ct/L |
+| davon Ölpreis (Brent) | +14,8 Ct/L | +14,8 Ct/L |
+| **Gier-Marge** | **+34,1 Ct/L** | **+8,9 Ct/L** |
+| **Kosten pro Tankfüllung (50L)** | **17,05 €** | **4,45 €** |
 
-This tool ingests daily price data from the [Tankerkoenig open dataset](https://tankerkoenig.de/) and exposes analysis via an MCP (Model Context Protocol) server, making these patterns visible and queryable in real-time.
+Basierend auf 13,6 Mio. Preisdatensätzen der Markttransparenzstelle für Kraftstoffe (MTS-K) des Bundeskartellamtes, bereitgestellt über [Tankerkönig](https://tankerkoenig.de/).
+
+## Weitere Befunde
+
+### Oligopol-Mechanismus: Leader-Follower
+
+Shell ist der primäre Preisführer. Nach einer Shell-Erhöhung folgen die anderen Oligopol-Marken in **10–33 Minuten**. Das Bundeskartellamt dokumentierte 2011 noch einen 3-Stunden-Takt — die Koordination hat sich um Faktor 10–15 beschleunigt.
+
+| Preisführer | Follower | Median-Lag | Events |
+|------------|----------|-----------|--------|
+| Shell | → Esso | 10 min | 707 |
+| Shell | → JET | 16 min | 707 |
+| Shell | → TotalEnergies | 19 min | 703 |
+| ARAL | → Esso | 19 min | 511 |
+| ARAL | → JET | 29 min | 511 |
+
+*Region Hannover, 25 km Radius, E5, 30 Tage*
+
+### Rockets & Feathers (Preisasymmetrie)
+
+Preise steigen in großen Sprüngen, fallen aber in kleinen Schritten. Konsistentes **2:1 bis 2,5:1 Verhältnis** über alle Oligopol-Marken:
+
+| Marke | Ø Erhöhung | Ø Senkung | Ratio |
+|-------|-----------|-----------|-------|
+| ARAL | +5,5 Ct | −2,4 Ct | 2,3:1 |
+| Shell | +5,2 Ct | −2,2 Ct | 2,4:1 |
+| Esso | +4,9 Ct | −2,3 Ct | 2,1:1 |
+
+### Wann tanken?
+
+| Bester Zeitpunkt | Schlechtester | Ersparnis |
+|-----------------|---------------|-----------|
+| **Sonntag 19 Uhr** | Samstag 7 Uhr | **~12 Ct/L** |
 
 ---
 
-## Quick Start
+## Funktionsweise
 
-### Prerequisites
+Das Tool analysiert die offiziellen MTS-K-Preismeldungen aller ~17.750 deutschen Tankstellen:
 
-- Python 3.12+
-- [uv](https://docs.astral.sh/uv/) package manager
+1. **Daten laden** — tägliche CSVs mit allen Preisänderungen von [data.tankerkoenig.de](https://data.tankerkoenig.de/)
+2. **Speichern** — in DuckDB (analytische Datenbank, keine Installation nötig)
+3. **Analysieren** — SQL-Macros für Leader-Follower, Rockets-&-Feathers, Brent-Entkopplung
+4. **Visualisieren** — GitHub Pages Dashboard oder interaktive Charts in Claude Desktop via MCP
 
-### Installation
+Das Dashboard aktualisiert sich **täglich automatisch** über eine GitHub Action.
+
+---
+
+## Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/synapticore-io/fuel-cartel-monitor.git
 cd fuel-cartel-monitor
-
-# Install with uv
 uv sync
-
-# For development (includes pytest, ruff)
-uv sync --extra dev
-```
-
-### Configuration
-
-```bash
 cp .env.example .env
-# Edit .env with your Tankerkoenig credentials:
-# TANKERKOENIG_DATA_USER=your-username
-# TANKERKOENIG_DATA_PASS=your-api-key
 ```
 
-Register for free at [creativecommons.tankerkoenig.de](https://creativecommons.tankerkoenig.de/) to obtain credentials.
+Zugangsdaten in `.env` eintragen (kostenlose Registrierung bei [Tankerkönig](https://creativecommons.tankerkoenig.de/)):
 
----
-
-## CLI Commands
-
-### Ingest Data
-
-```bash
-# Ingest last 7 days of historical CSV data
-fuel-cartel-monitor ingest --days 7
-
-# Ingest a specific date range
-fuel-cartel-monitor ingest --from 2026-03-01 --to 2026-03-31
-
-# Fetch stations near a location via live API
-fuel-cartel-monitor ingest --api-stations --lat 52.37 --lng 9.73 --radius 25
-
-# Snapshot current prices for all stations in DB
-fuel-cartel-monitor ingest --api-prices
+```
+TANKERKOENIG_DATA_USER=dein-benutzername
+TANKERKOENIG_DATA_PASS=dein-api-key
 ```
 
-### Analyze Pricing Patterns
-
-All analysis commands default to **Hannover** (lat=52.37, lng=9.73) as the region center.
+## Benutzung
 
 ```bash
-# Detect leader-follower patterns (which brand initiates, how fast others follow)
-fuel-cartel-monitor analyze leader-follower --lat 52.37 --lng 9.73 --radius 25 --fuel e5 --days 30
+# Letzte 31 Tage Preisdaten laden
+fuel-cartel-monitor ingest --days 31
 
-# Detect rockets-and-feathers asymmetry (fast rises, slow falls)
-fuel-cartel-monitor analyze rockets-feathers --lat 52.37 --lng 9.73 --fuel diesel --days 60
+# Brent-Ölpreise laden
+fuel-cartel-monitor ingest --brent
 
-# Price synchronization index (coordinated pricing signal)
-fuel-cartel-monitor analyze sync --lat 52.37 --lng 9.73 --days 30
+# Leader-Follower-Analyse für Hannover
+fuel-cartel-monitor analyze leader-follower --lat 52.37 --lng 9.73
 
-# Brent crude decoupling (retail price vs oil cost)
-fuel-cartel-monitor analyze brent-decoupling --fuel diesel --days 90
+# Rockets-and-Feathers für Diesel
+fuel-cartel-monitor analyze rockets-feathers --fuel diesel
 
-# Regional price comparison (by postal code)
-fuel-cartel-monitor analyze regional --fuel e5
-```
+# Dashboard-Daten exportieren (für GitHub Pages)
+fuel-cartel-monitor export --days 31
 
-### Export Dashboard Data
-
-```bash
-# Export analysis results as JSON for GitHub Pages dashboard
-fuel-cartel-monitor export --days 30 --fuel e5
-```
-
-### Database Stats
-
-```bash
+# Datenbankstatistiken
 fuel-cartel-monitor stats
-```
 
-### Start MCP Server
-
-```bash
+# MCP-Server starten
 fuel-cartel-monitor serve
 ```
 
----
+## MCP-Server (Claude Desktop)
 
-## Analysis Types
+Alle Analysen sind als MCP-Tools verfügbar und rendern interaktive Charts direkt in Claude Desktop via [MCP UI](https://mcpui.dev/).
 
-### 1. Leader-Follower Lag
-
-Identifies which brand initiates price changes and how quickly competing oligopolists follow. The Bundeskartellamt documented a characteristic **~3-hour lag** between Aral/Shell initiating an increase and the remaining oligopolists matching it.
-
-**Output:** `leader_brand`, `follower_brand`, `median_lag_minutes`, `event_count`
-
-### 2. Rockets and Feathers
-
-Tests the asymmetric price transmission hypothesis: prices rise fast (like rockets) when crude oil prices increase, but fall slowly (like feathers) when crude prices decrease. An `asymmetry_ratio > 1.0` confirms the pattern.
-
-**Output:** `brand`, `avg_increase_cents`, `avg_decrease_cents`, `avg_increase_speed_min`, `avg_decrease_speed_min`, `asymmetry_ratio`
-
-### 3. Price Synchronization Index
-
-Calculates pairwise price correlations between stations in a region. High synchronization between oligopolist pairs vs. low synchronization with independent stations is a statistical signal of coordinated pricing.
-
-**Output:** `pair_brand_a`, `pair_brand_b`, `correlation`, `is_oligopol_pair`, `region_sync_index`
-
-### 4. Brent Decoupling
-
-Tracks the spread between retail fuel prices and Brent crude oil prices (in EUR/litre). A z-score > 2.0 flags days with abnormally wide spreads, potentially indicating margin extraction.
-
-**Output:** `date`, `retail_avg`, `brent_eur`, `spread`, `spread_z_score`, `is_abnormal`
-
-### 5. Regional Price Comparison
-
-Compares average fuel prices by German postal code region (2-digit prefix) against the national average. Highlights which regions consistently pay a premium.
-
-**Output:** `region_code`, `date`, `regional_avg`, `national_avg`, `premium_cents`
-
----
-
-## MCP Server
-
-The MCP server exposes all analysis functions as tools for use with Claude Desktop or any MCP-compatible client.
-
-### Claude Desktop Configuration
-
-Add to your Claude Desktop config (`claude_desktop_config.json`):
+Claude Desktop Konfiguration (`claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
     "fuel-cartel-monitor": {
       "command": "uv",
-      "args": [
-        "--directory",
-        "/path/to/fuel-cartel-monitor",
-        "run",
-        "fuel-cartel-monitor",
-        "serve"
-      ],
+      "args": ["--directory", "/pfad/zu/fuel-cartel-monitor", "run", "fuel-cartel-monitor", "serve"],
       "env": {
-        "TANKERKOENIG_DATA_USER": "your-username",
-        "TANKERKOENIG_DATA_PASS": "your-api-key"
+        "TANKERKOENIG_DATA_USER": "dein-benutzername",
+        "TANKERKOENIG_DATA_PASS": "dein-api-key"
       }
     }
   }
 }
 ```
 
-Tools with visual output (leader-follower, rockets-feathers, brent-decoupling) render interactive Chart.js charts directly in Claude Desktop via [MCP UI](https://mcpui.dev/).
-
-### Available MCP Tools
-
-| Tool | Description |
+| Tool | Beschreibung |
 |------|-------------|
-| `analyze_leader_follower` | Leader-follower lag analysis |
-| `analyze_rockets_feathers` | Asymmetric price transmission |
-| `analyze_price_sync` | Price synchronization index |
-| `analyze_brent_decoupling` | Retail vs Brent crude spread |
-| `compare_regions` | Regional price comparison |
-| `station_price_history` | Price history for a station |
-| `ingest_data` | Ingest Tankerkoenig CSV data |
-| `database_stats` | Database statistics |
+| `analyze_leader_follower` | Wer erhöht zuerst, wer folgt wie schnell? |
+| `analyze_rockets_feathers` | Preisasymmetrie: große Erhöhungen, kleine Senkungen |
+| `analyze_brent_decoupling` | Tankstellenpreis vs. Brent-Rohöl — die Gier-Lücke |
+| `analyze_price_sync` | Preissynchronisation zwischen Stationen |
+| `compare_regions` | Regionale Preisunterschiede (nach PLZ) |
+| `station_price_history` | Preisverlauf einzelner Tankstellen |
+| `ingest_data` | Daten laden |
+| `database_stats` | Datenbankstatistiken |
 
----
+## Tech-Stack
 
-## Development
+- **DuckDB** — analytische Datenbank, SQL-Macros für die Kernanalysen
+- **MCP SDK** — Model Context Protocol Server mit [MCP UI](https://mcpui.dev/) Charts
+- **httpx** — HTTP-Client für Daten-Downloads
+- **Chart.js** — Dashboard-Visualisierungen
+- **GitHub Actions** — tägliche automatische Aktualisierung
+- **uv** — Python-Paketmanager
+
+## Datenquellen
+
+- **Tankstellenpreise:** [Tankerkönig](https://tankerkoenig.de/) · [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) · Markttransparenzstelle für Kraftstoffe (MTS-K), Bundeskartellamt
+- **Brent-Rohölpreise:** [EIA](https://www.eia.gov/) (U.S. Energy Information Administration)
+- **EUR/USD-Kurse:** [EZB](https://data.ecb.europa.eu/) (Europäische Zentralbank)
+
+## Entwicklung
 
 ```bash
-# Install dev dependencies
 uv sync --extra dev
-
-# Run tests
-uv run pytest
-
-# Lint and format
+uv run pytest           # 28 Tests
 uv run ruff check src tests
-uv run ruff format src tests
 ```
 
----
+## Lizenz
 
-## Data Sources
+MIT — siehe [LICENSE](LICENSE).
 
-### Tankerkoenig MTS-K Data
-
-Historical CSV data from the German Market Transparency Unit for Fuels (Markttransparenzstelle für Kraftstoffe, MTS-K), provided via the Tankerkoenig project.
-
-- **Source:** [data.tankerkoenig.de](https://data.tankerkoenig.de/)
-- **License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (non-commercial)
-- **Attribution:** Tankerkoenig · Bundeskartellamt — MTS-K
-
-### Brent Crude Oil Prices
-
-- **Source:** [EIA (U.S. Energy Information Administration)](https://www.eia.gov/)
-- **EUR/USD Rates:** [ECB Statistical Data Warehouse](https://data.ecb.europa.eu/)
-
----
-
-## License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
-Copyright (c) 2026 synapticore.io
+© 2026 [synapticore.io](https://synapticore.io)
