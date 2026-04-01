@@ -12,14 +12,14 @@
 
 ## Kernbefund (März 2026)
 
-**70% der Diesel-Preiserhöhung** im März 2026 sind nicht durch den gestiegenen Ölpreis erklärbar.
+**72% der Diesel-Preiserhöhung** im März 2026 sind nicht durch den gestiegenen Ölpreis erklärbar.
 
 | Kennzahl | Diesel | Super E5 |
 |----------|--------|----------|
-| Zapfsäulen-Anstieg | +48,9 Ct/L | +23,7 Ct/L |
-| davon Ölpreis (Brent) | +14,8 Ct/L | +14,8 Ct/L |
-| **Gier-Marge** | **+34,1 Ct/L** | **+8,9 Ct/L** |
-| **Kosten pro Tankfüllung (50L)** | **17,05 €** | **4,45 €** |
+| Zapfsäulen-Anstieg | +49,4 Ct/L | +26,5 Ct/L |
+| davon Ölpreis (Brent) | +14,0 Ct/L | +14,0 Ct/L |
+| **Gier-Marge** | **+35,4 Ct/L** | **+12,4 Ct/L** |
+| **Kosten pro Tankfüllung (50L)** | **17,70 €** | **6,21 €** |
 
 Basierend auf 13,6 Mio. Preisdatensätzen der Markttransparenzstelle für Kraftstoffe (MTS-K) des Bundeskartellamtes, bereitgestellt über [Tankerkönig](https://tankerkoenig.de/).
 
@@ -31,11 +31,11 @@ Shell ist der primäre Preisführer. Nach einer Shell-Erhöhung folgen die ander
 
 | Preisführer | Follower | Median-Lag | Events |
 |------------|----------|-----------|--------|
-| Shell | → Esso | 10 min | 707 |
-| Shell | → JET | 16 min | 707 |
-| Shell | → TotalEnergies | 19 min | 703 |
-| ARAL | → Esso | 19 min | 511 |
-| ARAL | → JET | 29 min | 511 |
+| Shell | → Esso | 10 min | 752 |
+| Shell | → JET | 17 min | 752 |
+| Shell | → TotalEnergies | 20 min | 744 |
+| ARAL | → Esso | 19 min | 544 |
+| ARAL | → JET | 29 min | 544 |
 
 *Region Hannover, 25 km Radius, E5, 30 Tage*
 
@@ -53,7 +53,7 @@ Preise steigen in großen Sprüngen, fallen aber in kleinen Schritten. Konsisten
 
 | Bester Zeitpunkt | Schlechtester | Ersparnis |
 |-----------------|---------------|-----------|
-| **Sonntag 19 Uhr** | Samstag 7 Uhr | **~12 Ct/L** |
+| **Abends (19–21 Uhr)** | Morgens (5–7 Uhr) | **~7 Ct/L** |
 
 ---
 
