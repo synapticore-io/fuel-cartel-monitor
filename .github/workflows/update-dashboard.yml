@@ -2,8 +2,8 @@ name: Update Dashboard Data
 
 on:
   schedule:
-    - cron: '15 6 * * *'  # Daily at 06:15 UTC (08:15 CET)
-  workflow_dispatch:  # Manual trigger
+    - cron: '15 6 * * *'  # Taeglich 06:15 UTC (08:15 CEST)
+  workflow_dispatch:  # Manuell triggerbar
 
 permissions:
   contents: write
@@ -11,17 +11,22 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
     steps:
       - uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.12
         run: uv python install 3.12
 
+      # --no-install-project: installiert nur die Abhaengigkeiten,
+      # nicht das Paket selbst — umgeht das Problem, dass README.md fehlt.
+      # CLI wird ueber PYTHONPATH=src als Modul aufgerufen.
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --no-install-project
 
       - name: Restore DuckDB cache
         uses: actions/cache@v4
@@ -30,25 +35,27 @@ jobs:
           key: duckdb-${{ github.run_number }}
           restore-keys: duckdb-
 
-      - name: Ingest last 31 days
+      - name: Ingest last 7 days + Brent
         env:
           TANKERKOENIG_DATA_USER: ${{ secrets.TANKERKOENIG_DATA_USER }}
           TANKERKOENIG_DATA_PASS: ${{ secrets.TANKERKOENIG_DATA_PASS }}
           CRUDE_PRICE_API_KEY: ${{ secrets.CRUDE_PRICE_API_KEY }}
         run: |
-          uv run fuel-cartel-monitor ingest --days 31
-          uv run fuel-cartel-monitor ingest --brent
+          uv run python -m fuel_cartel_monitor.cli ingest --days 7
+          uv run python -m fuel_cartel_monitor.cli ingest --brent
 
-      - name: Export dashboard data
-        env:
-          TANKERKOENIG_DATA_USER: ${{ secrets.TANKERKOENIG_DATA_USER }}
-          TANKERKOENIG_DATA_PASS: ${{ secrets.TANKERKOENIG_DATA_PASS }}
-        run: uv run fuel-cartel-monitor export --days 31
+      - name: Export monthly dashboards (current + previous)
+        run: |
+          CURRENT_MONTH=$(date -u +%Y-%m)
+          LAST_MONTH=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
+          echo "Exporting $LAST_MONTH and $CURRENT_MONTH"
+          uv run python -m fuel_cartel_monitor.cli export --month "$LAST_MONTH"
+          uv run python -m fuel_cartel_monitor.cli export --month "$CURRENT_MONTH"
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/dashboard.json
-          git diff --cached --quiet || git commit -m "data: update dashboard $(date -u +%Y-%m-%d)"
+          git add docs/data/dashboard-*.json docs/data/index.json
+          git diff --cached --quiet || git commit -m "data: update dashboards $(date -u +%Y-%m-%d)"
           git push

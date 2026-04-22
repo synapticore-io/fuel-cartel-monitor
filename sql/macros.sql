@@ -8,7 +8,7 @@
 -- The Bundeskartellamt documented a 3-hour lag pattern.
 -- ============================================================
 CREATE OR REPLACE MACRO leader_follower_lag(
-    region_lat, region_lng, radius_km, fuel_type, lookback_days
+    region_lat, region_lng, radius_km, fuel_type, date_from, date_to
 ) AS TABLE (
     WITH region_stations AS (
         SELECT uuid, brand, latitude, longitude
@@ -37,7 +37,8 @@ CREATE OR REPLACE MACRO leader_follower_lag(
             END AS price_changed
         FROM price_changes pc
         JOIN region_stations rs ON pc.station_uuid = rs.uuid
-        WHERE pc.timestamp >= CURRENT_TIMESTAMP - INTERVAL (lookback_days) DAY
+        WHERE pc.timestamp >= CAST(date_from AS TIMESTAMP)
+          AND pc.timestamp <  CAST(date_to   AS TIMESTAMP)
     ),
     with_prev AS (
         SELECT
@@ -100,7 +101,7 @@ CREATE OR REPLACE MACRO leader_follower_lag(
 -- Compare speed of price increases vs decreases.
 -- ============================================================
 CREATE OR REPLACE MACRO rockets_and_feathers(
-    region_lat, region_lng, radius_km, fuel_type, lookback_days
+    region_lat, region_lng, radius_km, fuel_type, date_from, date_to
 ) AS TABLE (
     WITH region_stations AS (
         SELECT uuid, brand, latitude, longitude
@@ -129,7 +130,8 @@ CREATE OR REPLACE MACRO rockets_and_feathers(
             END AS price_changed
         FROM price_changes pc
         JOIN region_stations rs ON pc.station_uuid = rs.uuid
-        WHERE pc.timestamp >= CURRENT_TIMESTAMP - INTERVAL (lookback_days) DAY
+        WHERE pc.timestamp >= CAST(date_from AS TIMESTAMP)
+          AND pc.timestamp <  CAST(date_to   AS TIMESTAMP)
     ),
     price_deltas AS (
         SELECT
@@ -180,7 +182,7 @@ CREATE OR REPLACE MACRO rockets_and_feathers(
 -- High synchronization = potential coordinated pricing.
 -- ============================================================
 CREATE OR REPLACE MACRO price_sync_index(
-    region_lat, region_lng, radius_km, fuel_type, lookback_days
+    region_lat, region_lng, radius_km, fuel_type, date_from, date_to
 ) AS TABLE (
     WITH region_stations AS (
         SELECT uuid, brand, is_oligopol
@@ -206,7 +208,8 @@ CREATE OR REPLACE MACRO price_sync_index(
             ) AS price
         FROM price_changes pc
         JOIN region_stations rs ON pc.station_uuid = rs.uuid
-        WHERE pc.timestamp >= CURRENT_TIMESTAMP - INTERVAL (lookback_days) DAY
+        WHERE pc.timestamp >= CAST(date_from AS TIMESTAMP)
+          AND pc.timestamp <  CAST(date_to   AS TIMESTAMP)
         GROUP BY DATE_TRUNC('hour', pc.timestamp), pc.station_uuid, rs.brand, rs.is_oligopol
     ),
     station_pairs AS (
@@ -242,7 +245,7 @@ CREATE OR REPLACE MACRO price_sync_index(
 -- Abnormal widening = potential margin extraction.
 -- ============================================================
 CREATE OR REPLACE MACRO brent_decoupling(
-    fuel_type, lookback_days
+    fuel_type, date_from, date_to
 ) AS TABLE (
     WITH daily_retail AS (
         SELECT
@@ -255,7 +258,8 @@ CREATE OR REPLACE MACRO brent_decoupling(
                 END
             ) AS retail_avg
         FROM price_changes
-        WHERE timestamp >= CURRENT_DATE - INTERVAL (lookback_days) DAY
+        WHERE CAST(timestamp AS DATE) >= CAST(date_from AS DATE)
+          AND CAST(timestamp AS DATE) <  CAST(date_to   AS DATE)
         GROUP BY CAST(timestamp AS DATE)
     ),
     joined AS (

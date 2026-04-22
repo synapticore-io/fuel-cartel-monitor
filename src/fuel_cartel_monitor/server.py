@@ -1,7 +1,7 @@
 """MCP server exposing fuel price analysis tools."""
 import json
 import logging
-from datetime import date
+from datetime import date, timedelta
 
 import duckdb
 from mcp.server.fastmcp import FastMCP
@@ -32,6 +32,12 @@ def _get_con() -> duckdb.DuckDBPyConnection:
 
 def _json(obj: object) -> str:
     return json.dumps(obj, indent=2, default=str)
+
+
+def _lookback_range(days: int) -> tuple[date, date]:
+    """Convert lookback-days to the half-open [date_from, date_to) range."""
+    today = date.today()
+    return today - timedelta(days=days), today + timedelta(days=1)
 
 
 def _ui(uri_path: str, html: str) -> object:
@@ -73,8 +79,9 @@ def analyze_leader_follower(
     Shows which brand initiates price changes and how quickly others follow.
     The Bundeskartellamt documented a typical 3-hour lag between Aral/Shell and followers.
     """
+    df, dt = _lookback_range(lookback_days)
     results = analysis.leader_follower_lag(
-        _get_con(), lat, lng, radius_km, fuel_type, lookback_days
+        _get_con(), lat, lng, df, dt, radius_km=radius_km, fuel_type=fuel_type
     )
     data = [vars(r) for r in results]
 
@@ -114,8 +121,9 @@ def analyze_rockets_feathers(
 
     An asymmetry ratio > 1.0 indicates the pattern.
     """
+    df, dt = _lookback_range(lookback_days)
     results = analysis.rockets_and_feathers(
-        _get_con(), lat, lng, radius_km, fuel_type, lookback_days
+        _get_con(), lat, lng, df, dt, radius_km=radius_km, fuel_type=fuel_type
     )
     data = [vars(r) for r in results]
 
@@ -148,7 +156,8 @@ def analyze_brent_decoupling(
 
     Flags abnormal widening that may indicate margin extraction.
     """
-    results = analysis.brent_decoupling(_get_con(), fuel_type, lookback_days)
+    df, dt = _lookback_range(lookback_days)
+    results = analysis.brent_decoupling(_get_con(), df, dt, fuel_type=fuel_type)
     data = [vars(r) for r in results]
 
     if not data:
@@ -192,8 +201,9 @@ def analyze_price_sync(
 
     High sync between oligopol members vs low sync with independents suggests coordination.
     """
+    df, dt = _lookback_range(lookback_days)
     return _json(analysis.price_sync_index(
-        _get_con(), lat, lng, radius_km, fuel_type, lookback_days
+        _get_con(), lat, lng, df, dt, radius_km=radius_km, fuel_type=fuel_type
     ))
 
 

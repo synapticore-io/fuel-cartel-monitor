@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fuel Cartel Monitor — Die Gier-Lücke im deutschen Tankstellenmarkt</title>
-<meta name="description" content="70% der Diesel-Preiserhöhung im März 2026 haben nichts mit dem Ölpreis zu tun. Datenanalyse auf Basis von 13 Mio. MTS-K-Datensätzen.">
+<title>Wohin geht dein Tank-Euro? — Preisaufschlüsselung deutscher Tankstellen</title>
+<meta name="description" content="Monatliche Aufschlüsselung des Tankstellenpreises in Deutschland: wie viel Energiesteuer, CO2-Abgabe, MwSt, Rohöl und Händlermarge pro Liter Diesel und Super E5. Basierend auf 13+ Mio. MTS-K-Datensätzen des Bundeskartellamts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -14,96 +14,120 @@
   --text:#c8d1dc;--text2:#8a95a5;--text3:#5a6577;
   --red:#e8534a;--red-dim:rgba(232,83,74,.12);
   --green:#2dbe6e;--green-dim:rgba(45,190,110,.12);
-  --blue:#4d9af5;--amber:#e8a838;
+  --blue:#4d9af5;--amber:#e8a838;--violet:#b17ce0;--teal:#3cb8b0;
   --border:#1e2a3a;
   --mono:'JetBrains Mono',monospace;
   --serif:'Source Serif 4',Georgia,serif;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--mono);line-height:1.6;min-height:100vh}
 a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
 .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
-header{border-bottom:1px solid var(--border);padding-bottom:2rem;margin-bottom:2.5rem}
-header h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+header{border-bottom:1px solid var(--border);padding-bottom:2rem;margin-bottom:2rem}
+header h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
 header .kicker{font-size:.7rem;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
-header .subtitle{font-size:.85rem;color:var(--text2);max-width:720px}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2.5rem}
-.hero-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.5rem}
-.hero-card .label{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem}
-.hero-card .big{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;line-height:1}
-.hero-card .unit{font-size:.8rem;color:var(--text2);margin-top:.3rem}
-.hero-card.red .big{color:var(--red)}
-.hero-card.amber .big{color:var(--amber)}
-.hero-card.green .big{color:var(--green)}
-.callout{background:var(--bg3);border-left:3px solid var(--red);padding:1rem 1.2rem;margin-bottom:2rem;font-family:var(--serif);font-size:.95rem;font-style:italic;color:var(--text)}
-.callout strong{color:var(--red);font-style:normal}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:2rem}
-.metric{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:1rem}
-.metric .label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem}
-.metric .value{font-size:1.3rem;font-weight:700;color:#fff}
-.metric .value.red{color:var(--red)} .metric .value.green{color:var(--green)}
-.metric .value.amber{color:var(--amber)} .metric .value.blue{color:var(--blue)}
+header .subtitle{font-size:.9rem;color:var(--text2);max-width:760px}
+.selector-row{display:flex;flex-wrap:wrap;gap:1.5rem;margin-bottom:2rem;align-items:center}
+.selector{display:flex;flex-direction:column;gap:.3rem}
+.selector .sel-label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.toggle-row{display:flex;gap:.35rem;flex-wrap:wrap}
+.toggle-btn{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:.4rem .9rem;border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:.78rem;transition:all .15s}
+.toggle-btn:hover{border-color:var(--text3);color:var(--text)}
+.toggle-btn.active{background:var(--bg3);border-color:var(--blue);color:#fff}
+
+/* Preisaufschlüsselung Hero */
+.breakdown-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.8rem;margin-bottom:2rem}
+.breakdown-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.breakdown-head .title{font-family:var(--serif);font-size:1.05rem;color:#fff}
+.breakdown-head .retail{font-size:clamp(2rem,4vw,2.8rem);font-weight:700;color:#fff;line-height:1}
+.breakdown-head .retail .unit{font-size:.7rem;color:var(--text2);margin-left:.4rem;font-weight:400}
+.breakdown-bar{display:flex;width:100%;height:44px;border-radius:6px;overflow:hidden;margin-bottom:1.2rem;border:1px solid var(--border)}
+.breakdown-seg{display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:500;color:#fff;white-space:nowrap;transition:filter .15s}
+.breakdown-seg:hover{filter:brightness(1.2)}
+.breakdown-seg.energy_tax{background:var(--amber)}
+.breakdown-seg.co2{background:var(--teal)}
+.breakdown-seg.brent{background:var(--blue)}
+.breakdown-seg.vat{background:var(--violet)}
+.breakdown-seg.residual{background:var(--red)}
+.breakdown-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}
+.bl-row{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-top:1px solid var(--border)}
+.bl-swatch{width:12px;height:12px;border-radius:2px;margin-top:4px;flex-shrink:0}
+.bl-text{flex:1;min-width:0}
+.bl-name{font-size:.72rem;color:var(--text);font-weight:500}
+.bl-value{font-size:1.15rem;font-weight:700;color:#fff;margin-top:.1rem}
+.bl-pct{font-size:.65rem;color:var(--text2)}
+.bl-hint{font-size:.62rem;color:var(--text3);margin-top:.2rem;line-height:1.35}
+
 section{margin-bottom:2.5rem}
 section h2{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:.3rem}
-section .desc{font-size:.75rem;color:var(--text3);margin-bottom:1rem}
+section .desc{font-size:.78rem;color:var(--text3);margin-bottom:1rem;max-width:720px}
 .chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1.5rem}
 .chart-wrap{position:relative;height:280px}
 .chart-wrap.tall{height:340px}
 .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:.6rem;font-size:.7rem;color:var(--text2)}
 .legend span{display:flex;align-items:center;gap:4px}
 .legend .dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
-.toggle-row{display:flex;gap:.5rem;margin-bottom:1.2rem}
-.toggle-btn{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:.35rem .9rem;border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:.75rem;transition:all .15s}
-.toggle-btn:hover{border-color:var(--text3);color:var(--text)}
-.toggle-btn.active{background:var(--bg3);border-color:var(--blue);color:#fff}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+/* Sekundäre Sektion: Auffällige Tage */
+.anomaly-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.3rem;font-size:.85rem}
+.anomaly-card .stat{display:flex;gap:1.5rem;margin-bottom:.8rem;flex-wrap:wrap}
+.anomaly-card .stat-item{display:flex;flex-direction:column}
+.anomaly-card .stat-label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.anomaly-card .stat-val{font-size:1.3rem;font-weight:700;color:#fff}
+.anomaly-card .note{font-size:.72rem;color:var(--text2);font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding-top:.7rem}
+
 footer{border-top:1px solid var(--border);padding-top:1.5rem;margin-top:2rem;font-size:.65rem;color:var(--text3);text-align:center;line-height:1.8}
 footer a{color:var(--text2)}
-@media(max-width:700px){.hero-grid,.two-col{grid-template-columns:1fr} .chart-wrap{height:240px}}
+@media(max-width:700px){.two-col{grid-template-columns:1fr} .chart-wrap{height:240px} .breakdown-legend{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="container">
 <header>
-  <div class="kicker">Datenanalyse · 13,2 Mio. Preisdatensätze · März 2026</div>
-  <h1>Die Gier-Lücke</h1>
-  <p class="subtitle">Wie viel der Preiserhöhung an deutschen Tankstellen tatsächlich vom Ölpreis kommt — und wie viel die Mineralölkonzerne einstreichen. Basierend auf MTS-K-Daten des Bundeskartellamtes.</p>
+  <div class="kicker" id="kicker">Preisaufschlüsselung · Deutsche Tankstellen</div>
+  <h1>Wohin geht dein Tank-Euro?</h1>
+  <p class="subtitle">Monatliche Aufschlüsselung: Wie viel von dem, was du an der Zapfsäule zahlst, ist Energiesteuer, CO₂-Abgabe, Rohöl, Mehrwertsteuer und wie viel bleibt den Konzernen als Raffinerie- plus Händlermarge? Daten aus der Markttransparenzstelle für Kraftstoffe (MTS-K) des Bundeskartellamts.</p>
 </header>
 
-<div class="hero-grid">
-  <div class="hero-card red" id="hero-greed">
-    <div class="label">Gier-Marge Diesel</div>
-    <div class="big" id="hero-greed-val">—</div>
-    <div class="unit">Cent/Liter nicht durch Ölpreis erklärt</div>
+<div class="selector-row">
+  <div class="selector">
+    <div class="sel-label">Monat</div>
+    <div class="toggle-row" id="month-toggle"></div>
   </div>
-  <div class="hero-card amber" id="hero-pct">
-    <div class="label">Anteil am Preisanstieg</div>
-    <div class="big" id="hero-pct-val">—</div>
-    <div class="unit">der Diesel-Erhöhung ist keine Rohstoffkosten</div>
+  <div class="selector">
+    <div class="sel-label">Kraftstoff</div>
+    <div class="toggle-row" id="fuel-toggle">
+      <div class="toggle-btn active" data-fuel="diesel">Diesel</div>
+      <div class="toggle-btn" data-fuel="e5">Super E5</div>
+    </div>
   </div>
 </div>
 
-<div class="callout" id="callout"></div>
-<section>
-  <h2>Ölpreis vs. Zapfsäule</h2>
-  <p class="desc">Brent-Rohölpreis (EUR/Liter) gegen den Tankstellenpreis. Die wachsende Lücke ist die Gier-Marge — Kosten die nicht vom Ölmarkt kommen.</p>
-  <div class="toggle-row" id="fuel-toggle">
-    <div class="toggle-btn active" data-fuel="diesel">Diesel</div>
-    <div class="toggle-btn" data-fuel="e5">Super E5</div>
+<div class="breakdown-card">
+  <div class="breakdown-head">
+    <div class="title" id="bd-title">Was ein Liter kostet — und wohin das Geld geht</div>
+    <div class="retail"><span id="bd-retail">—</span><span class="unit">€/L Durchschnitt</span></div>
   </div>
+  <div class="breakdown-bar" id="bd-bar"></div>
+  <div class="breakdown-legend" id="bd-legend"></div>
+</div>
+
+<section>
+  <h2>Rohöl-Preis vs. Zapfsäule — täglicher Verlauf</h2>
+  <p class="desc">Rohöl (Brent) in Euro pro Liter gegen den deutschen Durchschnittspreis. Die Fläche dazwischen enthält Energiesteuer + CO₂-Abgabe + MwSt + Raffinerie/Händlermarge.</p>
   <div class="chart-box">
     <div class="legend">
-      <span><span class="dot" style="background:var(--red)"></span>Zapfsäulenpreis</span>
-      <span><span class="dot" style="background:var(--blue)"></span>Brent Rohöl (EUR/L)</span>
-      <span><span class="dot" style="background:rgba(232,83,74,.15)"></span>Gier-Marge</span>
+      <span><span class="dot" style="background:var(--red)"></span>Zapfsäule (brutto)</span>
+      <span><span class="dot" style="background:var(--blue)"></span>Rohöl Brent (netto)</span>
     </div>
     <div class="chart-wrap tall"><canvas id="spreadChart"></canvas></div>
   </div>
 </section>
 
-<div class="metrics" id="cost-metrics"></div>
 <section>
   <h2>Wann tanken?</h2>
-  <p class="desc">Durchschnittlicher E5-Preis nach Tageszeit und Wochentag. Basierend auf allen 17.755 Tankstellen, 30 Tage.</p>
+  <p class="desc">Durchschnittspreis nach Tageszeit und Wochentag über den gewählten Monat.</p>
   <div class="two-col">
     <div class="chart-box">
       <div class="legend"><span><span class="dot" style="background:var(--amber)"></span>Ø Preis nach Uhrzeit</span></div>
@@ -118,8 +142,8 @@ footer a{color:var(--text2)}
 
 <section>
   <h2>Der Oligopol-Mechanismus</h2>
-  <p class="desc">Shell oder ARAL erhöhen — alle anderen folgen binnen Minuten. Das Bundeskartellamt dokumentierte 2011 einen 3-Stunden-Takt. Heute läuft es in unter 20 Minuten.</p>
-  <div class="toggle-row" id="city-tabs"></div>
+  <p class="desc">Shell oder ARAL erhöhen — andere Marken folgen in Minuten. Das Bundeskartellamt dokumentierte 2011 einen 3-Stunden-Takt. Heute typisch unter 30 Minuten.</p>
+  <div class="toggle-row" id="city-tabs" style="margin-bottom:1rem"></div>
   <div class="two-col">
     <div class="chart-box">
       <div class="legend">
@@ -137,175 +161,390 @@ footer a{color:var(--text2)}
     </div>
   </div>
 </section>
+
+<section>
+  <h2>Auffällige Tage — statistische Abweichung</h2>
+  <p class="desc">An wie vielen Tagen des Monats lag die Marge zwischen Zapfsäule und Rohölpreis ungewöhnlich hoch (mehr als 2 Standardabweichungen über dem 30-Tage-Mittel)? Ein statistisch normaler Wert liegt bei rund 2&nbsp;%.</p>
+  <div class="anomaly-card" id="anomaly-card"></div>
+</section>
+
 <footer>
-  Datenquelle: <a href="https://creativecommons.tankerkoenig.de/" target="_blank">Tankerkönig</a> (CC BY-NC-SA 4.0) · Markttransparenzstelle für Kraftstoffe, Bundeskartellamt · Brent: <a href="https://www.eia.gov/" target="_blank">EIA</a><br>
-  Open Source: <a href="https://github.com/synapticore-io/fuel-cartel-monitor" target="_blank">github.com/synapticore-io/fuel-cartel-monitor</a> · DuckDB · MCP<br>
+  Datenquelle Zapfsäulen: <a href="https://creativecommons.tankerkoenig.de/" target="_blank">Tankerkönig</a> (CC BY-NC-SA 4.0) via <a href="https://www.bundeskartellamt.de/DE/Wirtschaftsbereiche/Mineraloel/MTS-Kraftstoffe/mts-kraftstoffe_node.html" target="_blank">MTS-K Bundeskartellamt</a><br>
+  Rohöl-Preise: <a href="https://www.crudepriceapi.com/" target="_blank">CrudePriceAPI</a> + <a href="https://www.eia.gov/" target="_blank">EIA</a> · EUR/USD: <a href="https://data.ecb.europa.eu/" target="_blank">ECB</a><br>
+  CO₂-Preis 2026: <a href="https://www.gesetze-im-internet.de/behg/__10.html" target="_blank">BEHG §10</a> / <a href="https://www.dehst.de/" target="_blank">DEHSt</a> — Mindestpreis im Korridor 55–65 €/t (erste EEX-Auktion ab 1.7.2026) · Energiesteuer: <a href="https://www.gesetze-im-internet.de/energiestg/" target="_blank">EnergieStG</a><br>
+  Emissionsfaktoren: UBA (Diesel 2,64 kg CO₂/L, Benzin 2,32 kg CO₂/L)<br>
+  Open Source: <a href="https://github.com/synapticore-io/fuel-cartel-monitor" target="_blank">github.com/synapticore-io/fuel-cartel-monitor</a> · DuckDB · Parquet · MCP<br>
   <span id="gen-time"></span>
 </footer>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const C={red:'#e8534a',blue:'#4d9af5',green:'#2dbe6e',amber:'#e8a838',
+  violet:'#b17ce0',teal:'#3cb8b0',
   text2:'#8a95a5',grid:'rgba(255,255,255,0.04)',redFill:'rgba(232,83,74,0.12)'};
-let D,spreadChart,lfChart,rfChart,hourChart,dowChart,curFuel='diesel',curCity='Hannover';
-Chart.defaults.color=C.text2;
-Chart.defaults.font.family="'JetBrains Mono',monospace";
-Chart.defaults.font.size=11;
-const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
 
-async function init(){
-  D=await(await fetch('data/dashboard.json')).json();
-  renderHero();renderCallout();renderCostMetrics();
-  renderSpreadChart();renderHourChart();renderDowChart();
-  renderCityTabs();renderLfChart();renderRfChart();
-  document.getElementById('gen-time').textContent=
-    'Stand: '+new Date(D.generated_at).toLocaleString('de-DE');
-  document.getElementById('fuel-toggle').onclick=e=>{
-    const b=e.target.closest('.toggle-btn'); if(!b)return;
-    curFuel=b.dataset.fuel;
-    document.querySelectorAll('#fuel-toggle .toggle-btn').forEach(x=>x.classList.remove('active'));
+let IDX, D;
+let spreadChart, lfChart, rfChart, hourChart, dowChart;
+let curFuel = 'diesel', curCity = 'Hannover', curMonth = null;
+
+Chart.defaults.color = C.text2;
+Chart.defaults.font.family = "'JetBrains Mono',monospace";
+Chart.defaults.font.size = 11;
+const CO = {responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}};
+
+async function init() {
+  IDX = await (await fetch('data/index.json')).json();
+  curMonth = IDX.latest;
+  renderMonthTabs();
+  await loadMonth(curMonth);
+  renderFuelToggle();
+}
+
+function renderMonthTabs() {
+  const el = document.getElementById('month-toggle');
+  const monthName = m => {
+    const [y, mo] = m.split('-');
+    const names = ['','Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    return `${names[parseInt(mo,10)]} ${y}`;
+  };
+  el.innerHTML = IDX.months.map(m =>
+    `<div class="toggle-btn${m===curMonth?' active':''}" data-month="${m}">${monthName(m)}</div>`
+  ).join('');
+  el.onclick = async e => {
+    const b = e.target.closest('.toggle-btn');
+    if (!b) return;
+    curMonth = b.dataset.month;
+    el.querySelectorAll('.toggle-btn').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    renderHero();renderCallout();renderCostMetrics();updateSpread();
+    await loadMonth(curMonth);
   };
 }
-function gm(){return (D.greed_margin||{})[curFuel]||{}}
-function renderHero(){
-  const g=gm();
-  document.getElementById('hero-greed-val').textContent=g.greed_cents?g.greed_cents.toFixed(1):'—';
-  document.getElementById('hero-pct-val').textContent=g.greed_pct?Math.round(g.greed_pct)+'%':'—';
-  document.querySelector('#hero-greed .label').textContent='Gier-Marge '+(curFuel==='diesel'?'Diesel':'Super E5');
+
+function renderFuelToggle() {
+  document.getElementById('fuel-toggle').onclick = e => {
+    const b = e.target.closest('.toggle-btn');
+    if (!b) return;
+    curFuel = b.dataset.fuel;
+    document.querySelectorAll('#fuel-toggle .toggle-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderBreakdown();
+    updateSpread();
+    renderHourChart();
+    renderDowChart();
+    renderAnomaly();
+  };
 }
-function renderCallout(){
-  const g=gm();
-  if(!g.greed_cents){document.getElementById('callout').innerHTML='';return;}
-  const fuel=curFuel==='diesel'?'Diesel':'Super E5';
-  document.getElementById('callout').innerHTML=
-    `Von den <strong>${g.retail_rise_cents} Cent/Liter</strong> ${fuel}-Preisanstieg im März 2026 `+
-    `entfallen nur ${g.brent_rise_cents} Cent auf den gestiegenen Ölpreis. `+
-    `Die restlichen <strong>${g.greed_cents} Cent</strong> (${Math.round(g.greed_pct)}%) sind Margenausweitung `+
-    `der Mineralölkonzerne. Bei einer 50-Liter-Tankfüllung sind das <strong>${g.cost_per_tank_50l.toFixed(2)} €</strong> extra.`;
+
+async function loadMonth(month) {
+  D = await (await fetch(`data/dashboard-${month}.json`)).json();
+  updateKicker();
+  renderBreakdown();
+  if (!spreadChart) renderSpreadChart(); else updateSpread();
+  renderHourChart(); renderDowChart();
+  renderCityTabs();
+  if (!lfChart) renderLfChart(); else updateLf();
+  if (!rfChart) renderRfChart(); else updateRf();
+  renderAnomaly();
+  document.getElementById('gen-time').textContent =
+    'Stand Export: ' + new Date(D.generated_at).toLocaleString('de-DE');
 }
-function renderCostMetrics(){
-  const g=gm(),bt=D.best_time||{};
-  document.getElementById('cost-metrics').innerHTML=`
-    <div class="metric"><div class="label">Ölpreis-Anstieg</div><div class="value blue">+${g.brent_rise_cents||'—'} Ct/L</div></div>
-    <div class="metric"><div class="label">Zapfsäulen-Anstieg</div><div class="value red">+${g.retail_rise_cents||'—'} Ct/L</div></div>
-    <div class="metric"><div class="label">Gier-Marge pro Tank</div><div class="value red">${g.cost_per_tank_50l?g.cost_per_tank_50l.toFixed(2)+'€':'—'}</div></div>
-    <div class="metric"><div class="label">Günstigste Uhrzeit</div><div class="value green">${bt.cheapest_hour||'—'}:00</div></div>
-    <div class="metric"><div class="label">Teuerste Uhrzeit</div><div class="value red">${bt.priciest_hour||'—'}:00</div></div>
-    <div class="metric"><div class="label">Tageszeit-Spread</div><div class="value amber">${bt.hour_spread_cents||'—'} Ct</div></div>
-  `;
+
+function updateKicker() {
+  const statRows = D.stats.price_record_count || 0;
+  const millions = (statRows / 1_000_000).toFixed(1).replace('.', ',');
+  const monthName = curMonth;
+  document.getElementById('kicker').textContent =
+    `Preisaufschlüsselung · Deutsche Tankstellen · ${monthName} · ${millions} Mio. Preisänderungen`;
 }
-function renderSpreadChart(){
-  const ctx=document.getElementById('spreadChart');
-  spreadChart=new Chart(ctx,{type:'line',data:{labels:[],datasets:[]},
-    options:{...CO,scales:{
-      x:{grid:{color:C.grid},ticks:{maxTicksLimit:8}},
-      y:{title:{display:true,text:'EUR/Liter'},grid:{color:C.grid},
-         ticks:{callback:v=>v.toFixed(2)}}
-    }}});
+
+const COMPONENTS = [
+  {key:'energy_tax', label:'Energiesteuer',             color:C.amber,  hint:'Fest per EnergieStG — Bund kassiert. Diesel 47,04 ct/L · Benzin 65,45 ct/L.'},
+  {key:'co2',        label:'CO₂-Abgabe',                color:C.teal,   hint:'BEHG §10: 2026 Korridor 55–65 €/t CO₂, Mindestpreis angenommen. × Emissionsfaktor (2,64 kg/L Diesel, 2,32 kg/L Benzin).'},
+  {key:'brent',      label:'Rohöl (Brent)',             color:C.blue,   hint:'Monats-Durchschnitt des Brent-Spotpreises, umgerechnet in EUR/Liter.'},
+  {key:'vat',        label:'Mehrwertsteuer',            color:C.violet, hint:'19 % auf den Bruttopreis — wird auch auf Energie- und CO₂-Abgabe fällig.'},
+  {key:'residual',   label:'Raffinerie + Händlermarge', color:C.red,    hint:'Rest: Raffinerie-Marge (Crack-Spread), Logistik, Tankstellenmarge. Nicht gesetzlich festgelegt.'},
+];
+
+function renderBreakdown() {
+  const pb = (D.price_breakdown || {})[curFuel];
+  if (!pb || !pb.retail_avg_eur) {
+    document.getElementById('bd-retail').textContent = '—';
+    document.getElementById('bd-bar').innerHTML = '';
+    document.getElementById('bd-legend').innerHTML = '';
+    return;
+  }
+  const fuelLabel = curFuel === 'diesel' ? 'Diesel' : 'Super E5';
+  document.getElementById('bd-title').textContent =
+    `${fuelLabel}: was ein Liter im Monat ø kostete — und wohin das Geld ging`;
+  document.getElementById('bd-retail').textContent = pb.retail_avg_eur.toFixed(3) + ' €';
+
+  const total = pb.retail_avg_eur;
+  // Stacked bar
+  document.getElementById('bd-bar').innerHTML = COMPONENTS.map(c => {
+    const v = pb[c.key + '_eur'];
+    const pct = v / total * 100;
+    const label = pct >= 8 ? `${(v*100).toFixed(1)} ct` : '';
+    return `<div class="breakdown-seg ${c.key}" style="width:${pct}%;background:${c.color}" title="${c.label}: ${(v*100).toFixed(1)} ct (${pct.toFixed(1)} %)">${label}</div>`;
+  }).join('');
+
+  // Legend
+  document.getElementById('bd-legend').innerHTML = COMPONENTS.map(c => {
+    const v = pb[c.key + '_eur'];
+    const pct = v / total * 100;
+    return `<div class="bl-row">
+      <div class="bl-swatch" style="background:${c.color}"></div>
+      <div class="bl-text">
+        <div class="bl-name">${c.label}</div>
+        <div class="bl-value">${(v*100).toFixed(1)} ct <span class="bl-pct">· ${pct.toFixed(1)} %</span></div>
+        <div class="bl-hint">${c.hint}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSpreadChart() {
+  const ctx = document.getElementById('spreadChart');
+  spreadChart = new Chart(ctx, {
+    type:'line',
+    data:{labels:[], datasets:[]},
+    options:{...CO, scales:{
+      x:{grid:{color:C.grid}, ticks:{maxTicksLimit:10}},
+      y:{title:{display:true, text:'EUR/Liter'}, grid:{color:C.grid},
+         ticks:{callback:v => v.toFixed(2)}}
+    }}
+  });
   updateSpread();
 }
-function updateSpread(){
-  const bd=D['brent_decoupling_'+curFuel]||[];
-  if(!bd.length){spreadChart.data.labels=[];spreadChart.data.datasets=[];spreadChart.update();return;}
-  spreadChart.data.labels=bd.map(r=>r.date);
-  spreadChart.data.datasets=[
-    {label:'Zapfsäule',data:bd.map(r=>r.retail_avg),
-     borderColor:C.red,backgroundColor:C.redFill,borderWidth:2.5,
-     pointRadius:3,pointBackgroundColor:C.red,tension:.3,
-     fill:{target:1,above:C.redFill}},
-    {label:'Brent (EUR/L)',data:bd.map(r=>r.brent_eur),
-     borderColor:C.blue,backgroundColor:'transparent',borderWidth:2,
-     pointRadius:3,pointBackgroundColor:C.blue,tension:.3,fill:false}
+
+function updateSpread() {
+  if (!spreadChart) return;
+  const bd = D['brent_decoupling_' + curFuel] || [];
+  if (!bd.length) {
+    spreadChart.data.labels = []; spreadChart.data.datasets = [];
+    spreadChart.update(); return;
+  }
+  spreadChart.data.labels = bd.map(r => r.date);
+  spreadChart.data.datasets = [
+    {label:'Zapfsäule', data:bd.map(r => r.retail_avg),
+     borderColor:C.red, backgroundColor:C.redFill, borderWidth:2.5,
+     pointRadius:3, pointBackgroundColor:C.red, tension:.3,
+     fill:{target:1, above:C.redFill}},
+    {label:'Brent (EUR/L)', data:bd.map(r => r.brent_eur),
+     borderColor:C.blue, backgroundColor:'transparent', borderWidth:2,
+     pointRadius:3, pointBackgroundColor:C.blue, tension:.3, fill:false}
   ];
   spreadChart.update();
 }
-function renderHourChart(){
-  const bt=D.best_time||{},h=bt.by_hour||[];
-  const prices=h.map(r=>r.avg_price),mn=Math.min(...prices),mx=Math.max(...prices);
-  hourChart=new Chart(document.getElementById('hourChart'),{type:'bar',
-    data:{labels:h.map(r=>r.hour+'h'),
-      datasets:[{data:prices,backgroundColor:prices.map(p=>p<=mn+.01?C.green:p>=mx-.01?C.red:C.amber+'88'),borderRadius:2}]},
-    options:{...CO,scales:{
-      x:{grid:{display:false},ticks:{maxRotation:0,font:{size:9},
-        callback:function(v,i){return i%3===0?this.getLabelForValue(v):'';}}},
-      y:{grid:{color:C.grid},ticks:{callback:v=>v.toFixed(2)},
-         min:Math.floor(mn*100)/100,max:Math.ceil(mx*100)/100}
-    }}});
+
+function bestTime() { return (D.best_time || {})[curFuel] || {}; }
+function renderHourChart() {
+  const bt = bestTime(), h = bt.by_hour || [];
+  if (!h.length) {
+    if (hourChart) { hourChart.destroy(); hourChart = null; }
+    return;
+  }
+  const prices = h.map(r => r.avg_price), mn = Math.min(...prices), mx = Math.max(...prices);
+  if (hourChart) hourChart.destroy();
+  hourChart = new Chart(document.getElementById('hourChart'), {
+    type:'bar',
+    data:{labels:h.map(r => r.hour + 'h'),
+      datasets:[{data:prices, borderRadius:2,
+        backgroundColor:prices.map(p => p <= mn+.01 ? C.green : p >= mx-.01 ? C.red : C.amber+'88')}]},
+    options:{...CO, scales:{
+      x:{grid:{display:false}, ticks:{maxRotation:0, font:{size:9},
+        callback:function(v,i){return i%3===0 ? this.getLabelForValue(v) : '';}}},
+      y:{grid:{color:C.grid}, ticks:{callback:v => v.toFixed(2)},
+         min:Math.floor(mn*100)/100, max:Math.ceil(mx*100)/100}
+    }}
+  });
 }
-function renderDowChart(){
-  const bt=D.best_time||{},w=bt.by_weekday||[];
-  const dayNames={So:'Sonntag',Mo:'Montag',Di:'Dienstag',Mi:'Mittwoch',Do:'Donnerstag',Fr:'Freitag',Sa:'Samstag'};
-  const prices=w.map(r=>r.avg_price),mn=Math.min(...prices),mx=Math.max(...prices);
-  dowChart=new Chart(document.getElementById('dowChart'),{type:'bar',
-    data:{labels:w.map(r=>dayNames[r.day]||r.day),
-      datasets:[{data:prices,backgroundColor:prices.map(p=>p<=mn+.005?C.green:p>=mx-.005?C.red:C.blue+'88'),borderRadius:3}]},
-    options:{...CO,scales:{
-      x:{grid:{display:false},ticks:{font:{size:10}}},
-      y:{grid:{color:C.grid},ticks:{callback:v=>v.toFixed(2)},
-         min:Math.floor(mn*100)/100,max:Math.ceil(mx*100)/100}
-    }}});
+
+function renderDowChart() {
+  const bt = bestTime(), w = bt.by_weekday || [];
+  if (!w.length) {
+    if (dowChart) { dowChart.destroy(); dowChart = null; }
+    return;
+  }
+  const dayNames = {So:'Sonntag',Mo:'Montag',Di:'Dienstag',Mi:'Mittwoch',Do:'Donnerstag',Fr:'Freitag',Sa:'Samstag'};
+  const prices = w.map(r => r.avg_price), mn = Math.min(...prices), mx = Math.max(...prices);
+  if (dowChart) dowChart.destroy();
+  dowChart = new Chart(document.getElementById('dowChart'), {
+    type:'bar',
+    data:{labels:w.map(r => dayNames[r.day] || r.day),
+      datasets:[{data:prices, borderRadius:3,
+        backgroundColor:prices.map(p => p <= mn+.005 ? C.green : p >= mx-.005 ? C.red : C.blue+'88')}]},
+    options:{...CO, scales:{
+      x:{grid:{display:false}, ticks:{font:{size:10}}},
+      y:{grid:{color:C.grid}, ticks:{callback:v => v.toFixed(2)},
+         min:Math.floor(mn*100)/100, max:Math.ceil(mx*100)/100}
+    }}
+  });
 }
-function renderCityTabs(){
-  const el=document.getElementById('city-tabs');
-  el.innerHTML=Object.keys(D.regions).map(c=>
-    `<div class="toggle-btn${c===curCity?' active':''}" data-city="${c}">${c}</div>`
+
+function renderCityTabs() {
+  const el = document.getElementById('city-tabs');
+  const cities = Object.keys(D.regions);
+  if (!cities.includes(curCity)) curCity = cities[0];
+  el.innerHTML = cities.map(c =>
+    `<div class="toggle-btn${c===curCity ? ' active' : ''}" data-city="${c}">${c}</div>`
   ).join('');
-  el.onclick=e=>{const b=e.target.closest('.toggle-btn');if(!b)return;
-    curCity=b.dataset.city;
-    el.querySelectorAll('.toggle-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');updateLf();updateRf();};
+  el.onclick = e => {
+    const b = e.target.closest('.toggle-btn');
+    if (!b) return;
+    curCity = b.dataset.city;
+    el.querySelectorAll('.toggle-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    updateLf(); updateRf();
+  };
 }
-function renderLfChart(){
-  lfChart=new Chart(document.getElementById('lfChart'),{type:'bar',
-    data:{labels:[],datasets:[]},
-    options:{...CO,indexAxis:'y',scales:{
-      x:{title:{display:true,text:'Median Lag (min)'},grid:{color:C.grid}},
-      y:{grid:{display:false}}}}});
+
+function renderLfChart() {
+  lfChart = new Chart(document.getElementById('lfChart'), {
+    type:'bar',
+    data:{labels:[], datasets:[]},
+    options:{...CO, indexAxis:'y', scales:{
+      x:{title:{display:true, text:'Median Lag (min)'}, grid:{color:C.grid}},
+      y:{grid:{display:false}}}}
+  });
   updateLf();
 }
-function updateLf(){
-  const lf=(D.regions[curCity]||{}).leader_follower||[];
-  const valid=lf.filter(r=>r.event_count>=100 && r.median_lag_minutes<=120);
-  const fs=[...new Set(valid.map(r=>r.follower_brand))];
-  const mk=(re)=>fs.map(f=>{const r=valid.find(x=>x.leader_brand.match(re)&&x.follower_brand===f);return r?Math.round(r.median_lag_minutes*10)/10:0;});
-  lfChart.data.labels=fs.map(f=>'→ '+f);
-  lfChart.data.datasets=[
-    {label:'Shell führt',data:mk(/shell/i),backgroundColor:C.red,borderRadius:3},
-    {label:'ARAL führt',data:mk(/aral/i),backgroundColor:C.blue,borderRadius:3}];
+
+function updateLf() {
+  if (!lfChart) return;
+  const lf = (D.regions[curCity] || {}).leader_follower || [];
+  // Schwelle dynamisch anhand der Zeitraum-Länge: pro Tag mindestens ~0,5 Events
+  const days = D.brent_decoupling_diesel?.length || 30;
+  const minEvents = Math.max(10, Math.floor(days / 2));
+  const valid = lf.filter(r => r.event_count >= minEvents && r.median_lag_minutes <= 120);
+  const fs = [...new Set(valid.map(r => r.follower_brand))].sort();
+  const find = (re, f) => valid.find(x => x.leader_brand.match(re) && x.follower_brand === f);
+  const shellD = fs.map(f => { const r = find(/shell/i, f); return r ? Math.round(r.median_lag_minutes * 10) / 10 : null; });
+  const aralD  = fs.map(f => { const r = find(/aral/i,  f); return r ? Math.round(r.median_lag_minutes * 10) / 10 : null; });
+  const shellN = fs.map(f => { const r = find(/shell/i, f); return r ? r.event_count : 0; });
+  const aralN  = fs.map(f => { const r = find(/aral/i,  f); return r ? r.event_count : 0; });
+
+  lfChart.data.labels = fs.map((f, i) => {
+    const counts = [shellN[i], aralN[i]].filter(n => n).join('/');
+    return `→ ${f}${counts ? '  (' + counts + ')' : ''}`;
+  });
+  lfChart.data.datasets = [
+    {label:'Shell führt', data:shellD, backgroundColor:C.red,  borderRadius:3, barPercentage:.85, categoryPercentage:.7},
+    {label:'ARAL führt',  data:aralD,  backgroundColor:C.blue, borderRadius:3, barPercentage:.85, categoryPercentage:.7}
+  ];
+  // Hinweis, wenn gar keine Daten im Filter übrig bleiben
+  const box = lfChart.canvas.closest('.chart-box');
+  let empty = box.querySelector('.chart-empty');
+  if (!fs.length) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'chart-empty';
+      empty.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text3);font-size:.75rem;text-align:center;max-width:80%';
+      box.querySelector('.chart-wrap').appendChild(empty);
+    }
+    empty.textContent = `Zu wenig Daten für ${curCity} in diesem Monat (erfordert ≥ ${minEvents} Events/Paar).`;
+  } else if (empty) {
+    empty.remove();
+  }
   lfChart.update();
 }
-function renderRfChart(){
-  rfChart=new Chart(document.getElementById('rfChart'),{type:'bar',
-    data:{labels:[],datasets:[]},
-    options:{...CO,scales:{
-      x:{grid:{display:false}},
-      y:{title:{display:true,text:'Cent/Änderung'},grid:{color:C.grid},beginAtZero:true}}},
-    plugins:[{afterDraw(chart){
-      const ctx=chart.ctx,meta=chart.getDatasetMeta(0);
-      if(!meta.data.length)return;
-      const rf=(D.regions[curCity]||{}).rockets_feathers||[];
-      ctx.save();ctx.font='500 10px JetBrains Mono';ctx.fillStyle=C.amber;ctx.textAlign='center';
-      meta.data.forEach((bar,i)=>{
-        if(!rf[i])return;
-        const ratio=(rf[i].avg_increase_cents/rf[i].avg_decrease_cents).toFixed(1);
-        ctx.fillText(ratio+':1',bar.x,bar.y-6);
+
+function rfFiltered() {
+  // Marken mit zu wenigen Preisänderungen rausfiltern — reale Preisschritte
+  // an MTS-K sind typisch 1-10 ct. Wenn ein Marken-Durchschnitt unter 1 ct liegt,
+  // basiert er auf 1-2 Events und ist statistisches Rauschen.
+  return ((D.regions[curCity] || {}).rockets_feathers || [])
+    .filter(r => r.avg_increase_cents >= 1.0 && r.avg_decrease_cents >= 1.0);
+}
+
+function renderRfChart() {
+  rfChart = new Chart(document.getElementById('rfChart'), {
+    type:'bar',
+    data:{labels:[], datasets:[]},
+    options:{...CO, scales:{
+      x:{grid:{display:false}, ticks:{font:{size:10}}},
+      y:{title:{display:true, text:'Cent/Änderung'}, grid:{color:C.grid}, beginAtZero:true}}},
+    plugins:[{afterDraw(chart) {
+      const ctx = chart.ctx, meta = chart.getDatasetMeta(0);
+      if (!meta.data.length) return;
+      const rf = rfFiltered();
+      ctx.save();
+      ctx.font = '500 10px JetBrains Mono';
+      ctx.fillStyle = C.amber;
+      ctx.textAlign = 'center';
+      meta.data.forEach((bar, i) => {
+        if (!rf[i]) return;
+        const ratio = rf[i].avg_increase_cents / rf[i].avg_decrease_cents;
+        if (!isFinite(ratio) || ratio <= 0) return;
+        ctx.fillText(ratio.toFixed(1) + ':1', bar.x, bar.y - 6);
       });
       ctx.restore();
-    }}]});
+    }}]
+  });
   updateRf();
 }
-function updateRf(){
-  const rf=(D.regions[curCity]||{}).rockets_feathers||[];
-  rfChart.data.labels=rf.map(r=>r.brand);
-  rfChart.data.datasets=[
-    {label:'Erhöhung',data:rf.map(r=>Math.round(r.avg_increase_cents*10)/10),
-     backgroundColor:C.red,borderRadius:3,barPercentage:.7},
-    {label:'Senkung',data:rf.map(r=>Math.round(r.avg_decrease_cents*10)/10),
-     backgroundColor:C.green,borderRadius:3,barPercentage:.7}];
+
+function updateRf() {
+  if (!rfChart) return;
+  const rf = rfFiltered();
+  rfChart.data.labels = rf.map(r => r.brand);
+  rfChart.data.datasets = [
+    {label:'Erhöhung', data:rf.map(r => Math.round(r.avg_increase_cents * 10) / 10),
+     backgroundColor:C.red, borderRadius:3, barPercentage:.7},
+    {label:'Senkung', data:rf.map(r => Math.round(r.avg_decrease_cents * 10) / 10),
+     backgroundColor:C.green, borderRadius:3, barPercentage:.7}
+  ];
+  const box = rfChart.canvas.closest('.chart-box');
+  let empty = box.querySelector('.chart-empty');
+  if (!rf.length) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'chart-empty';
+      empty.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text3);font-size:.75rem;text-align:center;max-width:80%';
+      box.querySelector('.chart-wrap').appendChild(empty);
+    }
+    empty.textContent = `Zu wenig Preisänderungen für ${curCity} in diesem Monat.`;
+  } else if (empty) {
+    empty.remove();
+  }
   rfChart.update();
 }
+
+function renderAnomaly() {
+  const sa = (D.spread_anomaly || {})[curFuel] || {};
+  const el = document.getElementById('anomaly-card');
+  if (!sa.period_days) {
+    el.innerHTML = '<div class="note">Keine Daten im gewählten Zeitraum.</div>';
+    return;
+  }
+  const fuel = curFuel === 'diesel' ? 'Diesel' : 'Super E5';
+  el.innerHTML = `
+    <div class="stat">
+      <div class="stat-item">
+        <span class="stat-label">Auffällige Tage</span>
+        <span class="stat-val">${sa.abnormal_days}/${sa.period_days}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Anteil</span>
+        <span class="stat-val">${sa.abnormal_pct.toFixed(1)} %</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Grösster Ausschlag</span>
+        <span class="stat-val">${sa.max_z_score.toFixed(2)} σ</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Datum</span>
+        <span class="stat-val" style="font-size:1rem">${sa.max_z_date}</span>
+      </div>
+    </div>
+    <div class="note">
+      Im ${curMonth} gab es ${sa.abnormal_days} ${fuel}-Tag${sa.abnormal_days===1?'':'e'} mit auffällig hoher Marge
+      (Spread zwischen Retail und Brent mehr als 2 σ über dem 30-Tage-Mittel). Mittlerer Spread: ${sa.mean_spread_cents.toFixed(1)} Ct/L
+      (σ = ${sa.stddev_spread_cents.toFixed(1)} Ct). Statistisch ist ein Anteil von ≤ 2–3 % normal;
+      alles darüber bewerten Ökonomen als potenzielles Zeichen koordinierter Preissetzung — nachgewiesen ist damit aber nichts.
+    </div>`;
+}
+
 init();
 </script>
 </body>

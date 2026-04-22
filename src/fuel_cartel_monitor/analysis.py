@@ -8,6 +8,69 @@ import duckdb
 logger = logging.getLogger(__name__)
 
 
+# ---------------------------------------------------------------------------
+# Steuer- und Emissions-Konstanten (Deutschland, Stand 2026)
+# ---------------------------------------------------------------------------
+# Energiesteuer: fest per Gesetz (EnergieStG) — EUR pro Liter, netto
+ENERGY_TAX_DIESEL_EUR = 0.4704
+ENERGY_TAX_E5_EUR = 0.6545
+ENERGY_TAX_E10_EUR = 0.6545  # gleicher Satz wie Super
+
+# CO2-Preis nach BEHG § 10 — 2026 Preiskorridor 55–65 €/t, Mindestpreis 55
+# Erste EEX-Auktion: 1. Juli 2026. Vor diesem Datum gibt es keinen realisierten
+# Marktpreis, daher Mindestpreis als konservativer Ansatz.
+# Quelle: https://www.gesetze-im-internet.de/behg/__10.html (BEHG §10)
+#         https://www.dehst.de/SharedDocs/news/DE/behv-nehs-ets2-aenderung-verabschiedet.html
+CO2_PRICE_EUR_PER_TON = 55.0
+CO2_PRICE_SOURCE = "BEHG §10, Mindestpreis Korridor 2026 (55–65 €/t); erste EEX-Auktion ab 1.7.2026"
+
+# Emissions-Standardwerte laut UBA/BAFA — kg CO2 pro Liter
+CO2_KG_PER_LITER_DIESEL = 2.64
+CO2_KG_PER_LITER_E5 = 2.32
+CO2_KG_PER_LITER_E10 = 2.23
+
+# Mehrwertsteuer auf den Brutto-Verkaufspreis (alle Komponenten)
+VAT_RATE = 0.19
+
+
+def _month_bounds(month: str) -> tuple[date, date]:
+    """Return (first_day_of_month, first_day_of_next_month) for 'YYYY-MM'."""
+    year, mon = month.split("-")
+    start = date(int(year), int(mon), 1)
+    end = date(int(year) + 1, 1, 1) if int(mon) == 12 else date(int(year), int(mon) + 1, 1)
+    return start, end
+
+
+def _resolve_range(
+    date_from: date | str | None,
+    date_to: date | str | None,
+    lookback_days: int | None,
+) -> tuple[date, date]:
+    """Resolve either explicit range or lookback-based range to (from, to_exclusive)."""
+    if date_from is not None and date_to is not None:
+        df = date.fromisoformat(date_from) if isinstance(date_from, str) else date_from
+        dt = date.fromisoformat(date_to) if isinstance(date_to, str) else date_to
+        return df, dt
+    days = lookback_days if lookback_days is not None else 30
+    today = date.today()
+    return today - timedelta(days=days), today + timedelta(days=1)
+
+
+def _date_range_where(
+    ts_column: str,
+    date_from: date | str | None,
+    date_to: date | str | None,
+) -> tuple[str, list]:
+    """Build a WHERE clause (or empty string) for a half-open timestamp range."""
+    if date_from is None or date_to is None:
+        return "", []
+    return (
+        f"WHERE CAST({ts_column} AS DATE) >= CAST(? AS DATE) "
+        f"  AND CAST({ts_column} AS DATE) <  CAST(? AS DATE)",
+        [str(date_from), str(date_to)],
+    )
+
+
 @dataclass
 class LeaderFollowerResult:
     leader_brand: str
@@ -40,22 +103,14 @@ def leader_follower_lag(
     con: duckdb.DuckDBPyConnection,
     lat: float,
     lng: float,
+    date_from: date | str,
+    date_to: date | str,
     radius_km: float = 25.0,
     fuel_type: str = "e5",
-    lookback_days: int = 30,
 ) -> list[LeaderFollowerResult]:
     """Detect leader-follower pricing patterns in a region.
 
-    Args:
-        con: DuckDB connection
-        lat: Latitude of region center
-        lng: Longitude of region center
-        radius_km: Search radius in km
-        fuel_type: 'diesel', 'e5', or 'e10'
-        lookback_days: Number of days to look back
-
-    Returns:
-        List of LeaderFollowerResult dataclasses
+    date_from inclusive, date_to exclusive — matches the macro's half-open window.
     """
     if fuel_type not in ("diesel", "e5", "e10"):
         raise ValueError(f"fuel_type must be one of diesel/e5/e10, got: {fuel_type!r}")
@@ -63,9 +118,9 @@ def leader_follower_lag(
     rows = con.execute(
         """
         SELECT leader_brand, follower_brand, median_lag_minutes, event_count
-        FROM leader_follower_lag(?, ?, ?, ?, ?)
+        FROM leader_follower_lag(?, ?, ?, ?, ?, ?)
         """,
-        [lat, lng, radius_km, fuel_type, lookback_days],
+        [lat, lng, radius_km, fuel_type, str(date_from), str(date_to)],
     ).fetchall()
 
     return [
@@ -83,23 +138,12 @@ def rockets_and_feathers(
     con: duckdb.DuckDBPyConnection,
     lat: float,
     lng: float,
+    date_from: date | str,
+    date_to: date | str,
     radius_km: float = 25.0,
     fuel_type: str = "e5",
-    lookback_days: int = 30,
 ) -> list[RocketsFeathersResult]:
-    """Detect asymmetric price transmission (rockets and feathers).
-
-    Args:
-        con: DuckDB connection
-        lat: Latitude of region center
-        lng: Longitude of region center
-        radius_km: Search radius in km
-        fuel_type: 'diesel', 'e5', or 'e10'
-        lookback_days: Number of days to look back
-
-    Returns:
-        List of RocketsFeathersResult dataclasses
-    """
+    """Detect asymmetric price transmission (rockets and feathers) over [date_from, date_to)."""
     if fuel_type not in ("diesel", "e5", "e10"):
         raise ValueError(f"fuel_type must be one of diesel/e5/e10, got: {fuel_type!r}")
 
@@ -107,9 +151,9 @@ def rockets_and_feathers(
         """
         SELECT brand, avg_increase_cents, avg_decrease_cents,
                avg_increase_speed_min, avg_decrease_speed_min, asymmetry_ratio
-        FROM rockets_and_feathers(?, ?, ?, ?, ?)
+        FROM rockets_and_feathers(?, ?, ?, ?, ?, ?)
         """,
-        [lat, lng, radius_km, fuel_type, lookback_days],
+        [lat, lng, radius_km, fuel_type, str(date_from), str(date_to)],
     ).fetchall()
 
     return [
@@ -129,32 +173,21 @@ def price_sync_index(
     con: duckdb.DuckDBPyConnection,
     lat: float,
     lng: float,
+    date_from: date | str,
+    date_to: date | str,
     radius_km: float = 25.0,
     fuel_type: str = "e5",
-    lookback_days: int = 30,
 ) -> dict:
-    """Calculate price synchronization index for a region.
-
-    Args:
-        con: DuckDB connection
-        lat: Latitude of region center
-        lng: Longitude of region center
-        radius_km: Search radius in km
-        fuel_type: 'diesel', 'e5', or 'e10'
-        lookback_days: Number of days to look back
-
-    Returns:
-        Dict with keys: pairs (list of dicts), region_sync_index (float)
-    """
+    """Calculate price synchronization index for a region over [date_from, date_to)."""
     if fuel_type not in ("diesel", "e5", "e10"):
         raise ValueError(f"fuel_type must be one of diesel/e5/e10, got: {fuel_type!r}")
 
     rows = con.execute(
         """
         SELECT pair_brand_a, pair_brand_b, correlation, is_oligopol_pair, region_sync_index
-        FROM price_sync_index(?, ?, ?, ?, ?)
+        FROM price_sync_index(?, ?, ?, ?, ?, ?)
         """,
-        [lat, lng, radius_km, fuel_type, lookback_days],
+        [lat, lng, radius_km, fuel_type, str(date_from), str(date_to)],
     ).fetchall()
 
     pairs = [
@@ -177,28 +210,20 @@ def price_sync_index(
 
 def brent_decoupling(
     con: duckdb.DuckDBPyConnection,
+    date_from: date | str,
+    date_to: date | str,
     fuel_type: str = "e5",
-    lookback_days: int = 90,
 ) -> list[BrentDecouplingResult]:
-    """Track retail-vs-Brent price gap.
-
-    Args:
-        con: DuckDB connection
-        fuel_type: 'diesel', 'e5', or 'e10'
-        lookback_days: Number of days to look back
-
-    Returns:
-        List of BrentDecouplingResult dataclasses
-    """
+    """Track retail-vs-Brent price gap over [date_from, date_to)."""
     if fuel_type not in ("diesel", "e5", "e10"):
         raise ValueError(f"fuel_type must be one of diesel/e5/e10, got: {fuel_type!r}")
 
     rows = con.execute(
         """
         SELECT date, retail_avg, brent_eur, spread, spread_z_score, is_abnormal
-        FROM brent_decoupling(?, ?)
+        FROM brent_decoupling(?, ?, ?)
         """,
-        [fuel_type, lookback_days],
+        [fuel_type, str(date_from), str(date_to)],
     ).fetchall()
 
     return [
@@ -390,28 +415,33 @@ def database_stats(con: duckdb.DuckDBPyConnection) -> dict:
 def best_time_to_tank(
     con: duckdb.DuckDBPyConnection,
     fuel_type: str = "e5",
+    date_from: date | str | None = None,
+    date_to: date | str | None = None,
 ) -> dict:
     """Analyze best time to tank by hour of day and day of week.
 
-    Returns dict with 'by_hour' (0-23) and 'by_weekday' (0=Sun..6=Sat).
+    If date_from/date_to given, restrict to [date_from, date_to). Else full table.
     """
     fuel_column = {"diesel": "diesel", "e5": "e5", "e10": "e10"}[fuel_type]
+    where, params = _date_range_where("timestamp", date_from, date_to)
 
     by_hour = con.execute(f"""
         SELECT
             EXTRACT(HOUR FROM timestamp) AS hour,
             ROUND(AVG(NULLIF({fuel_column}, 0)), 4) AS avg_price
         FROM price_changes
+        {where}
         GROUP BY hour ORDER BY hour
-    """).fetchall()
+    """, params).fetchall()
 
     by_dow = con.execute(f"""
         SELECT
             EXTRACT(DOW FROM timestamp) AS dow,
             ROUND(AVG(NULLIF({fuel_column}, 0)), 4) AS avg_price
         FROM price_changes
+        {where}
         GROUP BY dow ORDER BY dow
-    """).fetchall()
+    """, params).fetchall()
 
     dow_names = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
 
@@ -446,12 +476,14 @@ def brand_ranking(
     con: duckdb.DuckDBPyConnection,
     fuel_type: str = "e5",
     min_stations: int = 50,
+    date_from: date | str | None = None,
+    date_to: date | str | None = None,
 ) -> list[dict]:
-    """Rank brands by average fuel price.
-
-    Only includes brands with at least min_stations stations.
-    """
+    """Rank brands by average fuel price over optional [date_from, date_to)."""
     fuel_column = {"diesel": "diesel", "e5": "e5", "e10": "e10"}[fuel_type]
+    ts_filter, ts_params = _date_range_where("pc.timestamp", date_from, date_to)
+    # ts_filter starts with WHERE; splice into existing WHERE chain
+    extra_and = ts_filter.replace("WHERE ", "AND ", 1) if ts_filter else ""
 
     rows = con.execute(f"""
         SELECT
@@ -462,10 +494,11 @@ def brand_ranking(
         FROM price_changes pc
         JOIN stations s ON pc.station_uuid = s.uuid
         WHERE s.brand IS NOT NULL AND s.brand != ''
+          {extra_and}
         GROUP BY s.brand, s.is_oligopol
         HAVING COUNT(DISTINCT pc.station_uuid) >= ?
         ORDER BY avg_price
-    """, [min_stations]).fetchall()
+    """, [*ts_params, min_stations]).fetchall()
 
     return [
         {
@@ -478,18 +511,91 @@ def brand_ranking(
     ]
 
 
+def price_breakdown(
+    con: duckdb.DuckDBPyConnection,
+    fuel_type: str,
+    date_from: date | str,
+    date_to: date | str,
+) -> dict:
+    """Decompose the average retail price of a fuel into its cost components.
+
+    Components (per litre, EUR):
+      - energy_tax     — Energiesteuer (fix by EnergieStG)
+      - co2            — CO2-Abgabe = CO2_kg_per_litre × CO2_price / 1000
+      - brent          — monthly mean Brent spot price in EUR/litre
+      - vat            — 19% on the gross retail price
+      - residual       — retail − (energy_tax + co2 + brent + vat)
+                         = Raffinerie-Marge + Logistik + Händlermarge
+
+    Identity check:  retail ≈ energy_tax + co2 + brent + vat + residual
+    """
+    if fuel_type not in ("diesel", "e5", "e10"):
+        raise ValueError(f"fuel_type must be one of diesel/e5/e10, got: {fuel_type!r}")
+
+    fuel_column = {"diesel": "diesel", "e5": "e5", "e10": "e10"}[fuel_type]
+    energy_tax = {
+        "diesel": ENERGY_TAX_DIESEL_EUR,
+        "e5": ENERGY_TAX_E5_EUR,
+        "e10": ENERGY_TAX_E10_EUR,
+    }[fuel_type]
+    co2_kg = {
+        "diesel": CO2_KG_PER_LITER_DIESEL,
+        "e5": CO2_KG_PER_LITER_E5,
+        "e10": CO2_KG_PER_LITER_E10,
+    }[fuel_type]
+    co2_eur = co2_kg * CO2_PRICE_EUR_PER_TON / 1000.0
+
+    retail_avg = con.execute(
+        f"""
+        SELECT AVG(NULLIF({fuel_column}, 0))
+        FROM price_changes
+        WHERE CAST(timestamp AS DATE) >= CAST(? AS DATE)
+          AND CAST(timestamp AS DATE) <  CAST(? AS DATE)
+        """,
+        [str(date_from), str(date_to)],
+    ).fetchone()[0]
+
+    brent_avg = con.execute(
+        """
+        SELECT AVG(price_eur)
+        FROM brent_prices
+        WHERE date >= CAST(? AS DATE) AND date < CAST(? AS DATE)
+        """,
+        [str(date_from), str(date_to)],
+    ).fetchone()[0]
+
+    if retail_avg is None or brent_avg is None:
+        return {}
+
+    retail_eur = float(retail_avg)
+    brent_eur = float(brent_avg)
+    vat_eur = retail_eur * VAT_RATE / (1 + VAT_RATE)  # MwSt-Anteil am Brutto
+    residual_eur = retail_eur - energy_tax - co2_eur - brent_eur - vat_eur
+
+    return {
+        "retail_avg_eur": round(retail_eur, 4),
+        "energy_tax_eur": round(energy_tax, 4),
+        "co2_eur": round(co2_eur, 4),
+        "brent_eur": round(brent_eur, 4),
+        "vat_eur": round(vat_eur, 4),
+        "residual_eur": round(residual_eur, 4),
+        "co2_price_eur_per_ton": CO2_PRICE_EUR_PER_TON,
+        "co2_kg_per_liter": co2_kg,
+        "co2_price_source": CO2_PRICE_SOURCE,
+    }
+
+
 def consumer_impact(
     con: duckdb.DuckDBPyConnection,
     fuel_type: str = "e5",
     tank_size_liters: int = 50,
     tanks_per_year: int = 52,
+    date_from: date | str | None = None,
+    date_to: date | str | None = None,
 ) -> dict:
-    """Calculate the cost impact of oligopol pricing on consumers.
-
-    Returns dict with premium per liter, per tank, per year,
-    and national estimate.
-    """
+    """Calculate the cost impact of oligopol pricing on consumers."""
     fuel_column = {"diesel": "diesel", "e5": "e5", "e10": "e10"}[fuel_type]
+    where, params = _date_range_where("pc.timestamp", date_from, date_to)
 
     row = con.execute(f"""
         SELECT
@@ -499,7 +605,8 @@ def consumer_impact(
                 NULLIF(pc.{fuel_column}, 0) END), 4) AS indie_avg
         FROM price_changes pc
         JOIN stations s ON pc.station_uuid = s.uuid
-    """).fetchone()
+        {where}
+    """, params).fetchone()
 
     oligo_avg = float(row[0]) if row[0] else 0
     indie_avg = float(row[1]) if row[1] else 0
