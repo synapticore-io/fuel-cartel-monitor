@@ -57,6 +57,8 @@ header .subtitle{font-size:.9rem;color:var(--text2);max-width:760px}
 .bl-value{font-size:1.4rem;font-weight:700;color:#fff;margin-top:.25rem}
 .bl-pct{font-size:.85rem;color:var(--text);font-weight:500}
 .bl-hint{font-size:.85rem;color:#b3bcc8;margin-top:.5rem;line-height:1.55}
+.bd-identity{font-size:.78rem;color:var(--text2);margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--border);font-family:var(--mono);text-align:center;letter-spacing:.02em}
+.bd-identity b{color:#fff}
 section .desc{font-size:.92rem;color:var(--text);margin-bottom:1.2rem;max-width:760px;line-height:1.55}
 header .subtitle{font-size:1rem;color:var(--text);max-width:760px;line-height:1.55}
 
@@ -112,6 +114,7 @@ footer a{color:var(--text)}
   </div>
   <div class="breakdown-bar" id="bd-bar"></div>
   <div class="breakdown-legend" id="bd-legend"></div>
+  <div id="bd-identity" class="bd-identity"></div>
 </div>
 
 <section>
@@ -186,6 +189,19 @@ const C={red:'#e8534a',blue:'#4d9af5',green:'#2dbe6e',amber:'#e8a838',
   violet:'#b17ce0',teal:'#3cb8b0',
   text2:'#8a95a5',grid:'rgba(255,255,255,0.04)',redFill:'rgba(232,83,74,0.12)'};
 
+const MONTH_NAMES = ['','Januar','Februar','März','April','Mai','Juni','Juli',
+  'August','September','Oktober','November','Dezember'];
+const monthLabel = m => {
+  const [y, mo] = m.split('-');
+  return `${MONTH_NAMES[parseInt(mo,10)]} ${y}`;
+};
+// Deutsche Lokalisierung — Komma als Dezimaltrenner, definierte Nachkommastellen
+const fmt = (v, frac=2) =>
+  v.toLocaleString('de-DE', {minimumFractionDigits: frac, maximumFractionDigits: frac});
+const fmtEur  = v => fmt(v, 2) + ' €';
+const fmtCent = v => fmt(v * 100, 2) + ' ct';
+const fmtPct  = (v, frac=1) => fmt(v, frac) + ' %';
+
 let IDX, D;
 let spreadChart, lfChart, rfChart, hourChart, dowChart;
 let curFuel = 'diesel', curCity = 'Hannover', curMonth = null;
@@ -205,13 +221,8 @@ async function init() {
 
 function renderMonthTabs() {
   const el = document.getElementById('month-toggle');
-  const monthName = m => {
-    const [y, mo] = m.split('-');
-    const names = ['','Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-    return `${names[parseInt(mo,10)]} ${y}`;
-  };
   el.innerHTML = IDX.months.map(m =>
-    `<div class="toggle-btn${m===curMonth?' active':''}" data-month="${m}">${monthName(m)}</div>`
+    `<div class="toggle-btn${m===curMonth?' active':''}" data-month="${m}">${monthLabel(m)}</div>`
   ).join('');
   el.onclick = async e => {
     const b = e.target.closest('.toggle-btn');
@@ -254,10 +265,9 @@ async function loadMonth(month) {
 
 function updateKicker() {
   const statRows = D.stats.price_record_count || 0;
-  const millions = (statRows / 1_000_000).toFixed(1).replace('.', ',');
-  const monthName = curMonth;
+  const millions = fmt(statRows / 1_000_000, 1);
   document.getElementById('kicker').textContent =
-    `Preisaufschlüsselung · Deutsche Tankstellen · ${monthName} · ${millions} Mio. Preisänderungen`;
+    `Preisaufschlüsselung · Deutsche Tankstellen · ${monthLabel(curMonth)} · ${millions} Mio. Preisänderungen`;
 }
 
 const COMPONENTS = [
@@ -279,15 +289,15 @@ function renderBreakdown() {
   const fuelLabel = curFuel === 'diesel' ? 'Diesel' : 'Super E5';
   document.getElementById('bd-title').textContent =
     `${fuelLabel}: was ein Liter im Monat ø kostete — und wohin das Geld ging`;
-  document.getElementById('bd-retail').textContent = pb.retail_avg_eur.toFixed(3) + ' €';
+  document.getElementById('bd-retail').textContent = fmtEur(pb.retail_avg_eur);
 
   const total = pb.retail_avg_eur;
   // Stacked bar
   document.getElementById('bd-bar').innerHTML = COMPONENTS.map(c => {
     const v = pb[c.key + '_eur'];
     const pct = v / total * 100;
-    const label = pct >= 8 ? `${(v*100).toFixed(1)} ct` : '';
-    return `<div class="breakdown-seg ${c.key}" style="width:${pct}%;background:${c.color}" title="${c.label}: ${(v*100).toFixed(1)} ct (${pct.toFixed(1)} %)">${label}</div>`;
+    const label = pct >= 8 ? fmtCent(v) : '';
+    return `<div class="breakdown-seg ${c.key}" style="width:${pct}%;background:${c.color}" title="${c.label}: ${fmtCent(v)} (${fmtPct(pct)})">${label}</div>`;
   }).join('');
 
   // Legend
@@ -298,11 +308,20 @@ function renderBreakdown() {
       <div class="bl-swatch" style="background:${c.color}"></div>
       <div class="bl-text">
         <div class="bl-name">${c.label}</div>
-        <div class="bl-value">${(v*100).toFixed(1)} ct <span class="bl-pct">· ${pct.toFixed(1)} %</span></div>
+        <div class="bl-value">${fmtCent(v)} <span class="bl-pct">· ${fmtPct(pct)}</span></div>
         <div class="bl-hint">${c.hint}</div>
       </div>
     </div>`;
   }).join('');
+
+  // Identity-Check sichtbar — Summe der Komponenten in Cent, exakt nachrechenbar.
+  // (Anzeige im Hero auf 2 EUR-Nachkommastellen gerundet; Cent-Summe bleibt
+  //  pfennig-genau, ist die verifizierbare Groesse.)
+  const sumCt = COMPONENTS.reduce((s, c) => s + pb[c.key + '_eur'] * 100, 0);
+  const sumEl = document.getElementById('bd-identity');
+  if (sumEl) {
+    sumEl.innerHTML = `Σ ${COMPONENTS.map(c => fmtCent(pb[c.key+'_eur'])).join(' + ')} = <b>${fmt(sumCt, 2)} ct</b>`;
+  }
 }
 
 function renderSpreadChart() {
@@ -520,6 +539,7 @@ function renderAnomaly() {
     return;
   }
   const fuel = curFuel === 'diesel' ? 'Diesel' : 'Super E5';
+  const dateDe = new Date(sa.max_z_date).toLocaleDateString('de-DE', {day:'2-digit', month:'long', year:'numeric'});
   el.innerHTML = `
     <div class="stat">
       <div class="stat-item">
@@ -528,21 +548,21 @@ function renderAnomaly() {
       </div>
       <div class="stat-item">
         <span class="stat-label">Anteil</span>
-        <span class="stat-val">${sa.abnormal_pct.toFixed(1)} %</span>
+        <span class="stat-val">${fmtPct(sa.abnormal_pct)}</span>
       </div>
       <div class="stat-item">
         <span class="stat-label">Grösster Ausschlag</span>
-        <span class="stat-val">${sa.max_z_score.toFixed(2)} σ</span>
+        <span class="stat-val">${fmt(sa.max_z_score, 2)} σ</span>
       </div>
       <div class="stat-item">
         <span class="stat-label">Datum</span>
-        <span class="stat-val" style="font-size:1rem">${sa.max_z_date}</span>
+        <span class="stat-val" style="font-size:1rem">${dateDe}</span>
       </div>
     </div>
     <div class="note">
-      Im ${curMonth} gab es ${sa.abnormal_days} ${fuel}-Tag${sa.abnormal_days===1?'':'e'} mit auffällig hoher Marge
-      (Spread zwischen Retail und Brent mehr als 2 σ über dem 30-Tage-Mittel). Mittlerer Spread: ${sa.mean_spread_cents.toFixed(1)} Ct/L
-      (σ = ${sa.stddev_spread_cents.toFixed(1)} Ct). Statistisch ist ein Anteil von ≤ 2–3 % normal;
+      Im ${monthLabel(curMonth)} gab es ${sa.abnormal_days} ${fuel}-Tag${sa.abnormal_days===1?'':'e'} mit auffällig hoher Marge
+      (Spread zwischen Retail und Brent mehr als 2 σ über dem 30-Tage-Mittel). Mittlerer Spread: ${fmt(sa.mean_spread_cents, 1)} Ct/L
+      (σ = ${fmt(sa.stddev_spread_cents, 1)} Ct). Statistisch ist ein Anteil von ≤ 2–3 % normal;
       alles darüber bewerten Ökonomen als potenzielles Zeichen koordinierter Preissetzung — nachgewiesen ist damit aber nichts.
     </div>`;
 }

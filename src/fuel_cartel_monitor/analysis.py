@@ -2,6 +2,7 @@
 import logging
 from dataclasses import dataclass
 from datetime import date, timedelta
+from decimal import ROUND_HALF_UP, Decimal
 
 import duckdb
 
@@ -511,6 +512,11 @@ def brand_ranking(
     ]
 
 
+def _q4(x) -> Decimal:
+    """Quantize to 4 decimal places (1/100 cent), ROUND_HALF_UP (kaufmaennisch)."""
+    return Decimal(str(x)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+
+
 def price_breakdown(
     con: duckdb.DuckDBPyConnection,
     fuel_type: str,
@@ -519,21 +525,23 @@ def price_breakdown(
 ) -> dict:
     """Decompose the average retail price of a fuel into its cost components.
 
+    All values returned as Decimal-rounded floats (4 decimal places EUR / 1/100 ct)
+    using ROUND_HALF_UP. The identity Σ components = retail holds *exactly* after
+    rounding because residual is computed from the rounded retail minus rounded
+    others — not from the raw float arithmetic.
+
     Components (per litre, EUR):
       - energy_tax     — Energiesteuer (fix by EnergieStG)
       - co2            — CO2-Abgabe = CO2_kg_per_litre × CO2_price / 1000
       - brent          — monthly mean Brent spot price in EUR/litre
-      - vat            — 19% on the gross retail price
-      - residual       — retail − (energy_tax + co2 + brent + vat)
-                         = Raffinerie-Marge + Logistik + Händlermarge
-
-    Identity check:  retail ≈ energy_tax + co2 + brent + vat + residual
+      - vat            — 19 % anteilig am Bruttopreis = retail × 0,19 / 1,19
+      - residual       — retail − (energy_tax + co2 + brent + vat) [Raffinerie + Marge]
     """
     if fuel_type not in ("diesel", "e5", "e10"):
         raise ValueError(f"fuel_type must be one of diesel/e5/e10, got: {fuel_type!r}")
 
     fuel_column = {"diesel": "diesel", "e5": "e5", "e10": "e10"}[fuel_type]
-    energy_tax = {
+    energy_tax_raw = {
         "diesel": ENERGY_TAX_DIESEL_EUR,
         "e5": ENERGY_TAX_E5_EUR,
         "e10": ENERGY_TAX_E10_EUR,
@@ -543,7 +551,6 @@ def price_breakdown(
         "e5": CO2_KG_PER_LITER_E5,
         "e10": CO2_KG_PER_LITER_E10,
     }[fuel_type]
-    co2_eur = co2_kg * CO2_PRICE_EUR_PER_TON / 1000.0
 
     retail_avg = con.execute(
         f"""
@@ -567,18 +574,23 @@ def price_breakdown(
     if retail_avg is None or brent_avg is None:
         return {}
 
-    retail_eur = float(retail_avg)
-    brent_eur = float(brent_avg)
-    vat_eur = retail_eur * VAT_RATE / (1 + VAT_RATE)  # MwSt-Anteil am Brutto
-    residual_eur = retail_eur - energy_tax - co2_eur - brent_eur - vat_eur
+    # Decimal-Arithmetik durchgaengig — IEEE-Float-Drift vermeiden
+    retail = _q4(retail_avg)
+    energy_tax = _q4(energy_tax_raw)
+    co2 = _q4(Decimal(str(co2_kg)) * Decimal(str(CO2_PRICE_EUR_PER_TON)) / Decimal("1000"))
+    brent = _q4(brent_avg)
+    vat_rate = Decimal(str(VAT_RATE))
+    vat = _q4(retail * vat_rate / (Decimal("1") + vat_rate))
+    # Residuum aus den GERUNDETEN Komponenten — Identitaet schliesst exakt
+    residual = _q4(retail - energy_tax - co2 - brent - vat)
 
     return {
-        "retail_avg_eur": round(retail_eur, 4),
-        "energy_tax_eur": round(energy_tax, 4),
-        "co2_eur": round(co2_eur, 4),
-        "brent_eur": round(brent_eur, 4),
-        "vat_eur": round(vat_eur, 4),
-        "residual_eur": round(residual_eur, 4),
+        "retail_avg_eur": float(retail),
+        "energy_tax_eur": float(energy_tax),
+        "co2_eur": float(co2),
+        "brent_eur": float(brent),
+        "vat_eur": float(vat),
+        "residual_eur": float(residual),
         "co2_price_eur_per_ton": CO2_PRICE_EUR_PER_TON,
         "co2_kg_per_liter": co2_kg,
         "co2_price_source": CO2_PRICE_SOURCE,
