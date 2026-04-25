@@ -262,6 +262,11 @@ CREATE OR REPLACE MACRO brent_decoupling(
           AND CAST(timestamp AS DATE) <  CAST(date_to   AS DATE)
         GROUP BY CAST(timestamp AS DATE)
     ),
+    -- ASOF LEFT JOIN: fuer jeden Retail-Tag den letzten verfuegbaren
+    -- Brent-Wert nehmen. Brent (ICE) wird Mo-Fr quotiert; Wochenenden,
+    -- Feiertage und gelegentliche API-Luecken in CrudePriceAPI/EIA werden
+    -- mit dem letzten Spot fortgeschrieben. Marktueblich, weil der
+    -- Tagesschlusspreis bis zur naechsten Notierung gueltig bleibt.
     joined AS (
         SELECT
             dr.date,
@@ -269,8 +274,9 @@ CREATE OR REPLACE MACRO brent_decoupling(
             bp.price_eur AS brent_eur,
             dr.retail_avg - bp.price_eur AS spread
         FROM daily_retail dr
-        JOIN brent_prices bp ON dr.date = bp.date
+        ASOF LEFT JOIN brent_prices bp ON dr.date >= bp.date
         WHERE dr.retail_avg IS NOT NULL
+          AND bp.price_eur IS NOT NULL
     ),
     with_stats AS (
         SELECT
