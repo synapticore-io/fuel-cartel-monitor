@@ -2,7 +2,7 @@
 import duckdb
 import pytest
 
-from fuel_cartel_monitor import analysis
+from fuel_price_monitor import analysis
 
 
 def test_database_stats_empty(con: duckdb.DuckDBPyConnection) -> None:

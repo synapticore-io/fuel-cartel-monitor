@@ -1,5 +1,5 @@
 -- DuckDB SQL macros for oligopoly analysis
--- fuel-cartel-monitor
+-- fuel-price-monitor
 
 -- ============================================================
 -- MACRO 1: leader_follower_lag

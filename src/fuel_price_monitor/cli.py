@@ -1,4 +1,4 @@
-"""CLI entry point for fuel-cartel-monitor."""
+"""CLI entry point for fuel-price-monitor."""
 import argparse
 import json
 import logging
@@ -7,10 +7,10 @@ import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-from fuel_cartel_monitor import analysis
-from fuel_cartel_monitor.brent import ingest_brent
-from fuel_cartel_monitor.db import get_connection
-from fuel_cartel_monitor.ingest import (
+from fuel_price_monitor import analysis
+from fuel_price_monitor.brent import ingest_brent
+from fuel_price_monitor.db import get_connection
+from fuel_price_monitor.ingest import (
     ingest_date_range,
     ingest_latest,
     ingest_prices_api,
@@ -132,7 +132,7 @@ def cmd_analyze(args: argparse.Namespace) -> None:
 
 def cmd_serve(_args: argparse.Namespace) -> None:
     """Handle the 'serve' subcommand — start the MCP server."""
-    from fuel_cartel_monitor.server import main
+    from fuel_price_monitor.server import main
 
     main()
 
@@ -348,7 +348,7 @@ def main() -> None:
     load_dotenv()
 
     parser = argparse.ArgumentParser(
-        prog="fuel-cartel-monitor",
+        prog="fuel-price-monitor",
         description="Detect oligopolistic pricing patterns in German fuel markets",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)

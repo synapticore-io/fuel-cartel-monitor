@@ -203,7 +203,7 @@ wheels = [
 ]
 
 [[package]]
-name = "fuel-cartel-monitor"
+name = "fuel-price-monitor"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

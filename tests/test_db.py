@@ -99,7 +99,7 @@ def test_brent_prices_table(con: duckdb.DuckDBPyConnection) -> None:
 
 def test_get_connection_creates_db(tmp_path: Path) -> None:
     """get_connection creates a database at the given path."""
-    from fuel_cartel_monitor.db import get_connection
+    from fuel_price_monitor.db import get_connection
 
     db_path = tmp_path / "test.duckdb"
     con = get_connection(db_path)

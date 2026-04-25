@@ -7,9 +7,9 @@ import duckdb
 from mcp.server.fastmcp import FastMCP
 from mcp_ui_server import create_ui_resource
 
-from fuel_cartel_monitor import analysis
-from fuel_cartel_monitor.db import get_connection
-from fuel_cartel_monitor.ingest import (
+from fuel_price_monitor import analysis
+from fuel_price_monitor.db import get_connection
+from fuel_price_monitor.ingest import (
     ingest_date_range,
     ingest_latest,
     ingest_prices_api,
@@ -18,7 +18,7 @@ from fuel_cartel_monitor.ingest import (
 
 logger = logging.getLogger(__name__)
 
-mcp = FastMCP("fuel-cartel-monitor")
+mcp = FastMCP("fuel-price-monitor")
 
 _con: duckdb.DuckDBPyConnection | None = None
 
@@ -43,7 +43,7 @@ def _lookback_range(days: int) -> tuple[date, date]:
 def _ui(uri_path: str, html: str) -> object:
     """Create a UI resource for rendering in Claude Desktop."""
     return create_ui_resource({
-        "uri": f"ui://fuel-cartel-monitor/{uri_path}",
+        "uri": f"ui://fuel-price-monitor/{uri_path}",
         "content": {"type": "rawHtml", "htmlString": html},
         "encoding": "text",
     })

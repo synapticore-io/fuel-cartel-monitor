@@ -1,4 +1,4 @@
-"""Shared test fixtures for fuel-cartel-monitor tests."""
+"""Shared test fixtures for fuel-price-monitor tests."""
 from pathlib import Path
 
 import duckdb
@@ -10,7 +10,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 @pytest.fixture
 def con() -> duckdb.DuckDBPyConnection:
     """In-memory DuckDB connection with schema initialized."""
-    from fuel_cartel_monitor.db import _init_schema
+    from fuel_price_monitor.db import _init_schema
 
     db = duckdb.connect(":memory:")
     _init_schema(db)

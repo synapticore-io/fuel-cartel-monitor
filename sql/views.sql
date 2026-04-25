@@ -1,4 +1,4 @@
--- Analytical views for fuel-cartel-monitor
+-- Analytical views for fuel-price-monitor
 
 -- Latest price per station
 CREATE OR REPLACE VIEW latest_prices AS

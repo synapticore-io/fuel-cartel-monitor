@@ -1,12 +1,12 @@
-# fuel-cartel-monitor
+# fuel-price-monitor
 
 **Wohin geht dein Tank-Euro? Monatliche Aufschlüsselung der deutschen Tankstellenpreise.**
 
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Dashboard](https://img.shields.io/badge/Live_Dashboard-GitHub_Pages-green.svg)](https://synapticore-io.github.io/fuel-cartel-monitor/)
+[![Dashboard](https://img.shields.io/badge/Live_Dashboard-GitHub_Pages-green.svg)](https://synapticore-io.github.io/fuel-price-monitor/)
 
-**[→ Live-Dashboard](https://synapticore-io.github.io/fuel-cartel-monitor/)**
+**[→ Live-Dashboard](https://synapticore-io.github.io/fuel-price-monitor/)**
 
 Der Monatsdurchschnittspreis pro Liter Diesel und Super E5 wird in seine
 gesetzlich fixen, marktbedingten und residualen Komponenten zerlegt:
@@ -26,15 +26,15 @@ von CrudePriceAPI/EIA, EUR/USD-Kurse von der EZB.
 - **DuckDB** für lokale Analyse, **Parquet** für Monats-Archive
 - **Python 3.12** mit `uv` Package-Manager, `httpx`, `duckdb`
 - **GitHub Pages** für statisches Dashboard, Chart.js für Visualisierung
-- **MCP-Server** (`fuel-cartel-monitor serve`) für Claude Desktop / Code
+- **MCP-Server** (`fuel-price-monitor serve`) für Claude Desktop / Code
 
 ## Quickstart
 
 ```bash
 uv sync
-uv run python -m fuel_cartel_monitor.cli ingest --days 30
-uv run python -m fuel_cartel_monitor.cli ingest --brent
-uv run python -m fuel_cartel_monitor.cli export --month 2026-04
+uv run python -m fuel_price_monitor.cli ingest --days 30
+uv run python -m fuel_price_monitor.cli ingest --brent
+uv run python -m fuel_price_monitor.cli export --month 2026-04
 ```
 
 Voraussetzung: `.env` mit `TANKERKOENIG_DATA_USER`, `TANKERKOENIG_DATA_PASS`,

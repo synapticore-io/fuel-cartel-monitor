@@ -45,16 +45,16 @@ jobs:
           TANKERKOENIG_DATA_PASS: ${{ secrets.TANKERKOENIG_DATA_PASS }}
           CRUDE_PRICE_API_KEY: ${{ secrets.CRUDE_PRICE_API_KEY }}
         run: |
-          uv run fuel-cartel-monitor ingest --days 60
-          uv run fuel-cartel-monitor ingest --brent
+          uv run fuel-price-monitor ingest --days 60
+          uv run fuel-price-monitor ingest --brent
 
       - name: Export monthly dashboards (current + previous)
         run: |
           CURRENT_MONTH=$(date -u +%Y-%m)
           LAST_MONTH=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
           echo "Exporting $LAST_MONTH and $CURRENT_MONTH"
-          uv run fuel-cartel-monitor export --month "$LAST_MONTH"
-          uv run fuel-cartel-monitor export --month "$CURRENT_MONTH"
+          uv run fuel-price-monitor export --month "$LAST_MONTH"
+          uv run fuel-price-monitor export --month "$CURRENT_MONTH"
 
       - name: Commit and push if changed
         run: |
