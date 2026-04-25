@@ -118,6 +118,15 @@ footer a{color:var(--text)}
 </div>
 
 <section>
+  <h2>Entwicklung über die Monate</h2>
+  <p class="desc">Stapelbalken pro Monat: Wie hat sich die Aufschlüsselung des Liter-Preises seit Jahresanfang verschoben? Energiesteuer und CO₂-Abgabe sind gesetzlich fix; Rohöl, MwSt-Anteil und Raffinerie-Marge bewegen sich.</p>
+  <div class="chart-box">
+    <div class="legend" id="trend-legend"></div>
+    <div class="chart-wrap tall"><canvas id="trendChart"></canvas></div>
+  </div>
+</section>
+
+<section>
   <h2>Rohöl-Preis vs. Zapfsäule — täglicher Verlauf</h2>
   <p class="desc">Rohöl (Brent) in Euro pro Liter gegen den deutschen Durchschnittspreis. Die Fläche dazwischen enthält Energiesteuer + CO₂-Abgabe + MwSt + Raffinerie/Händlermarge.</p>
   <div class="chart-box">
@@ -203,7 +212,8 @@ const fmtCent = v => fmt(v * 100, 2) + ' ct';
 const fmtPct  = (v, frac=1) => fmt(v, frac) + ' %';
 
 let IDX, D;
-let spreadChart, lfChart, rfChart, hourChart, dowChart;
+let ALL_MONTHS_DATA = {}; // {month: dashboard.json}
+let spreadChart, lfChart, rfChart, hourChart, dowChart, trendChart;
 let curFuel = 'diesel', curCity = 'Hannover', curMonth = null;
 
 Chart.defaults.color = C.text2;
@@ -235,6 +245,14 @@ async function init() {
   renderMonthTabs();
   await loadMonth(curMonth);
   renderFuelToggle();
+  // Alle Monate parallel laden fuer Trend-Chart
+  await Promise.all(IDX.months.map(async m => {
+    if (m === curMonth) { ALL_MONTHS_DATA[m] = D; return; }
+    try {
+      ALL_MONTHS_DATA[m] = await (await fetch(`data/dashboard-${m}.json`)).json();
+    } catch (e) { /* missing month — skip */ }
+  }));
+  renderTrendChart();
 }
 
 function renderMonthTabs() {
@@ -264,7 +282,54 @@ function renderFuelToggle() {
     renderHourChart();
     renderDowChart();
     renderAnomaly();
+    renderTrendChart();
   };
+}
+
+function renderTrendChart() {
+  const ctx = document.getElementById('trendChart');
+  if (!ctx) return;
+  const months = IDX.months.filter(m => ALL_MONTHS_DATA[m]?.price_breakdown?.[curFuel]);
+  if (!months.length) return;
+  const labels = months.map(monthLabel);
+  // Pro Komponente ein Dataset (gestapelt)
+  const datasets = COMPONENTS.map(c => ({
+    label: c.label,
+    data: months.map(m => Math.round(ALL_MONTHS_DATA[m].price_breakdown[curFuel][c.key + '_eur'] * 100) / 100),
+    backgroundColor: c.color,
+    borderWidth: 0,
+    stack: 'breakdown',
+  }));
+  // Legend rendern
+  document.getElementById('trend-legend').innerHTML = COMPONENTS.map(c =>
+    `<span><span class="dot" style="background:${c.color}"></span>${c.label}</span>`
+  ).join('');
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      ...CO,
+      plugins: {
+        ...CO.plugins,
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${fmtEur(ctx.parsed.y)}`,
+            footer: items => {
+              const total = items.reduce((s, i) => s + i.parsed.y, 0);
+              return 'Σ retail: ' + fmtEur(total);
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, grid: { color: C.grid },
+             title: { display: true, text: '€/Liter' },
+             ticks: { callback: v => fmt(v, 2) } }
+      }
+    }
+  });
 }
 
 async function loadMonth(month) {

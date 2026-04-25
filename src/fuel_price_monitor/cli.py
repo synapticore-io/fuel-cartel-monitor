@@ -173,24 +173,52 @@ def _spread_anomaly_summary(series: list[dict]) -> dict:
     }
 
 
+REGIONS = [
+    {"name": "Hannover", "lat": 52.37, "lng": 9.73},
+    {"name": "Hamburg", "lat": 53.55, "lng": 9.99},
+    {"name": "Berlin", "lat": 52.52, "lng": 13.41},
+    {"name": "München", "lat": 48.14, "lng": 11.58},
+    {"name": "Köln", "lat": 50.94, "lng": 6.96},
+]
+
+
+def _all_months_with_data(con) -> list[str]:
+    """Return sorted list of YYYY-MM strings for which price_changes has data."""
+    rows = con.execute(
+        "SELECT DISTINCT strftime(timestamp, '%Y-%m') AS m "
+        "FROM price_changes ORDER BY m"
+    ).fetchall()
+    return [r[0] for r in rows]
+
+
 def cmd_export(args: argparse.Namespace) -> None:
-    """Export dashboard data as JSON. With --month writes dashboard-YYYY-MM.json + index."""
+    """Export dashboard data as JSON.
+
+    With --month: writes dashboard-YYYY-MM.json + refreshes index.json.
+    With --all-months: iterates over every month with data in the DB.
+    """
     con = get_connection()
     out = Path(args.output)
     out.mkdir(parents=True, exist_ok=True)
 
-    regions = [
-        {"name": "Hannover", "lat": 52.37, "lng": 9.73},
-        {"name": "Hamburg", "lat": 53.55, "lng": 9.99},
-        {"name": "Berlin", "lat": 52.52, "lng": 13.41},
-        {"name": "München", "lat": 48.14, "lng": 11.58},
-        {"name": "Köln", "lat": 50.94, "lng": 6.96},
-    ]
+    if getattr(args, "all_months", False):
+        months = _all_months_with_data(con)
+        logger.info("Exporting %d months: %s", len(months), ", ".join(months))
+        for m in months:
+            args.month = m
+            _export_one(args, con, out)
+        return
 
+    _export_one(args, con, out)
+
+
+def _export_one(args: argparse.Namespace, con, out: Path) -> None:
+    """Export a single month (or full lookback range) to JSON."""
     radius = args.radius
     fuel = args.fuel
     df, dt, label = _resolve_window(args)
     month = getattr(args, "month", None)
+    regions = REGIONS
 
     dashboard = {
         "generated_at": datetime.now().isoformat(),
@@ -433,6 +461,10 @@ def main() -> None:
     export_parser.add_argument(
         "--month", metavar="YYYY-MM",
         help="Export a specific month as dashboard-YYYY-MM.json and refresh index.json",
+    )
+    export_parser.add_argument(
+        "--all-months", action="store_true",
+        help="Export every month for which price_changes has data (refreshes index.json)",
     )
     export_parser.set_defaults(func=cmd_export)
 
