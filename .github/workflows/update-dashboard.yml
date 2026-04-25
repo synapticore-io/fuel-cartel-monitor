@@ -2,7 +2,11 @@ name: Update Dashboard Data
 
 on:
   schedule:
-    - cron: '15 6 * * *'  # Taeglich 06:15 UTC (08:15 CEST)
+    # Taeglich 18:15 UTC (20:15 CEST) — Tankerkoenig-CSV des Vortags ist
+    # zu dieser Zeit zuverlaessig hochgeladen. Frueheres Cron-Slot (06:15)
+    # erwischte das Vortags-CSV oft noch nicht und Connection-Refused
+    # erzeugte 1-2 Tage Lag im Dashboard.
+    - cron: '15 18 * * *'
   workflow_dispatch:  # Manuell triggerbar
 
 permissions:
@@ -11,25 +15,20 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    env:
-      PYTHONPATH: src
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v8
 
       - name: Set up Python 3.12
         run: uv python install 3.12
 
-      # --no-install-project: installiert nur die Abhaengigkeiten,
-      # nicht das Paket selbst — umgeht das Problem, dass README.md fehlt.
-      # CLI wird ueber PYTHONPATH=src als Modul aufgerufen.
       - name: Install dependencies
-        run: uv sync --no-install-project
+        run: uv sync
 
       - name: Restore DuckDB cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: data/fuel_monitor.duckdb
           key: duckdb-${{ github.run_number }}
@@ -46,16 +45,16 @@ jobs:
           TANKERKOENIG_DATA_PASS: ${{ secrets.TANKERKOENIG_DATA_PASS }}
           CRUDE_PRICE_API_KEY: ${{ secrets.CRUDE_PRICE_API_KEY }}
         run: |
-          uv run python -m fuel_cartel_monitor.cli ingest --days 60
-          uv run python -m fuel_cartel_monitor.cli ingest --brent
+          uv run fuel-cartel-monitor ingest --days 60
+          uv run fuel-cartel-monitor ingest --brent
 
       - name: Export monthly dashboards (current + previous)
         run: |
           CURRENT_MONTH=$(date -u +%Y-%m)
           LAST_MONTH=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
           echo "Exporting $LAST_MONTH and $CURRENT_MONTH"
-          uv run python -m fuel_cartel_monitor.cli export --month "$LAST_MONTH"
-          uv run python -m fuel_cartel_monitor.cli export --month "$CURRENT_MONTH"
+          uv run fuel-cartel-monitor export --month "$LAST_MONTH"
+          uv run fuel-cartel-monitor export --month "$CURRENT_MONTH"
 
       - name: Commit and push if changed
         run: |
