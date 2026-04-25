@@ -130,13 +130,6 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
-def cmd_serve(_args: argparse.Namespace) -> None:
-    """Handle the 'serve' subcommand — start the MCP server."""
-    from fuel_price_monitor.server import main
-
-    main()
-
-
 def cmd_stats(_args: argparse.Namespace) -> None:
     """Handle the 'stats' subcommand."""
     con = get_connection()
@@ -377,7 +370,8 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(
         prog="fuel-price-monitor",
-        description="Detect oligopolistic pricing patterns in German fuel markets",
+        description="Monatliche Aufschluesselung deutscher Tankstellenpreise in Steuern, "
+                    "Rohoel, MwSt und Marge — Daten via Tankerkoenig MTS-K und Brent.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -439,10 +433,6 @@ def main() -> None:
         "--month", metavar="YYYY-MM", help="Restrict to a specific month (overrides --days)"
     )
     analyze_parser.set_defaults(func=cmd_analyze)
-
-    # --- serve ---
-    serve_parser = subparsers.add_parser("serve", help="Start the MCP server")
-    serve_parser.set_defaults(func=cmd_serve)
 
     # --- stats ---
     stats_parser = subparsers.add_parser("stats", help="Show database statistics")

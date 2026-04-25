@@ -1,14 +1,14 @@
 [project]
 name = "fuel-price-monitor"
 version = "0.1.0"
-description = "Detect oligopolistic pricing patterns in German fuel markets using Tankerkoenig MTS-K data"
+description = "Monatliche Aufschluesselung deutscher Tankstellenpreise (Diesel/Super E5) in Energiesteuer, CO2-Abgabe, Brent, MwSt und Raffinerie-Marge. Daten: MTS-K via Tankerkoenig + EIA/CrudePriceAPI."
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.12"
 authors = [
     {name = "Björn Bethge"}
 ]
-keywords = ["fuel-prices", "cartel-detection", "duckdb", "mcp", "tankerkoenig", "oligopoly"]
+keywords = ["fuel-prices", "duckdb", "tankerkoenig", "price-analysis", "energy-tax", "transparency"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Topic :: Scientific/Engineering :: Information Analysis",
@@ -18,8 +18,6 @@ classifiers = [
 
 dependencies = [
     "duckdb>=1.1.0",
-    "mcp>=1.0.0",
-    "mcp-ui-server>=0.1.0",
     "httpx>=0.27.0",
     "python-dotenv>=1.0.0",
 ]
