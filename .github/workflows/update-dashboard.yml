@@ -35,13 +35,18 @@ jobs:
           key: duckdb-${{ github.run_number }}
           restore-keys: duckdb-
 
-      - name: Ingest last 7 days + Brent
+      # Ingest-Fenster gross genug, damit ein einzelner verpasster Cron-Tag
+      # (oder ein Cache-Miss bis zu ~2 Monaten zurueck) ueberdeckt wird.
+      # Bei taeglichem Lauf ueberlappen sich 60 Tage komplett — bereits
+      # ingestete Tage werden via ingestion_log-Tabelle uebersprungen
+      # (siehe ingest.ingest_day), keine Duplikate.
+      - name: Ingest last 60 days + Brent (90 days, default)
         env:
           TANKERKOENIG_DATA_USER: ${{ secrets.TANKERKOENIG_DATA_USER }}
           TANKERKOENIG_DATA_PASS: ${{ secrets.TANKERKOENIG_DATA_PASS }}
           CRUDE_PRICE_API_KEY: ${{ secrets.CRUDE_PRICE_API_KEY }}
         run: |
-          uv run python -m fuel_cartel_monitor.cli ingest --days 7
+          uv run python -m fuel_cartel_monitor.cli ingest --days 60
           uv run python -m fuel_cartel_monitor.cli ingest --brent
 
       - name: Export monthly dashboards (current + previous)

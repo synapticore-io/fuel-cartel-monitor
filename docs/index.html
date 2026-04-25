@@ -49,18 +49,19 @@ header .subtitle{font-size:.9rem;color:var(--text2);max-width:760px}
 .breakdown-seg.brent{background:var(--blue)}
 .breakdown-seg.vat{background:var(--violet)}
 .breakdown-seg.residual{background:var(--red)}
-.breakdown-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}
-.bl-row{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-top:1px solid var(--border)}
-.bl-swatch{width:12px;height:12px;border-radius:2px;margin-top:4px;flex-shrink:0}
+.breakdown-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.3rem}
+.bl-row{display:flex;align-items:flex-start;gap:.8rem;padding:.9rem 0;border-top:1px solid var(--border)}
+.bl-swatch{width:14px;height:14px;border-radius:3px;margin-top:5px;flex-shrink:0}
 .bl-text{flex:1;min-width:0}
-.bl-name{font-size:.72rem;color:var(--text);font-weight:500}
-.bl-value{font-size:1.15rem;font-weight:700;color:#fff;margin-top:.1rem}
-.bl-pct{font-size:.65rem;color:var(--text2)}
-.bl-hint{font-size:.62rem;color:var(--text3);margin-top:.2rem;line-height:1.35}
+.bl-name{font-size:.95rem;color:#fff;font-weight:600;letter-spacing:.01em}
+.bl-value{font-size:1.4rem;font-weight:700;color:#fff;margin-top:.25rem}
+.bl-pct{font-size:.85rem;color:var(--text);font-weight:500}
+.bl-hint{font-size:.85rem;color:#b3bcc8;margin-top:.5rem;line-height:1.55}
+section .desc{font-size:.92rem;color:var(--text);margin-bottom:1.2rem;max-width:760px;line-height:1.55}
+header .subtitle{font-size:1rem;color:var(--text);max-width:760px;line-height:1.55}
 
 section{margin-bottom:2.5rem}
-section h2{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:.3rem}
-section .desc{font-size:.78rem;color:var(--text3);margin-bottom:1rem;max-width:720px}
+section h2{font-family:var(--serif);font-size:1.35rem;font-weight:600;color:#fff;margin-bottom:.4rem}
 .chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1.5rem}
 .chart-wrap{position:relative;height:280px}
 .chart-wrap.tall{height:340px}
@@ -77,8 +78,8 @@ section .desc{font-size:.78rem;color:var(--text3);margin-bottom:1rem;max-width:7
 .anomaly-card .stat-val{font-size:1.3rem;font-weight:700;color:#fff}
 .anomaly-card .note{font-size:.72rem;color:var(--text2);font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding-top:.7rem}
 
-footer{border-top:1px solid var(--border);padding-top:1.5rem;margin-top:2rem;font-size:.65rem;color:var(--text3);text-align:center;line-height:1.8}
-footer a{color:var(--text2)}
+footer{border-top:1px solid var(--border);padding-top:1.5rem;margin-top:2rem;font-size:.78rem;color:var(--text2);text-align:center;line-height:1.9}
+footer a{color:var(--text)}
 @media(max-width:700px){.two-col{grid-template-columns:1fr} .chart-wrap{height:240px} .breakdown-legend{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -174,6 +175,7 @@ footer a{color:var(--text2)}
   CO₂-Preis 2026: <a href="https://www.gesetze-im-internet.de/behg/__10.html" target="_blank">BEHG §10</a> / <a href="https://www.dehst.de/" target="_blank">DEHSt</a> — Mindestpreis im Korridor 55–65 €/t (erste EEX-Auktion ab 1.7.2026) · Energiesteuer: <a href="https://www.gesetze-im-internet.de/energiestg/" target="_blank">EnergieStG</a><br>
   Emissionsfaktoren: UBA (Diesel 2,64 kg CO₂/L, Benzin 2,32 kg CO₂/L)<br>
   Open Source: <a href="https://github.com/synapticore-io/fuel-cartel-monitor" target="_blank">github.com/synapticore-io/fuel-cartel-monitor</a> · DuckDB · Parquet · MCP<br>
+  Created with <a href="https://www.anthropic.com/claude-code" target="_blank">Claude Code</a> by Anthropic — Datenpipeline, SQL-Macros, Visualisierung<br>
   <span id="gen-time"></span>
 </footer>
 </div>
