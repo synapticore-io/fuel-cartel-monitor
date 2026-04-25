@@ -512,9 +512,9 @@ def brand_ranking(
     ]
 
 
-def _q4(x) -> Decimal:
-    """Quantize to 4 decimal places (1/100 cent), ROUND_HALF_UP (kaufmaennisch)."""
-    return Decimal(str(x)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+def _q2(x) -> Decimal:
+    """Quantize to 2 decimal places EUR (= ganze Cent), ROUND_HALF_UP."""
+    return Decimal(str(x)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
 
 def price_breakdown(
@@ -525,10 +525,11 @@ def price_breakdown(
 ) -> dict:
     """Decompose the average retail price of a fuel into its cost components.
 
-    All values returned as Decimal-rounded floats (4 decimal places EUR / 1/100 ct)
+    All values returned as Decimal-rounded floats (2 decimal places EUR = ganze Cent)
     using ROUND_HALF_UP. The identity Σ components = retail holds *exactly* after
     rounding because residual is computed from the rounded retail minus rounded
-    others — not from the raw float arithmetic.
+    others — not from the raw float arithmetic. Anzeige damit Mensch-rechenbar:
+    0,47 + 0,15 + 0,56 + 0,36 + 0,73 = 2,27 €.
 
     Components (per litre, EUR):
       - energy_tax     — Energiesteuer (fix by EnergieStG)
@@ -575,14 +576,14 @@ def price_breakdown(
         return {}
 
     # Decimal-Arithmetik durchgaengig — IEEE-Float-Drift vermeiden
-    retail = _q4(retail_avg)
-    energy_tax = _q4(energy_tax_raw)
-    co2 = _q4(Decimal(str(co2_kg)) * Decimal(str(CO2_PRICE_EUR_PER_TON)) / Decimal("1000"))
-    brent = _q4(brent_avg)
+    retail = _q2(retail_avg)
+    energy_tax = _q2(energy_tax_raw)
+    co2 = _q2(Decimal(str(co2_kg)) * Decimal(str(CO2_PRICE_EUR_PER_TON)) / Decimal("1000"))
+    brent = _q2(brent_avg)
     vat_rate = Decimal(str(VAT_RATE))
-    vat = _q4(retail * vat_rate / (Decimal("1") + vat_rate))
+    vat = _q2(retail * vat_rate / (Decimal("1") + vat_rate))
     # Residuum aus den GERUNDETEN Komponenten — Identitaet schliesst exakt
-    residual = _q4(retail - energy_tax - co2 - brent - vat)
+    residual = _q2(retail - energy_tax - co2 - brent - vat)
 
     return {
         "retail_avg_eur": float(retail),

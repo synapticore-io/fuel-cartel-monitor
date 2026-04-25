@@ -314,13 +314,13 @@ function renderBreakdown() {
     </div>`;
   }).join('');
 
-  // Identity-Check sichtbar — Summe der Komponenten in Cent, exakt nachrechenbar.
-  // (Anzeige im Hero auf 2 EUR-Nachkommastellen gerundet; Cent-Summe bleibt
-  //  pfennig-genau, ist die verifizierbare Groesse.)
-  const sumCt = COMPONENTS.reduce((s, c) => s + pb[c.key + '_eur'] * 100, 0);
+  // Identity-Check in EUR — wie an der Tankstelle, Mensch-rechenbar.
+  // Backend rundet mit Decimal/ROUND_HALF_UP, residual aus den gerundeten
+  // Komponenten → Σ schliesst exakt auf retail.
   const sumEl = document.getElementById('bd-identity');
   if (sumEl) {
-    sumEl.innerHTML = `Σ ${COMPONENTS.map(c => fmtCent(pb[c.key+'_eur'])).join(' + ')} = <b>${fmt(sumCt, 2)} ct</b>`;
+    const parts = COMPONENTS.map(c => fmtEur(pb[c.key+'_eur'])).join(' + ');
+    sumEl.innerHTML = `Σ ${parts} = <b>${fmtEur(pb.retail_avg_eur)}</b>`;
   }
 }
 
