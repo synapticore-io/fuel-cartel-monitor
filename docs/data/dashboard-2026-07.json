@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T19:55:24.131674",
+  "generated_at": "2026-07-22T19:47:46.861662",
   "parameters": {
     "radius_km": 25.0,
     "fuel_type": "e5",
@@ -10,12 +10,22 @@
   },
   "stats": {
     "station_count": 17835,
-    "price_record_count": 38374470,
-    "brent_price_count": 193,
-    "ingestion_count": 292,
+    "price_record_count": 38579008,
+    "brent_price_count": 198,
+    "ingestion_count": 294,
     "price_date_from": "2026-02-24 23:00:03",
-    "price_date_to": "2026-07-20 21:59:54",
+    "price_date_to": "2026-07-21 21:59:37",
     "recent_ingestions": [
+      {
+        "file_path": "prices/2026-07-21",
+        "ingested_at": "2026-07-22 19:46:51.461868",
+        "row_count": 204538
+      },
+      {
+        "file_path": "stations/2026-07-21",
+        "ingested_at": "2026-07-22 19:46:30.156489",
+        "row_count": 17835
+      },
       {
         "file_path": "prices/2026-07-20",
         "ingested_at": "2026-07-21 19:54:31.493319",
@@ -55,16 +65,6 @@
         "file_path": "stations/2026-07-17",
         "ingested_at": "2026-07-18 19:34:07.621126",
         "row_count": 17834
-      },
-      {
-        "file_path": "prices/2026-07-16",
-        "ingested_at": "2026-07-17 19:35:01.550380",
-        "row_count": 223864
-      },
-      {
-        "file_path": "stations/2026-07-16",
-        "ingested_at": "2026-07-17 19:34:38.785021",
-        "row_count": 17834
       }
     ]
   },
@@ -77,25 +77,25 @@
           "leader_brand": "ARAL",
           "follower_brand": "JET",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 19
+          "event_count": 20
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "ESSO",
-          "median_lag_minutes": 2.533333333333333,
-          "event_count": 20
+          "median_lag_minutes": 2.033333333333333,
+          "event_count": 21
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TotalEnergies",
           "median_lag_minutes": 4.05,
-          "event_count": 20
+          "event_count": 21
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TOTAL",
-          "median_lag_minutes": 1438.65,
-          "event_count": 18
+          "median_lag_minutes": 1438.5333333333333,
+          "event_count": 19
         },
         {
           "leader_brand": "Shell",
@@ -107,69 +107,69 @@
           "leader_brand": "Shell",
           "follower_brand": "ESSO",
           "median_lag_minutes": 2.033333333333333,
-          "event_count": 21
+          "event_count": 22
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "TotalEnergies",
-          "median_lag_minutes": 4.05,
-          "event_count": 21
+          "median_lag_minutes": 4.041666666666666,
+          "event_count": 22
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "TOTAL",
-          "median_lag_minutes": 1438.5333333333333,
-          "event_count": 19
+          "median_lag_minutes": 1438.65,
+          "event_count": 20
         }
       ],
       "rockets_feathers": [
         {
           "brand": "ARAL",
-          "avg_increase_cents": 18.614203454894433,
-          "avg_decrease_cents": 2.344414568565143,
-          "avg_increase_speed_min": 540.25393474087,
-          "avg_decrease_speed_min": 114.5737513240597,
-          "asymmetry_ratio": 0.2120738859199876
+          "avg_increase_cents": 18.666058394160583,
+          "avg_decrease_cents": 2.3624738432922574,
+          "avg_increase_speed_min": 555.5267031630298,
+          "avg_decrease_speed_min": 112.55954429202978,
+          "asymmetry_ratio": 0.20261770253552883
         },
         {
           "brand": "ESSO",
-          "avg_increase_cents": 20.328638497652584,
-          "avg_decrease_cents": 1.506219765031099,
-          "avg_increase_speed_min": 401.31877934304833,
-          "avg_decrease_speed_min": 76.3990900713935,
-          "asymmetry_ratio": 0.19037008483993062
+          "avg_increase_cents": 20.308035714285715,
+          "avg_decrease_cents": 1.5138431114040871,
+          "avg_increase_speed_min": 392.4863095241432,
+          "avg_decrease_speed_min": 77.10048890351541,
+          "asymmetry_ratio": 0.19644121854082833
         },
         {
           "brand": "JET",
-          "avg_increase_cents": 19.220338983050848,
-          "avg_decrease_cents": 1.4121750158528847,
-          "avg_increase_speed_min": 461.8588983055709,
-          "avg_decrease_speed_min": 71.61331642355083,
-          "asymmetry_ratio": 0.15505453437463204
+          "avg_increase_cents": 19.290322580645157,
+          "avg_decrease_cents": 1.4020250148898148,
+          "avg_increase_speed_min": 453.64274193601864,
+          "avg_decrease_speed_min": 71.34566210041697,
+          "asymmetry_ratio": 0.15727279531891972
         },
         {
           "brand": "Shell",
-          "avg_increase_cents": 17.5921568627451,
-          "avg_decrease_cents": 1.5213541666666666,
-          "avg_increase_speed_min": 505.3617973854875,
-          "avg_decrease_speed_min": 83.81630497686758,
-          "asymmetry_ratio": 0.165854058242026
+          "avg_increase_cents": 17.792523364485977,
+          "avg_decrease_cents": 1.5315005727376862,
+          "avg_increase_speed_min": 488.2741744547873,
+          "avg_decrease_speed_min": 84.14526809579104,
+          "asymmetry_ratio": 0.1723320062744433
         },
         {
           "brand": "TOTAL",
-          "avg_increase_cents": 15.56756756756757,
-          "avg_decrease_cents": 2.210526315789474,
-          "avg_increase_speed_min": 660.0238738737597,
-          "avg_decrease_speed_min": 179.78488529016553,
-          "asymmetry_ratio": 0.27239148825782067
+          "avg_increase_cents": 15.650000000000002,
+          "avg_decrease_cents": 2.1762452107279695,
+          "avg_increase_speed_min": 1038.6183333332651,
+          "avg_decrease_speed_min": 175.78243933589522,
+          "asymmetry_ratio": 0.16924642449912472
         },
         {
           "brand": "TotalEnergies",
-          "avg_increase_cents": 19.4,
-          "avg_decrease_cents": 1.6410537870472,
-          "avg_increase_speed_min": 253.47312500057743,
-          "avg_decrease_speed_min": 100.31981339181736,
-          "asymmetry_ratio": 0.3957808678596156
+          "avg_increase_cents": 19.428571428571427,
+          "avg_decrease_cents": 1.6554973821989525,
+          "avg_increase_speed_min": 247.1077380957348,
+          "avg_decrease_speed_min": 101.11575916225374,
+          "asymmetry_ratio": 0.40919705688487723
         }
       ]
     },
@@ -181,79 +181,79 @@
           "leader_brand": "ARAL",
           "follower_brand": "JET",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 21
+          "event_count": 23
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "ESSO",
           "median_lag_minutes": 2.033333333333333,
-          "event_count": 22
+          "event_count": 24
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TotalEnergies",
           "median_lag_minutes": 4.05,
-          "event_count": 22
+          "event_count": 24
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "JET",
-          "median_lag_minutes": 1.025,
-          "event_count": 30
+          "median_lag_minutes": 1.0333333333333334,
+          "event_count": 31
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "ESSO",
           "median_lag_minutes": 2.0166666666666666,
-          "event_count": 33
+          "event_count": 35
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "TotalEnergies",
           "median_lag_minutes": 4.05,
-          "event_count": 33
+          "event_count": 35
         }
       ],
       "rockets_feathers": [
         {
           "brand": "ARAL",
-          "avg_increase_cents": 19.30802792321117,
-          "avg_decrease_cents": 2.6387314602676955,
-          "avg_increase_speed_min": 446.7884671320947,
-          "avg_decrease_speed_min": 137.62736243418843,
-          "asymmetry_ratio": 0.3080369628106322
+          "avg_increase_cents": 19.393864013267,
+          "avg_decrease_cents": 2.65342340279368,
+          "avg_increase_speed_min": 470.20269485911786,
+          "avg_decrease_speed_min": 135.86496259827436,
+          "asymmetry_ratio": 0.28894977439247177
         },
         {
           "brand": "ESSO",
-          "avg_increase_cents": 20.946067415730337,
-          "avg_decrease_cents": 1.852211016291699,
-          "avg_increase_speed_min": 469.9417228466842,
-          "avg_decrease_speed_min": 87.03484290145782,
-          "asymmetry_ratio": 0.18520348092151087
+          "avg_increase_cents": 20.965811965811966,
+          "avg_decrease_cents": 1.8527188940092165,
+          "avg_increase_speed_min": 472.1154914532398,
+          "avg_decrease_speed_min": 86.55613210444076,
+          "asymmetry_ratio": 0.18333677600370293
         },
         {
           "brand": "JET",
-          "avg_increase_cents": 18.777777777777775,
-          "avg_decrease_cents": 2.0414851690520637,
-          "avg_increase_speed_min": 469.9747445725861,
-          "avg_decrease_speed_min": 104.86073083034431,
-          "asymmetry_ratio": 0.2231199272754728
+          "avg_increase_cents": 18.88524590163934,
+          "avg_decrease_cents": 2.0431541781090625,
+          "avg_increase_speed_min": 479.67243473029583,
+          "avg_decrease_speed_min": 103.08860010455923,
+          "asymmetry_ratio": 0.21491458053561613
         },
         {
           "brand": "Shell",
-          "avg_increase_cents": 18.62615255658005,
-          "avg_decrease_cents": 2.1658123028391167,
-          "avg_increase_speed_min": 510.31686225185626,
-          "avg_decrease_speed_min": 109.48711389329648,
-          "asymmetry_ratio": 0.21454731754339207
+          "avg_increase_cents": 18.78406374501992,
+          "avg_decrease_cents": 2.1714391622648503,
+          "avg_increase_speed_min": 493.1126958830482,
+          "avg_decrease_speed_min": 110.59831340933798,
+          "asymmetry_ratio": 0.22428607969884562
         },
         {
           "brand": "TotalEnergies",
-          "avg_increase_cents": 18.469483568075116,
-          "avg_decrease_cents": 2.265624999999999,
-          "avg_increase_speed_min": 566.9163536777274,
-          "avg_decrease_speed_min": 106.88728780862314,
-          "asymmetry_ratio": 0.18854154958702235
+          "avg_increase_cents": 18.632286995515695,
+          "avg_decrease_cents": 2.2732270478284766,
+          "avg_increase_speed_min": 568.6574738416404,
+          "avg_decrease_speed_min": 105.952327286031,
+          "asymmetry_ratio": 0.18632011739906645
         }
       ]
     },
@@ -265,19 +265,19 @@
           "leader_brand": "ARAL",
           "follower_brand": "JET",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 21
+          "event_count": 23
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "ESSO",
-          "median_lag_minutes": 2.533333333333333,
-          "event_count": 22
+          "median_lag_minutes": 2.033333333333333,
+          "event_count": 24
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TotalEnergies",
           "median_lag_minutes": 4.05,
-          "event_count": 22
+          "event_count": 24
         },
         {
           "leader_brand": "Shell",
@@ -288,56 +288,56 @@
         {
           "leader_brand": "Shell",
           "follower_brand": "ESSO",
-          "median_lag_minutes": 2.025,
-          "event_count": 20
+          "median_lag_minutes": 2.033333333333333,
+          "event_count": 21
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "TotalEnergies",
-          "median_lag_minutes": 4.041666666666666,
-          "event_count": 20
+          "median_lag_minutes": 4.033333333333333,
+          "event_count": 21
         }
       ],
       "rockets_feathers": [
         {
           "brand": "ARAL",
-          "avg_increase_cents": 19.21728971962617,
-          "avg_decrease_cents": 2.4661068393363013,
-          "avg_increase_speed_min": 414.39641744545384,
-          "avg_decrease_speed_min": 133.54220625929096,
-          "asymmetry_ratio": 0.32225714469857564
+          "avg_increase_cents": 19.243523316062177,
+          "avg_decrease_cents": 2.4657678332377126,
+          "avg_increase_speed_min": 415.2750431779113,
+          "avg_decrease_speed_min": 133.7877302862302,
+          "asymmetry_ratio": 0.32216655559749857
         },
         {
           "brand": "ESSO",
-          "avg_increase_cents": 21.214141414141412,
-          "avg_decrease_cents": 1.725076012161946,
-          "avg_increase_speed_min": 362.5082828285643,
-          "avg_decrease_speed_min": 86.79230010133266,
-          "asymmetry_ratio": 0.23942156417534344
+          "avg_increase_cents": 21.211132437619963,
+          "avg_decrease_cents": 1.7257255736210302,
+          "avg_increase_speed_min": 351.8601087655107,
+          "avg_decrease_speed_min": 87.24146026437441,
+          "asymmetry_ratio": 0.2479435948862124
         },
         {
           "brand": "JET",
-          "avg_increase_cents": 19.916221033868094,
-          "avg_decrease_cents": 1.906063193851409,
-          "avg_increase_speed_min": 418.06901366638147,
-          "avg_decrease_speed_min": 97.78179903213511,
-          "asymmetry_ratio": 0.23388913274056916
+          "avg_increase_cents": 19.97457627118644,
+          "avg_decrease_cents": 1.913142116350672,
+          "avg_increase_speed_min": 403.0598870059949,
+          "avg_decrease_speed_min": 98.66099767727448,
+          "asymmetry_ratio": 0.24477999636765405
         },
         {
           "brand": "Shell",
-          "avg_increase_cents": 19.707956600361662,
-          "avg_decrease_cents": 1.8818690934546727,
-          "avg_increase_speed_min": 599.3299427364076,
-          "avg_decrease_speed_min": 80.73372418623083,
-          "asymmetry_ratio": 0.13470664225054158
+          "avg_increase_cents": 19.883920894239033,
+          "avg_decrease_cents": 1.8955298013245032,
+          "avg_increase_speed_min": 576.7106334192299,
+          "avg_decrease_speed_min": 82.19038217440463,
+          "asymmetry_ratio": 0.1425158084689896
         },
         {
           "brand": "TotalEnergies",
-          "avg_increase_cents": 21.75,
-          "avg_decrease_cents": 2.1266431924882627,
-          "avg_increase_speed_min": 379.33630952397806,
-          "avg_decrease_speed_min": 103.11376564942886,
-          "asymmetry_ratio": 0.2718267749766015
+          "avg_increase_cents": 21.77236693091733,
+          "avg_decrease_cents": 2.1319808271095755,
+          "avg_increase_speed_min": 367.66126840335073,
+          "avg_decrease_speed_min": 103.74412923120025,
+          "asymmetry_ratio": 0.282173125501448
         }
       ]
     },
@@ -349,25 +349,25 @@
           "leader_brand": "ARAL",
           "follower_brand": "ESSO",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 20
+          "event_count": 21
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "JET",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 19
+          "event_count": 20
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TOTAL",
-          "median_lag_minutes": 3.0416666666666665,
-          "event_count": 16
+          "median_lag_minutes": 3.033333333333333,
+          "event_count": 17
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TotalEnergies",
           "median_lag_minutes": 4.05,
-          "event_count": 20
+          "event_count": 21
         },
         {
           "leader_brand": "Shell",
@@ -379,7 +379,7 @@
           "leader_brand": "Shell",
           "follower_brand": "ESSO",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 21
+          "event_count": 22
         },
         {
           "leader_brand": "Shell",
@@ -390,58 +390,58 @@
         {
           "leader_brand": "Shell",
           "follower_brand": "TotalEnergies",
-          "median_lag_minutes": 4.05,
-          "event_count": 21
+          "median_lag_minutes": 4.041666666666666,
+          "event_count": 22
         }
       ],
       "rockets_feathers": [
         {
           "brand": "ARAL",
-          "avg_increase_cents": 19.148825065274153,
-          "avg_decrease_cents": 2.5583002245638276,
-          "avg_increase_speed_min": 485.4979112272202,
-          "avg_decrease_speed_min": 127.61917429608495,
-          "asymmetry_ratio": 0.2628624579938868
+          "avg_increase_cents": 19.267990074441688,
+          "avg_decrease_cents": 2.554778933680104,
+          "avg_increase_speed_min": 479.50223325072756,
+          "avg_decrease_speed_min": 126.97010728218187,
+          "asymmetry_ratio": 0.26479565365400565
         },
         {
           "brand": "ESSO",
-          "avg_increase_cents": 21.90340909090909,
-          "avg_decrease_cents": 2.2360934182590233,
-          "avg_increase_speed_min": 619.9216145834706,
-          "avg_decrease_speed_min": 83.7314295824372,
-          "asymmetry_ratio": 0.13506776923514258
+          "avg_increase_cents": 21.975708502024293,
+          "avg_decrease_cents": 2.2285905143620575,
+          "avg_increase_speed_min": 612.4413405309724,
+          "avg_decrease_speed_min": 83.65539746157671,
+          "asymmetry_ratio": 0.1365933223727997
         },
         {
           "brand": "JET",
-          "avg_increase_cents": 19.039735099337747,
-          "avg_decrease_cents": 1.5281408375566816,
-          "avg_increase_speed_min": 501.1651214132863,
-          "avg_decrease_speed_min": 75.33465813101729,
-          "asymmetry_ratio": 0.15031903640575278
+          "avg_increase_cents": 19.188679245283016,
+          "avg_decrease_cents": 1.5214677983025457,
+          "avg_increase_speed_min": 490.88343815568766,
+          "avg_decrease_speed_min": 74.89867698447988,
+          "asymmetry_ratio": 0.15257935216939456
         },
         {
           "brand": "Shell",
-          "avg_increase_cents": 19.38705035971223,
-          "avg_decrease_cents": 1.8039162727886564,
-          "avg_increase_speed_min": 558.034916066909,
-          "avg_decrease_speed_min": 82.80998424490679,
-          "asymmetry_ratio": 0.1483957040332899
+          "avg_increase_cents": 19.633378932968537,
+          "avg_decrease_cents": 1.8052985169222968,
+          "avg_increase_speed_min": 541.13381212936,
+          "avg_decrease_speed_min": 83.16352304898741,
+          "asymmetry_ratio": 0.15368384156543313
         },
         {
           "brand": "TOTAL",
-          "avg_increase_cents": 17.10344827586207,
-          "avg_decrease_cents": 1.159144893111638,
-          "avg_increase_speed_min": 476.1313218394102,
-          "avg_decrease_speed_min": 66.76640934281653,
-          "asymmetry_ratio": 0.1402268791829989
+          "avg_increase_cents": 17.229508196721316,
+          "avg_decrease_cents": 1.1514476614699323,
+          "avg_increase_speed_min": 456.94180327904274,
+          "avg_decrease_speed_min": 67.44513734222238,
+          "asymmetry_ratio": 0.14760115370979826
         },
         {
           "brand": "TotalEnergies",
-          "avg_increase_cents": 21.37440758293839,
-          "avg_decrease_cents": 1.9211740041928718,
-          "avg_increase_speed_min": 562.5971563984574,
-          "avg_decrease_speed_min": 78.69317260653217,
-          "asymmetry_ratio": 0.139874813997101
+          "avg_increase_cents": 21.513513513513512,
+          "avg_decrease_cents": 1.909448818897637,
+          "avg_increase_speed_min": 549.6543543547191,
+          "avg_decrease_speed_min": 78.51541338579246,
+          "asymmetry_ratio": 0.1428450675660846
         }
       ]
     },
@@ -453,19 +453,19 @@
           "leader_brand": "ARAL",
           "follower_brand": "JET",
           "median_lag_minutes": 1.0166666666666666,
-          "event_count": 19
+          "event_count": 20
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "ESSO",
-          "median_lag_minutes": 2.533333333333333,
-          "event_count": 20
+          "median_lag_minutes": 2.033333333333333,
+          "event_count": 21
         },
         {
           "leader_brand": "ARAL",
           "follower_brand": "TotalEnergies",
           "median_lag_minutes": 4.05,
-          "event_count": 20
+          "event_count": 21
         },
         {
           "leader_brand": "ARAL",
@@ -482,70 +482,70 @@
         {
           "leader_brand": "Shell",
           "follower_brand": "ESSO",
-          "median_lag_minutes": 2.025,
-          "event_count": 20
+          "median_lag_minutes": 2.033333333333333,
+          "event_count": 21
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "TotalEnergies",
-          "median_lag_minutes": 4.041666666666666,
-          "event_count": 20
+          "median_lag_minutes": 4.033333333333333,
+          "event_count": 21
         },
         {
           "leader_brand": "Shell",
           "follower_brand": "TOTAL",
-          "median_lag_minutes": 1437.5583333333334,
-          "event_count": 2
+          "median_lag_minutes": 1437.8166666666666,
+          "event_count": 3
         }
       ],
       "rockets_feathers": [
         {
           "brand": "ARAL",
-          "avg_increase_cents": 18.060691601976007,
-          "avg_decrease_cents": 2.3087316176470587,
-          "avg_increase_speed_min": 418.1359915314354,
-          "avg_decrease_speed_min": 134.28373161765597,
-          "asymmetry_ratio": 0.3211484644644864
+          "avg_increase_cents": 18.00134138162307,
+          "avg_decrease_cents": 2.31726090418473,
+          "avg_increase_speed_min": 439.45837245702916,
+          "avg_decrease_speed_min": 132.7794774248715,
+          "asymmetry_ratio": 0.3021434696590172
         },
         {
           "brand": "ESSO",
-          "avg_increase_cents": 22.352941176470587,
-          "avg_decrease_cents": 1.685883347421809,
-          "avg_increase_speed_min": 390.5476998493783,
-          "avg_decrease_speed_min": 79.01936883627864,
-          "asymmetry_ratio": 0.202329622903307
+          "avg_increase_cents": 22.148387096774194,
+          "avg_decrease_cents": 1.6862585477043308,
+          "avg_increase_speed_min": 401.59168458803686,
+          "avg_decrease_speed_min": 79.17212362963863,
+          "asymmetry_ratio": 0.1971458241493607
         },
         {
           "brand": "JET",
-          "avg_increase_cents": 19.69047619047619,
-          "avg_decrease_cents": 1.630856694765732,
-          "avg_increase_speed_min": 415.99753968291697,
-          "avg_decrease_speed_min": 85.46379794808091,
-          "asymmetry_ratio": 0.20544303702666947
+          "avg_increase_cents": 19.714932126696834,
+          "avg_decrease_cents": 1.6410593538692708,
+          "avg_increase_speed_min": 420.776923077358,
+          "avg_decrease_speed_min": 85.61316679185082,
+          "asymmetry_ratio": 0.2034645012509662
         },
         {
           "brand": "Shell",
-          "avg_increase_cents": 17.68731848983543,
-          "avg_decrease_cents": 1.7053043312344973,
-          "avg_increase_speed_min": 581.8571958694921,
-          "avg_decrease_speed_min": 85.81874324240329,
-          "asymmetry_ratio": 0.1474910748747568
+          "avg_increase_cents": 17.68813247470101,
+          "avg_decrease_cents": 1.7147822905232346,
+          "avg_increase_speed_min": 580.0348359398208,
+          "avg_decrease_speed_min": 86.5714507866937,
+          "asymmetry_ratio": 0.1492521576681225
         },
         {
           "brand": "TOTAL",
-          "avg_increase_cents": 2.5000000000000133,
+          "avg_increase_cents": 6.999999999999999,
           "avg_decrease_cents": 0.0,
-          "avg_increase_speed_min": 6480.208333333954,
+          "avg_increase_speed_min": 9600.638888889303,
           "avg_decrease_speed_min": 0.0,
           "asymmetry_ratio": 0.0
         },
         {
           "brand": "TotalEnergies",
-          "avg_increase_cents": 20.926070038910506,
-          "avg_decrease_cents": 1.65087440381558,
-          "avg_increase_speed_min": 533.5697146563679,
-          "avg_decrease_speed_min": 71.48714891360963,
-          "asymmetry_ratio": 0.1339790227030579
+          "avg_increase_cents": 20.851301115241636,
+          "avg_decrease_cents": 1.6562691131498468,
+          "avg_increase_speed_min": 545.4327757125754,
+          "avg_decrease_speed_min": 71.03507645258662,
+          "asymmetry_ratio": 0.1302361713774599
         }
       ]
     }
@@ -555,99 +555,99 @@
       "by_hour": [
         {
           "hour": 0,
-          "avg_price": 1.9587
+          "avg_price": 1.9611
         },
         {
           "hour": 1,
-          "avg_price": 1.9776
+          "avg_price": 1.9808
         },
         {
           "hour": 2,
-          "avg_price": 1.9785
+          "avg_price": 1.9861
         },
         {
           "hour": 3,
-          "avg_price": 2.0025
+          "avg_price": 2.0096
         },
         {
           "hour": 4,
-          "avg_price": 2.0001
+          "avg_price": 2.0067
         },
         {
           "hour": 5,
-          "avg_price": 2.0001
+          "avg_price": 2.006
         },
         {
           "hour": 6,
-          "avg_price": 1.9995
+          "avg_price": 2.0046
         },
         {
           "hour": 7,
-          "avg_price": 1.9968
+          "avg_price": 2.0037
         },
         {
           "hour": 8,
-          "avg_price": 1.9881
+          "avg_price": 1.9942
         },
         {
           "hour": 9,
-          "avg_price": 1.9998
+          "avg_price": 2.0048
         },
         {
           "hour": 10,
-          "avg_price": 2.1819
+          "avg_price": 2.1886
         },
         {
           "hour": 11,
-          "avg_price": 2.1305
+          "avg_price": 2.1367
         },
         {
           "hour": 12,
-          "avg_price": 2.1046
+          "avg_price": 2.1106
         },
         {
           "hour": 13,
-          "avg_price": 2.0762
+          "avg_price": 2.0822
         },
         {
           "hour": 14,
-          "avg_price": 2.0589
+          "avg_price": 2.0648
         },
         {
           "hour": 15,
-          "avg_price": 2.0403
+          "avg_price": 2.0462
         },
         {
           "hour": 16,
-          "avg_price": 2.0269
+          "avg_price": 2.0319
         },
         {
           "hour": 17,
-          "avg_price": 2.0176
+          "avg_price": 2.0226
         },
         {
           "hour": 18,
-          "avg_price": 2.0032
+          "avg_price": 2.0079
         },
         {
           "hour": 19,
-          "avg_price": 2.0104
+          "avg_price": 2.0142
         },
         {
           "hour": 20,
-          "avg_price": 1.995
+          "avg_price": 2.0014
         },
         {
           "hour": 21,
-          "avg_price": 2.018
+          "avg_price": 2.0239
         },
         {
           "hour": 22,
-          "avg_price": 1.9864
+          "avg_price": 1.9889
         },
         {
           "hour": 23,
-          "avg_price": 1.9126
+          "avg_price": 1.9173
         }
       ],
       "by_weekday": [
@@ -664,7 +664,7 @@
         {
           "day": "Di",
           "dow": 2,
-          "avg_price": 2.0504
+          "avg_price": 2.1006
         },
         {
           "day": "Mi",
@@ -689,108 +689,108 @@
       ],
       "cheapest_hour": 23,
       "priciest_hour": 10,
-      "hour_spread_cents": 26.9,
-      "cheapest_day": "Di",
-      "priciest_day": "Mo",
-      "day_spread_cents": 3.3
+      "hour_spread_cents": 27.1,
+      "cheapest_day": "Mi",
+      "priciest_day": "Di",
+      "day_spread_cents": 3.9
     },
     "e5": {
       "by_hour": [
         {
           "hour": 0,
-          "avg_price": 2.0487
+          "avg_price": 2.0492
         },
         {
           "hour": 1,
-          "avg_price": 2.0656
+          "avg_price": 2.0663
         },
         {
           "hour": 2,
-          "avg_price": 2.0709
+          "avg_price": 2.076
         },
         {
           "hour": 3,
-          "avg_price": 2.0936
+          "avg_price": 2.0977
         },
         {
           "hour": 4,
-          "avg_price": 2.0897
+          "avg_price": 2.0936
         },
         {
           "hour": 5,
-          "avg_price": 2.0898
+          "avg_price": 2.0933
         },
         {
           "hour": 6,
-          "avg_price": 2.0876
+          "avg_price": 2.0906
         },
         {
           "hour": 7,
-          "avg_price": 2.0832
+          "avg_price": 2.0871
         },
         {
           "hour": 8,
-          "avg_price": 2.0773
+          "avg_price": 2.0808
         },
         {
           "hour": 9,
-          "avg_price": 2.0913
+          "avg_price": 2.0939
         },
         {
           "hour": 10,
-          "avg_price": 2.2538
+          "avg_price": 2.2582
         },
         {
           "hour": 11,
-          "avg_price": 2.2087
+          "avg_price": 2.2126
         },
         {
           "hour": 12,
-          "avg_price": 2.1867
+          "avg_price": 2.1903
         },
         {
           "hour": 13,
-          "avg_price": 2.1618
+          "avg_price": 2.1653
         },
         {
           "hour": 14,
-          "avg_price": 2.1462
+          "avg_price": 2.1495
         },
         {
           "hour": 15,
-          "avg_price": 2.1284
+          "avg_price": 2.1317
         },
         {
           "hour": 16,
-          "avg_price": 2.1165
+          "avg_price": 2.1193
         },
         {
           "hour": 17,
-          "avg_price": 2.1077
+          "avg_price": 2.1106
         },
         {
           "hour": 18,
-          "avg_price": 2.0967
+          "avg_price": 2.0994
         },
         {
           "hour": 19,
-          "avg_price": 2.1003
+          "avg_price": 2.1024
         },
         {
           "hour": 20,
-          "avg_price": 2.0878
+          "avg_price": 2.0912
         },
         {
           "hour": 21,
-          "avg_price": 2.0993
+          "avg_price": 2.1024
         },
         {
           "hour": 22,
-          "avg_price": 2.0776
+          "avg_price": 2.0788
         },
         {
           "hour": 23,
-          "avg_price": 2.0327
+          "avg_price": 2.0352
         }
       ],
       "by_weekday": [
@@ -807,7 +807,7 @@
         {
           "day": "Di",
           "dow": 2,
-          "avg_price": 2.1447
+          "avg_price": 2.1743
         },
         {
           "day": "Mi",
@@ -832,10 +832,10 @@
       ],
       "cheapest_hour": 23,
       "priciest_hour": 10,
-      "hour_spread_cents": 22.1,
-      "cheapest_day": "Di",
-      "priciest_day": "So",
-      "day_spread_cents": 1.8
+      "hour_spread_cents": 22.3,
+      "cheapest_day": "Mi",
+      "priciest_day": "Di",
+      "day_spread_cents": 2.4
     }
   },
   "brand_ranking": {
@@ -843,217 +843,217 @@
       {
         "brand": "ED",
         "is_oligopol": false,
-        "avg_price": 2.003,
+        "avg_price": 2.0089,
         "station_count": 99
       },
       {
         "brand": "Globus SB Warenhaus",
         "is_oligopol": false,
-        "avg_price": 2.0253,
+        "avg_price": 2.0319,
         "station_count": 51
       },
       {
         "brand": "BayWa",
         "is_oligopol": false,
-        "avg_price": 2.0388,
+        "avg_price": 2.0437,
         "station_count": 79
       },
       {
         "brand": "AVIA XPress",
         "is_oligopol": false,
-        "avg_price": 2.0521,
+        "avg_price": 2.0576,
         "station_count": 209
       },
       {
         "brand": "Raiffeisen",
         "is_oligopol": false,
-        "avg_price": 2.0529,
+        "avg_price": 2.058,
         "station_count": 433
       },
       {
         "brand": "Hoyer",
         "is_oligopol": false,
-        "avg_price": 2.0565,
+        "avg_price": 2.0637,
         "station_count": 135
       },
       {
         "brand": "freie Tankstelle",
         "is_oligopol": false,
-        "avg_price": 2.0573,
+        "avg_price": 2.064,
         "station_count": 69
       },
       {
         "brand": "Freie Tankstelle",
         "is_oligopol": false,
-        "avg_price": 2.0588,
+        "avg_price": 2.0649,
         "station_count": 159
       },
       {
         "brand": "Supermarkt-Tankstelle",
         "is_oligopol": false,
-        "avg_price": 2.0592,
+        "avg_price": 2.065,
         "station_count": 117
       },
       {
         "brand": "bft - Walther",
         "is_oligopol": false,
-        "avg_price": 2.0604,
+        "avg_price": 2.0668,
         "station_count": 67
       },
       {
         "brand": "BFT",
         "is_oligopol": false,
-        "avg_price": 2.0605,
+        "avg_price": 2.0668,
         "station_count": 195
       },
       {
         "brand": "CLASSIC",
         "is_oligopol": false,
-        "avg_price": 2.062,
+        "avg_price": 2.0685,
         "station_count": 174
       },
       {
         "brand": "STAR",
         "is_oligopol": false,
-        "avg_price": 2.0628,
+        "avg_price": 2.0692,
         "station_count": 482
-      },
-      {
-        "brand": "HEM",
-        "is_oligopol": false,
-        "avg_price": 2.0633,
-        "station_count": 395
       },
       {
         "brand": "JET",
         "is_oligopol": true,
-        "avg_price": 2.0638,
+        "avg_price": 2.0695,
         "station_count": 687
+      },
+      {
+        "brand": "HEM",
+        "is_oligopol": false,
+        "avg_price": 2.0696,
+        "station_count": 395
       },
       {
         "brand": "Access",
         "is_oligopol": false,
-        "avg_price": 2.0654,
+        "avg_price": 2.071,
         "station_count": 63
       },
       {
         "brand": "AVIA",
         "is_oligopol": false,
-        "avg_price": 2.0659,
+        "avg_price": 2.0715,
         "station_count": 635
       },
       {
         "brand": "ELAN",
         "is_oligopol": false,
-        "avg_price": 2.0663,
+        "avg_price": 2.0721,
         "station_count": 76
       },
       {
         "brand": "SB",
         "is_oligopol": false,
-        "avg_price": 2.0666,
+        "avg_price": 2.0732,
         "station_count": 189
       },
       {
         "brand": "ORLEN",
         "is_oligopol": false,
-        "avg_price": 2.0672,
+        "avg_price": 2.0734,
         "station_count": 91
       },
       {
         "brand": "SCORE",
         "is_oligopol": false,
-        "avg_price": 2.0688,
+        "avg_price": 2.0747,
         "station_count": 52
       },
       {
         "brand": "bft",
         "is_oligopol": false,
-        "avg_price": 2.0692,
+        "avg_price": 2.0754,
         "station_count": 189
       },
       {
         "brand": "OIL!",
         "is_oligopol": false,
-        "avg_price": 2.0732,
+        "avg_price": 2.0795,
         "station_count": 196
       },
       {
         "brand": "ESSO",
         "is_oligopol": true,
-        "avg_price": 2.0741,
+        "avg_price": 2.0796,
         "station_count": 1075
       },
       {
         "brand": "Esso",
         "is_oligopol": true,
-        "avg_price": 2.0748,
+        "avg_price": 2.0803,
         "station_count": 83
       },
       {
         "brand": "Sprint",
         "is_oligopol": false,
-        "avg_price": 2.0756,
+        "avg_price": 2.082,
         "station_count": 96
       },
       {
         "brand": "NORDOEL",
         "is_oligopol": false,
-        "avg_price": 2.0767,
+        "avg_price": 2.0825,
         "station_count": 68
       },
       {
         "brand": "Q1",
         "is_oligopol": false,
-        "avg_price": 2.0779,
+        "avg_price": 2.084,
         "station_count": 113
       },
       {
         "brand": "Markant",
         "is_oligopol": false,
-        "avg_price": 2.0793,
+        "avg_price": 2.0847,
         "station_count": 60
       },
       {
         "brand": "TotalEnergies",
         "is_oligopol": true,
-        "avg_price": 2.0818,
+        "avg_price": 2.0877,
         "station_count": 745
       },
       {
         "brand": "AGIP ENI",
         "is_oligopol": false,
-        "avg_price": 2.0828,
+        "avg_price": 2.0878,
         "station_count": 473
       },
       {
         "brand": "TotalEnergies Autohof",
         "is_oligopol": false,
-        "avg_price": 2.0829,
+        "avg_price": 2.0889,
         "station_count": 53
-      },
-      {
-        "brand": "Shell",
-        "is_oligopol": true,
-        "avg_price": 2.0863,
-        "station_count": 1661
       },
       {
         "brand": "Westfalen",
         "is_oligopol": false,
-        "avg_price": 2.0866,
+        "avg_price": 2.0925,
         "station_count": 152
+      },
+      {
+        "brand": "Shell",
+        "is_oligopol": true,
+        "avg_price": 2.0928,
+        "station_count": 1662
       },
       {
         "brand": "team",
         "is_oligopol": false,
-        "avg_price": 2.0898,
+        "avg_price": 2.0965,
         "station_count": 84
       },
       {
         "brand": "ARAL",
         "is_oligopol": true,
-        "avg_price": 2.096,
+        "avg_price": 2.1022,
         "station_count": 2169
       }
     ],
@@ -1061,237 +1061,237 @@
       {
         "brand": "ED",
         "is_oligopol": false,
-        "avg_price": 2.084,
+        "avg_price": 2.0881,
         "station_count": 99
       },
       {
         "brand": "Globus SB Warenhaus",
         "is_oligopol": false,
-        "avg_price": 2.1109,
+        "avg_price": 2.1147,
         "station_count": 51
       },
       {
         "brand": "BayWa",
         "is_oligopol": false,
-        "avg_price": 2.1226,
+        "avg_price": 2.1245,
         "station_count": 79
       },
       {
         "brand": "AVIA XPress",
         "is_oligopol": false,
-        "avg_price": 2.1315,
+        "avg_price": 2.1348,
         "station_count": 209
       },
       {
         "brand": "BFT",
         "is_oligopol": false,
-        "avg_price": 2.1366,
+        "avg_price": 2.1406,
         "station_count": 195
       },
       {
         "brand": "Supermarkt-Tankstelle",
         "is_oligopol": false,
-        "avg_price": 2.1393,
+        "avg_price": 2.1429,
         "station_count": 117
       },
       {
         "brand": "Freie Tankstelle",
         "is_oligopol": false,
-        "avg_price": 2.1405,
+        "avg_price": 2.144,
         "station_count": 159
       },
       {
         "brand": "freie Tankstelle",
         "is_oligopol": false,
-        "avg_price": 2.1406,
+        "avg_price": 2.1446,
         "station_count": 69
       },
       {
         "brand": "bft - Walther",
         "is_oligopol": false,
-        "avg_price": 2.1444,
+        "avg_price": 2.1483,
         "station_count": 67
-      },
-      {
-        "brand": "JET",
-        "is_oligopol": true,
-        "avg_price": 2.1458,
-        "station_count": 687
       },
       {
         "brand": "Raiffeisen",
         "is_oligopol": false,
-        "avg_price": 2.1459,
+        "avg_price": 2.1488,
         "station_count": 433
+      },
+      {
+        "brand": "JET",
+        "is_oligopol": true,
+        "avg_price": 2.1492,
+        "station_count": 687
       },
       {
         "brand": "Access",
         "is_oligopol": false,
-        "avg_price": 2.1478,
+        "avg_price": 2.1511,
         "station_count": 63
       },
       {
         "brand": "Hoyer",
         "is_oligopol": false,
-        "avg_price": 2.1483,
+        "avg_price": 2.152,
         "station_count": 135
       },
       {
         "brand": "Esso",
         "is_oligopol": true,
-        "avg_price": 2.1488,
+        "avg_price": 2.1522,
         "station_count": 83
       },
       {
         "brand": "AVIA",
         "is_oligopol": false,
-        "avg_price": 2.1499,
+        "avg_price": 2.1529,
         "station_count": 635
       },
       {
         "brand": "HEM",
         "is_oligopol": false,
-        "avg_price": 2.1506,
+        "avg_price": 2.1543,
         "station_count": 395
-      },
-      {
-        "brand": "SB",
-        "is_oligopol": false,
-        "avg_price": 2.152,
-        "station_count": 189
       },
       {
         "brand": "ELAN",
         "is_oligopol": false,
-        "avg_price": 2.152,
+        "avg_price": 2.1554,
         "station_count": 76
+      },
+      {
+        "brand": "SB",
+        "is_oligopol": false,
+        "avg_price": 2.1559,
+        "station_count": 189
       },
       {
         "brand": "CLASSIC",
         "is_oligopol": false,
-        "avg_price": 2.1531,
+        "avg_price": 2.157,
         "station_count": 174
       },
       {
         "brand": "STAR",
         "is_oligopol": false,
-        "avg_price": 2.1533,
+        "avg_price": 2.1571,
         "station_count": 482
-      },
-      {
-        "brand": "bft",
-        "is_oligopol": false,
-        "avg_price": 2.1541,
-        "station_count": 189
       },
       {
         "brand": "ESSO",
         "is_oligopol": true,
-        "avg_price": 2.1547,
+        "avg_price": 2.158,
         "station_count": 1075
+      },
+      {
+        "brand": "bft",
+        "is_oligopol": false,
+        "avg_price": 2.1581,
+        "station_count": 189
       },
       {
         "brand": "ORLEN",
         "is_oligopol": false,
-        "avg_price": 2.1572,
+        "avg_price": 2.1608,
         "station_count": 91
       },
       {
         "brand": "OIL!",
         "is_oligopol": false,
-        "avg_price": 2.1591,
+        "avg_price": 2.1629,
         "station_count": 196
       },
       {
         "brand": "AGIP ENI",
         "is_oligopol": false,
-        "avg_price": 2.1605,
+        "avg_price": 2.1633,
         "station_count": 473
       },
       {
         "brand": "Sprint",
         "is_oligopol": false,
-        "avg_price": 2.1615,
+        "avg_price": 2.1654,
         "station_count": 96
       },
       {
         "brand": "Markant",
         "is_oligopol": false,
-        "avg_price": 2.1633,
+        "avg_price": 2.1665,
         "station_count": 60
       },
       {
         "brand": "TotalEnergies Autohof",
         "is_oligopol": false,
-        "avg_price": 2.1634,
+        "avg_price": 2.1669,
         "station_count": 53
       },
       {
         "brand": "Q1",
         "is_oligopol": false,
-        "avg_price": 2.1637,
+        "avg_price": 2.1675,
         "station_count": 113
       },
       {
         "brand": "SCORE",
         "is_oligopol": false,
-        "avg_price": 2.1638,
+        "avg_price": 2.1676,
         "station_count": 52
       },
       {
         "brand": "TotalEnergies",
         "is_oligopol": true,
-        "avg_price": 2.166,
-        "station_count": 745
-      },
-      {
-        "brand": "Shell",
-        "is_oligopol": true,
         "avg_price": 2.1695,
-        "station_count": 1661
+        "station_count": 745
       },
       {
         "brand": "NORDOEL",
         "is_oligopol": false,
-        "avg_price": 2.1701,
+        "avg_price": 2.1733,
         "station_count": 68
+      },
+      {
+        "brand": "Shell",
+        "is_oligopol": true,
+        "avg_price": 2.1735,
+        "station_count": 1662
       },
       {
         "brand": "Westfalen",
         "is_oligopol": false,
-        "avg_price": 2.1717,
+        "avg_price": 2.1752,
         "station_count": 152
       },
       {
         "brand": "ARAL",
         "is_oligopol": true,
-        "avg_price": 2.1793,
+        "avg_price": 2.1832,
         "station_count": 2169
       },
       {
         "brand": "team",
         "is_oligopol": false,
-        "avg_price": 2.1888,
+        "avg_price": 2.193,
         "station_count": 84
       }
     ]
   },
   "consumer_impact": {
     "diesel": {
-      "oligopol_avg": 2.0828,
-      "independent_avg": 2.0641,
-      "premium_cents_per_liter": 1.87,
-      "premium_per_tank_eur": 0.94,
-      "premium_per_year_eur": 48.88,
+      "oligopol_avg": 2.0889,
+      "independent_avg": 2.07,
+      "premium_cents_per_liter": 1.89,
+      "premium_per_tank_eur": 0.95,
+      "premium_per_year_eur": 49.4,
       "tank_size_liters": 50,
       "tanks_per_year": 52
     },
     "e5": {
-      "oligopol_avg": 2.1654,
-      "independent_avg": 2.1497,
-      "premium_cents_per_liter": 1.57,
-      "premium_per_tank_eur": 0.78,
-      "premium_per_year_eur": 40.56,
+      "oligopol_avg": 2.1691,
+      "independent_avg": 2.1532,
+      "premium_cents_per_liter": 1.59,
+      "premium_per_tank_eur": 0.79,
+      "premium_per_year_eur": 41.08,
       "tank_size_liters": 50,
       "tanks_per_year": 52
     }
@@ -1323,18 +1323,18 @@
     },
     {
       "date": "2026-07-04",
-      "retail_avg": 1.9763003934428511,
+      "retail_avg": 1.9763003934428507,
       "brent_eur": 0.3773,
-      "spread": 1.5990003934428512,
-      "spread_z_score": -0.8851486335414497,
+      "spread": 1.5990003934428507,
+      "spread_z_score": -0.8851486335414818,
       "is_abnormal": false
     },
     {
       "date": "2026-07-05",
-      "retail_avg": 1.9802258384917482,
+      "retail_avg": 1.9802258384917484,
       "brent_eur": 0.3773,
-      "spread": 1.6029258384917482,
-      "spread_z_score": -0.4288652019033416,
+      "spread": 1.6029258384917484,
+      "spread_z_score": -0.42886520190331,
       "is_abnormal": false
     },
     {
@@ -1342,15 +1342,15 @@
       "retail_avg": 1.9804537840497696,
       "brent_eur": 0.3833,
       "spread": 1.5971537840497696,
-      "spread_z_score": -0.9156776061207303,
+      "spread_z_score": -0.9156776061207156,
       "is_abnormal": false
     },
     {
       "date": "2026-07-07",
-      "retail_avg": 1.990648722709767,
+      "retail_avg": 1.9906487227097671,
       "brent_eur": 0.3949,
-      "spread": 1.5957487227097669,
-      "spread_z_score": -0.9249030490285994,
+      "spread": 1.595748722709767,
+      "spread_z_score": -0.9249030490285612,
       "is_abnormal": false
     },
     {
@@ -1358,7 +1358,7 @@
       "retail_avg": 2.0080217051974536,
       "brent_eur": 0.4219,
       "spread": 1.5861217051974537,
-      "spread_z_score": -1.52237603866314,
+      "spread_z_score": -1.5223760386631195,
       "is_abnormal": false
     },
     {
@@ -1366,7 +1366,7 @@
       "retail_avg": 2.063107477436924,
       "brent_eur": 0.4096,
       "spread": 1.6535074774369238,
-      "spread_z_score": 2.340848608644141,
+      "spread_z_score": 2.340848608644138,
       "is_abnormal": true
     },
     {
@@ -1374,7 +1374,7 @@
       "retail_avg": 2.054793366769985,
       "brent_eur": 0.4091,
       "spread": 1.6456933667699851,
-      "spread_z_score": 1.5550788955009989,
+      "spread_z_score": 1.5550788955009973,
       "is_abnormal": false
     },
     {
@@ -1382,7 +1382,7 @@
       "retail_avg": 2.0523843472098546,
       "brent_eur": 0.4091,
       "spread": 1.6432843472098546,
-      "spread_z_score": 1.2595542203755645,
+      "spread_z_score": 1.2595542203755634,
       "is_abnormal": false
     },
     {
@@ -1390,71 +1390,79 @@
       "retail_avg": 2.0603279876021348,
       "brent_eur": 0.4091,
       "spread": 1.6512279876021347,
-      "spread_z_score": 1.385665921315578,
+      "spread_z_score": 1.3856659213155773,
       "is_abnormal": false
     },
     {
       "date": "2026-07-13",
-      "retail_avg": 2.0616180102650667,
+      "retail_avg": 2.0616180102650663,
       "brent_eur": 0.4494,
-      "spread": 1.6122180102650667,
-      "spread_z_score": -0.1930894949074842,
+      "spread": 1.6122180102650663,
+      "spread_z_score": -0.19308949490750285,
       "is_abnormal": false
     },
     {
       "date": "2026-07-14",
       "retail_avg": 2.116809407747692,
-      "brent_eur": 0.4494,
-      "spread": 1.667409407747692,
-      "spread_z_score": 1.7815215061638352,
+      "brent_eur": 0.4615,
+      "spread": 1.655309407747692,
+      "spread_z_score": 1.4376826773322453,
       "is_abnormal": false
     },
     {
       "date": "2026-07-15",
       "retail_avg": 2.1728497623759293,
-      "brent_eur": 0.4494,
-      "spread": 1.7234497623759293,
-      "spread_z_score": 2.6131697214534078,
+      "brent_eur": 0.4581,
+      "spread": 1.7147497623759294,
+      "spread_z_score": 2.5875122568680715,
       "is_abnormal": true
     },
     {
       "date": "2026-07-16",
       "retail_avg": 2.1785080269550425,
-      "brent_eur": 0.4494,
-      "spread": 1.7291080269550425,
-      "spread_z_score": 2.183102563670443,
+      "brent_eur": 0.4456,
+      "spread": 1.7329080269550425,
+      "spread_z_score": 2.3539515892861362,
       "is_abnormal": true
     },
     {
       "date": "2026-07-17",
-      "retail_avg": 2.1909058602374225,
-      "brent_eur": 0.4494,
-      "spread": 1.7415058602374225,
-      "spread_z_score": 2.039694533373928,
-      "is_abnormal": true
+      "retail_avg": 2.190905860237423,
+      "brent_eur": 0.4676,
+      "spread": 1.723305860237423,
+      "spread_z_score": 1.8258410578086657,
+      "is_abnormal": false
     },
     {
       "date": "2026-07-18",
       "retail_avg": 2.2043048735982316,
-      "brent_eur": 0.4494,
-      "spread": 1.7549048735982316,
-      "spread_z_score": 1.9603377600105916,
+      "brent_eur": 0.4676,
+      "spread": 1.7367048735982316,
+      "spread_z_score": 1.829489109474671,
       "is_abnormal": false
     },
     {
       "date": "2026-07-19",
       "retail_avg": 2.2056533068315285,
-      "brent_eur": 0.4494,
-      "spread": 1.7562533068315285,
-      "spread_z_score": 1.7519857751794272,
+      "brent_eur": 0.4676,
+      "spread": 1.7380533068315285,
+      "spread_z_score": 1.6571508160564234,
       "is_abnormal": false
     },
     {
       "date": "2026-07-20",
-      "retail_avg": 2.199386217322763,
-      "brent_eur": 0.4494,
-      "spread": 1.749986217322763,
-      "spread_z_score": 1.5031197026230707,
+      "retail_avg": 2.1993731105503627,
+      "brent_eur": 0.4789,
+      "spread": 1.7204731105503628,
+      "spread_z_score": 1.2434283360557639,
+      "is_abnormal": false
+    },
+    {
+      "date": "2026-07-21",
+      "retail_avg": 2.199323998356965,
+      "brent_eur": 0.4789,
+      "spread": 1.720423998356965,
+      "spread_z_score": 1.1696933368571771,
       "is_abnormal": false
     }
   ],
@@ -1477,10 +1485,10 @@
     },
     {
       "date": "2026-07-03",
-      "retail_avg": 2.098298152696872,
+      "retail_avg": 2.0982981526968723,
       "brent_eur": 0.3773,
-      "spread": 1.7209981526968718,
-      "spread_z_score": -1.063457220706734,
+      "spread": 1.7209981526968723,
+      "spread_z_score": -1.0634572207067825,
       "is_abnormal": false
     },
     {
@@ -1488,15 +1496,15 @@
       "retail_avg": 2.0985201288467743,
       "brent_eur": 0.3773,
       "spread": 1.7212201288467743,
-      "spread_z_score": -0.7916755276238081,
+      "spread_z_score": -0.791675527623923,
       "is_abnormal": false
     },
     {
       "date": "2026-07-05",
-      "retail_avg": 2.1023135543890175,
+      "retail_avg": 2.102313554389017,
       "brent_eur": 0.3773,
-      "spread": 1.7250135543890175,
-      "spread_z_score": 0.06928333929233525,
+      "spread": 1.725013554389017,
+      "spread_z_score": 0.06928333929216102,
       "is_abnormal": false
     },
     {
@@ -1504,7 +1512,7 @@
       "retail_avg": 2.103906039346393,
       "brent_eur": 0.3833,
       "spread": 1.7206060393463931,
-      "spread_z_score": -0.9110237396701532,
+      "spread_z_score": -0.9110237396702262,
       "is_abnormal": false
     },
     {
@@ -1512,7 +1520,7 @@
       "retail_avg": 2.1114785596630075,
       "brent_eur": 0.3949,
       "spread": 1.7165785596630074,
-      "spread_z_score": -1.4348431825451098,
+      "spread_z_score": -1.434843182545173,
       "is_abnormal": false
     },
     {
@@ -1520,7 +1528,7 @@
       "retail_avg": 2.1245537698525547,
       "brent_eur": 0.4219,
       "spread": 1.7026537698525548,
-      "spread_z_score": -2.1450663212485384,
+      "spread_z_score": -2.1450663212485703,
       "is_abnormal": false
     },
     {
@@ -1528,7 +1536,7 @@
       "retail_avg": 2.156484138037385,
       "brent_eur": 0.4096,
       "spread": 1.746884138037385,
-      "spread_z_score": 2.001249662400739,
+      "spread_z_score": 2.0012496624007223,
       "is_abnormal": true
     },
     {
@@ -1536,15 +1544,15 @@
       "retail_avg": 2.143793277416865,
       "brent_eur": 0.4091,
       "spread": 1.734693277416865,
-      "spread_z_score": 0.8747640088249361,
+      "spread_z_score": 0.8747640088248987,
       "is_abnormal": false
     },
     {
       "date": "2026-07-11",
-      "retail_avg": 2.1407573848372863,
+      "retail_avg": 2.140757384837286,
       "brent_eur": 0.4091,
-      "spread": 1.7316573848372863,
-      "spread_z_score": 0.5772982869816963,
+      "spread": 1.7316573848372858,
+      "spread_z_score": 0.5772982869816389,
       "is_abnormal": false
     },
     {
@@ -1552,7 +1560,7 @@
       "retail_avg": 2.150089604785676,
       "brent_eur": 0.4091,
       "spread": 1.740989604785676,
-      "spread_z_score": 1.2446767215540708,
+      "spread_z_score": 1.244676721554055,
       "is_abnormal": false
     },
     {
@@ -1560,96 +1568,104 @@
       "retail_avg": 2.1430137500676336,
       "brent_eur": 0.4494,
       "spread": 1.6936137500676336,
-      "spread_z_score": -2.1058774142420438,
+      "spread_z_score": -2.1058774142420624,
       "is_abnormal": false
     },
     {
       "date": "2026-07-14",
       "retail_avg": 2.1814522366542546,
-      "brent_eur": 0.4494,
-      "spread": 1.7320522366542546,
-      "spread_z_score": 0.53655165318004,
+      "brent_eur": 0.4615,
+      "spread": 1.7199522366542546,
+      "spread_z_score": -0.26777674980838573,
       "is_abnormal": false
     },
     {
       "date": "2026-07-15",
-      "retail_avg": 2.21056193228734,
-      "brent_eur": 0.4494,
-      "spread": 1.76116193228734,
-      "spread_z_score": 2.0738332693512427,
-      "is_abnormal": true
+      "retail_avg": 2.2105619322873395,
+      "brent_eur": 0.4581,
+      "spread": 1.7524619322873396,
+      "spread_z_score": 1.755672036262475,
+      "is_abnormal": false
     },
     {
       "date": "2026-07-16",
       "retail_avg": 2.219522809276242,
-      "brent_eur": 0.4494,
-      "spread": 1.770122809276242,
-      "spread_z_score": 2.102981031534089,
+      "brent_eur": 0.4456,
+      "spread": 1.773922809276242,
+      "spread_z_score": 2.37285866727036,
       "is_abnormal": true
     },
     {
       "date": "2026-07-17",
-      "retail_avg": 2.229208091188275,
-      "brent_eur": 0.4494,
-      "spread": 1.779808091188275,
-      "spread_z_score": 2.1214984385524605,
-      "is_abnormal": true
+      "retail_avg": 2.2292080911882755,
+      "brent_eur": 0.4676,
+      "spread": 1.7616080911882754,
+      "spread_z_score": 1.5414659852426646,
+      "is_abnormal": false
     },
     {
       "date": "2026-07-18",
       "retail_avg": 2.2373215701914573,
-      "brent_eur": 0.4494,
-      "spread": 1.7879215701914573,
-      "spread_z_score": 2.071778019213674,
-      "is_abnormal": true
+      "brent_eur": 0.4676,
+      "spread": 1.7697215701914573,
+      "spread_z_score": 1.7113625765652085,
+      "is_abnormal": false
     },
     {
       "date": "2026-07-19",
       "retail_avg": 2.2379735209552956,
-      "brent_eur": 0.4494,
-      "spread": 1.7885735209552955,
-      "spread_z_score": 1.8324872335532632,
+      "brent_eur": 0.4676,
+      "spread": 1.7703735209552955,
+      "spread_z_score": 1.570180104189244,
       "is_abnormal": false
     },
     {
       "date": "2026-07-20",
-      "retail_avg": 2.234077027475179,
-      "brent_eur": 0.4494,
-      "spread": 1.784677027475179,
-      "spread_z_score": 1.5376328125652903,
+      "retail_avg": 2.2340648663271603,
+      "brent_eur": 0.4789,
+      "spread": 1.7551648663271604,
+      "spread_z_score": 0.8607825020066637,
+      "is_abnormal": false
+    },
+    {
+      "date": "2026-07-21",
+      "retail_avg": 2.232556171887689,
+      "brent_eur": 0.4789,
+      "spread": 1.7536561718876893,
+      "spread_z_score": 0.7638180522924766,
       "is_abnormal": false
     }
   ],
   "spread_anomaly": {
     "diesel": {
-      "period_days": 20,
-      "abnormal_days": 4,
-      "abnormal_pct": 20.0,
-      "max_z_score": 2.61,
+      "period_days": 21,
+      "abnormal_days": 3,
+      "abnormal_pct": 14.3,
+      "max_z_score": 2.59,
       "max_z_date": "2026-07-15",
       "threshold_z": 2.0,
-      "mean_spread_cents": 165.7,
-      "stddev_spread_cents": 6.2
+      "mean_spread_cents": 165.5,
+      "stddev_spread_cents": 5.6
     },
     "e5": {
-      "period_days": 20,
-      "abnormal_days": 5,
-      "abnormal_pct": 25.0,
-      "max_z_score": 2.12,
-      "max_z_date": "2026-07-17",
+      "period_days": 21,
+      "abnormal_days": 2,
+      "abnormal_pct": 9.5,
+      "max_z_score": 2.37,
+      "max_z_date": "2026-07-16",
       "threshold_z": 2.0,
-      "mean_spread_cents": 174.1,
-      "stddev_spread_cents": 2.9
+      "mean_spread_cents": 173.7,
+      "stddev_spread_cents": 2.2
     }
   },
   "price_breakdown": {
     "diesel": {
-      "retail_avg_eur": 2.07,
+      "retail_avg_eur": 2.08,
       "energy_tax_eur": 0.47,
       "co2_eur": 0.15,
-      "brent_eur": 0.4,
+      "brent_eur": 0.42,
       "vat_eur": 0.33,
-      "residual_eur": 0.72,
+      "residual_eur": 0.71,
       "co2_price_eur_per_ton": 55.0,
       "co2_kg_per_liter": 2.64,
       "co2_price_source": "BEHG \u00a710, Mindestpreis Korridor 2026 (55\u201365 \u20ac/t); erste EEX-Auktion ab 1.7.2026",
@@ -1659,9 +1675,9 @@
       "retail_avg_eur": 2.16,
       "energy_tax_eur": 0.65,
       "co2_eur": 0.13,
-      "brent_eur": 0.4,
+      "brent_eur": 0.42,
       "vat_eur": 0.34,
-      "residual_eur": 0.64,
+      "residual_eur": 0.62,
       "co2_price_eur_per_ton": 55.0,
       "co2_kg_per_liter": 2.32,
       "co2_price_source": "BEHG \u00a710, Mindestpreis Korridor 2026 (55\u201365 \u20ac/t); erste EEX-Auktion ab 1.7.2026",
