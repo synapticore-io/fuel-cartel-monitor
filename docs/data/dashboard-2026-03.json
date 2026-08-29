@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T01:47:41.708343",
+  "generated_at": "2026-08-29T20:57:44.922030",
   "parameters": {
     "radius_km": 25.0,
     "fuel_type": "e5",
@@ -126,23 +126,23 @@
         {
           "brand": "ARAL",
           "avg_increase_cents": 5.511362485227081,
-          "avg_decrease_cents": 2.368899806461218,
+          "avg_decrease_cents": 2.3688998064612177,
           "avg_increase_speed_min": 103.98925657041286,
           "avg_decrease_speed_min": 42.502702099158675,
           "asymmetry_ratio": 0.4087220497665486
         },
         {
           "brand": "ESSO",
-          "avg_increase_cents": 4.9134646432031,
-          "avg_decrease_cents": 2.30674559900296,
+          "avg_increase_cents": 4.913464643203099,
+          "avg_decrease_cents": 2.3067455990029595,
           "avg_increase_speed_min": 55.16452480892539,
           "avg_decrease_speed_min": 49.11313288675339,
           "asymmetry_ratio": 0.8903028360502997
         },
         {
           "brand": "JET",
-          "avg_increase_cents": 4.010448678549476,
-          "avg_decrease_cents": 2.3468100890207713,
+          "avg_increase_cents": 4.010448678549477,
+          "avg_decrease_cents": 2.3468100890207717,
           "avg_increase_speed_min": 99.18408113101654,
           "avg_decrease_speed_min": 38.49127101873598,
           "asymmetry_ratio": 0.38807912096187286
@@ -217,8 +217,8 @@
       "rockets_feathers": [
         {
           "brand": "ARAL",
-          "avg_increase_cents": 4.953225572629748,
-          "avg_decrease_cents": 2.139699543202728,
+          "avg_increase_cents": 4.953225572629749,
+          "avg_decrease_cents": 2.1396995432027284,
           "avg_increase_speed_min": 97.85904730837922,
           "avg_decrease_speed_min": 40.763784876372014,
           "asymmetry_ratio": 0.41655611818818106
@@ -249,8 +249,8 @@
         },
         {
           "brand": "TotalEnergies",
-          "avg_increase_cents": 5.06303236797274,
-          "avg_decrease_cents": 2.171101949025487,
+          "avg_increase_cents": 5.063032367972742,
+          "avg_decrease_cents": 2.1711019490254873,
           "avg_increase_speed_min": 117.86049829642693,
           "avg_decrease_speed_min": 38.18800287356117,
           "asymmetry_ratio": 0.32401019362327677
@@ -302,7 +302,7 @@
         {
           "brand": "ARAL",
           "avg_increase_cents": 5.220062756147541,
-          "avg_decrease_cents": 2.024093468898912,
+          "avg_decrease_cents": 2.0240934688989114,
           "avg_increase_speed_min": 98.64675332989007,
           "avg_decrease_speed_min": 35.47678099704552,
           "asymmetry_ratio": 0.35963455257777877
@@ -429,7 +429,7 @@
         },
         {
           "brand": "TOTAL",
-          "avg_increase_cents": 3.782146652497343,
+          "avg_increase_cents": 3.7821466524973433,
           "avg_decrease_cents": 1.4599244649601344,
           "avg_increase_speed_min": 49.95497697482517,
           "avg_decrease_speed_min": 35.676849909086116,
@@ -1161,16 +1161,16 @@
         "station_count": 634
       },
       {
-        "brand": "bft",
-        "is_oligopol": false,
-        "avg_price": 2.0635,
-        "station_count": 187
-      },
-      {
         "brand": "SB",
         "is_oligopol": false,
         "avg_price": 2.0635,
         "station_count": 189
+      },
+      {
+        "brand": "bft",
+        "is_oligopol": false,
+        "avg_price": 2.0635,
+        "station_count": 187
       },
       {
         "brand": "Markant",
@@ -1315,10 +1315,10 @@
     },
     {
       "date": "2026-03-03",
-      "retail_avg": 1.917098589295978,
+      "retail_avg": 1.9170985892959778,
       "brent_eur": 0.4513,
-      "spread": 1.465798589295978,
-      "spread_z_score": 1.0956548513743656,
+      "spread": 1.4657985892959777,
+      "spread_z_score": 1.095654851374367,
       "is_abnormal": false
     },
     {
@@ -1326,23 +1326,23 @@
       "retail_avg": 2.007814821413778,
       "brent_eur": 0.4404,
       "spread": 1.5674148214137782,
-      "spread_z_score": 1.3365571738092175,
+      "spread_z_score": 1.3365571738092186,
       "is_abnormal": false
     },
     {
       "date": "2026-03-05",
-      "retail_avg": 2.0443855421157497,
+      "retail_avg": 2.044385542115797,
       "brent_eur": 0.4796,
-      "spread": 1.5647855421157497,
-      "spread_z_score": 1.0003291080203005,
+      "spread": 1.5647855421157968,
+      "spread_z_score": 1.0003291080205887,
       "is_abnormal": false
     },
     {
       "date": "2026-03-06",
-      "retail_avg": 2.0773353590267822,
+      "retail_avg": 2.0773353590267827,
       "brent_eur": 0.5209,
-      "spread": 1.556435359026782,
-      "spread_z_score": 0.7815637393353745,
+      "spread": 1.5564353590267825,
+      "spread_z_score": 0.7815637393352182,
       "is_abnormal": false
     },
     {
@@ -1350,7 +1350,7 @@
       "retail_avg": 2.1063736188582833,
       "brent_eur": 0.5294,
       "spread": 1.5769736188582835,
-      "spread_z_score": 0.8793114436000822,
+      "spread_z_score": 0.879311443599945,
       "is_abnormal": false
     },
     {
@@ -1358,7 +1358,7 @@
       "retail_avg": 2.111592671502398,
       "brent_eur": 0.6322,
       "spread": 1.479392671502398,
-      "spread_z_score": -0.2307359525145374,
+      "spread_z_score": -0.23073595251459258,
       "is_abnormal": false
     },
     {
@@ -1366,15 +1366,15 @@
       "retail_avg": 2.174345634209311,
       "brent_eur": 0.5136,
       "spread": 1.6607456342093112,
-      "spread_z_score": 1.5562583742142457,
+      "spread_z_score": 1.5562583742141376,
       "is_abnormal": false
     },
     {
       "date": "2026-03-10",
-      "retail_avg": 2.181422969419571,
+      "retail_avg": 2.1814229694194966,
       "brent_eur": 0.4854,
-      "spread": 1.6960229694195708,
-      "spread_z_score": 1.5498626369534867,
+      "spread": 1.6960229694194966,
+      "spread_z_score": 1.5498626369529707,
       "is_abnormal": false
     },
     {
@@ -1382,7 +1382,7 @@
       "retail_avg": 2.1188611345020982,
       "brent_eur": 0.4941,
       "spread": 1.6247611345020982,
-      "spread_z_score": 0.8016805589974317,
+      "spread_z_score": 0.801680558997536,
       "is_abnormal": false
     },
     {
@@ -1390,15 +1390,15 @@
       "retail_avg": 2.122572964155155,
       "brent_eur": 0.5577,
       "spread": 1.564872964155155,
-      "spread_z_score": 0.21032526583729538,
+      "spread_z_score": 0.2103252658373406,
       "is_abnormal": false
     },
     {
       "date": "2026-03-13",
-      "retail_avg": 2.143007423484702,
+      "retail_avg": 2.1430074234847076,
       "brent_eur": 0.5658,
-      "spread": 1.577207423484702,
-      "spread_z_score": 0.3222887434826547,
+      "spread": 1.5772074234847078,
+      "spread_z_score": 0.32228874348276476,
       "is_abnormal": false
     },
     {
@@ -1406,7 +1406,7 @@
       "retail_avg": 2.1470001051287833,
       "brent_eur": 0.5749,
       "spread": 1.5721001051287833,
-      "spread_z_score": 0.2585437754140393,
+      "spread_z_score": 0.25854377541408036,
       "is_abnormal": false
     },
     {
@@ -1414,15 +1414,15 @@
       "retail_avg": 2.148744581259727,
       "brent_eur": 0.617,
       "spread": 1.5317445812597268,
-      "spread_z_score": -0.17860571768897526,
+      "spread_z_score": -0.17860571768897412,
       "is_abnormal": false
     },
     {
       "date": "2026-03-16",
-      "retail_avg": 2.1500572563373352,
+      "retail_avg": 2.150057256337338,
       "brent_eur": 0.5537,
-      "spread": 1.5963572563373352,
-      "spread_z_score": 0.534832176171409,
+      "spread": 1.5963572563373378,
+      "spread_z_score": 0.5348321761715007,
       "is_abnormal": false
     },
     {
@@ -1430,7 +1430,7 @@
       "retail_avg": 2.155201193813089,
       "brent_eur": 0.5912,
       "spread": 1.564001193813089,
-      "spread_z_score": 0.15299346729230048,
+      "spread_z_score": 0.15299346729232746,
       "is_abnormal": false
     },
     {
@@ -1438,7 +1438,7 @@
       "retail_avg": 2.158572254258643,
       "brent_eur": 0.6459,
       "spread": 1.5126722542586428,
-      "spread_z_score": -0.44955547406855084,
+      "spread_z_score": -0.4495554740685795,
       "is_abnormal": false
     },
     {
@@ -1446,7 +1446,7 @@
       "retail_avg": 2.230397212354061,
       "brent_eur": 0.608,
       "spread": 1.6223972123540609,
-      "spread_z_score": 0.8609039196312075,
+      "spread_z_score": 0.8609039196312933,
       "is_abnormal": false
     },
     {
@@ -1454,15 +1454,15 @@
       "retail_avg": 2.2884065187387983,
       "brent_eur": 0.6446,
       "spread": 1.6438065187387982,
-      "spread_z_score": 1.0644237586341398,
+      "spread_z_score": 1.0644237586342367,
       "is_abnormal": false
     },
     {
       "date": "2026-03-21",
-      "retail_avg": 2.2980546524672163,
+      "retail_avg": 2.2980546524672167,
       "brent_eur": 0.591,
-      "spread": 1.7070546524672163,
-      "spread_z_score": 1.6660928716948535,
+      "spread": 1.7070546524672168,
+      "spread_z_score": 1.666092871694981,
       "is_abnormal": false
     },
     {
@@ -1470,15 +1470,15 @@
       "retail_avg": 2.302025004949811,
       "brent_eur": 0.641,
       "spread": 1.6610250049498112,
-      "spread_z_score": 1.0708452363760763,
+      "spread_z_score": 1.0708452363761525,
       "is_abnormal": false
     },
     {
       "date": "2026-03-23",
-      "retail_avg": 2.3054950649585373,
+      "retail_avg": 2.305495064958537,
       "brent_eur": 0.563,
-      "spread": 1.7424950649585373,
-      "spread_z_score": 1.815512519618876,
+      "spread": 1.742495064958537,
+      "spread_z_score": 1.8155125196189754,
       "is_abnormal": false
     },
     {
@@ -1486,15 +1486,15 @@
       "retail_avg": 2.278574294198889,
       "brent_eur": 0.5893,
       "spread": 1.689274294198889,
-      "spread_z_score": 1.1701899716501292,
+      "spread_z_score": 1.1701899716501956,
       "is_abnormal": false
     },
     {
       "date": "2026-03-25",
-      "retail_avg": 2.257535320522712,
+      "retail_avg": 2.257535320523126,
       "brent_eur": 0.5922,
-      "spread": 1.6653353205227122,
-      "spread_z_score": 0.8781054817237313,
+      "spread": 1.665335320523126,
+      "spread_z_score": 0.8781054817279621,
       "is_abnormal": false
     },
     {
@@ -1502,23 +1502,23 @@
       "retail_avg": 2.222104377668765,
       "brent_eur": 0.6181,
       "spread": 1.604004377668765,
-      "spread_z_score": 0.2066208004845675,
+      "spread_z_score": 0.2066208004843759,
       "is_abnormal": false
     },
     {
       "date": "2026-03-27",
-      "retail_avg": 2.253690174975171,
+      "retail_avg": 2.253690174975795,
       "brent_eur": 0.6634,
-      "spread": 1.590290174975171,
-      "spread_z_score": 0.053466117415137425,
+      "spread": 1.590290174975795,
+      "spread_z_score": 0.053466117421768385,
       "is_abnormal": false
     },
     {
       "date": "2026-03-28",
-      "retail_avg": 2.2745565243576324,
+      "retail_avg": 2.27455652435701,
       "brent_eur": 0.5803,
-      "spread": 1.6942565243576324,
-      "spread_z_score": 1.1759928344604633,
+      "spread": 1.6942565243570098,
+      "spread_z_score": 1.1759928344535597,
       "is_abnormal": false
     },
     {
@@ -1526,7 +1526,7 @@
       "retail_avg": 2.2772630568980907,
       "brent_eur": 0.6712,
       "spread": 1.6060630568980907,
-      "spread_z_score": 0.18319895776371706,
+      "spread_z_score": 0.1831989577636016,
       "is_abnormal": false
     },
     {
@@ -1534,7 +1534,7 @@
       "retail_avg": 2.2894987891077836,
       "brent_eur": 0.6675,
       "spread": 1.6219987891077836,
-      "spread_z_score": 0.35842195691308465,
+      "spread_z_score": 0.35842195691301,
       "is_abnormal": false
     },
     {
@@ -1542,16 +1542,16 @@
       "retail_avg": 2.311185740205368,
       "brent_eur": 0.693,
       "spread": 1.618185740205368,
-      "spread_z_score": 0.2493430318780943,
+      "spread_z_score": 0.2493430318779943,
       "is_abnormal": false
     }
   ],
   "brent_decoupling_e5": [
     {
       "date": "2026-03-01",
-      "retail_avg": 1.8410699418308194,
+      "retail_avg": 1.8410699418308196,
       "brent_eur": 0.38,
-      "spread": 1.4610699418308193,
+      "spread": 1.4610699418308197,
       "spread_z_score": 0.0,
       "is_abnormal": false
     },
@@ -1560,7 +1560,7 @@
       "retail_avg": 1.8929654420932174,
       "brent_eur": 0.4153,
       "spread": 1.4776654420932174,
-      "spread_z_score": 0.7071067811865428,
+      "spread_z_score": 0.7071067811865522,
       "is_abnormal": false
     },
     {
@@ -1568,7 +1568,7 @@
       "retail_avg": 1.947492966104422,
       "brent_eur": 0.4513,
       "spread": 1.496192966104422,
-      "spread_z_score": 1.0178226166635869,
+      "spread_z_score": 1.01782261666359,
       "is_abnormal": false
     },
     {
@@ -1576,7 +1576,7 @@
       "retail_avg": 1.9841049889333233,
       "brent_eur": 0.4404,
       "spread": 1.5437049889333232,
-      "spread_z_score": 1.373604777126855,
+      "spread_z_score": 1.3736047771268554,
       "is_abnormal": false
     },
     {
@@ -1584,15 +1584,15 @@
       "retail_avg": 1.9949447896547723,
       "brent_eur": 0.4796,
       "spread": 1.5153447896547723,
-      "spread_z_score": 0.5127235725065146,
+      "spread_z_score": 0.5127235725065148,
       "is_abnormal": false
     },
     {
       "date": "2026-03-06",
-      "retail_avg": 2.0117317381338595,
+      "retail_avg": 2.011731738133859,
       "brent_eur": 0.5209,
-      "spread": 1.4908317381338594,
-      "spread_z_score": -0.22843852087972508,
+      "spread": 1.490831738133859,
+      "spread_z_score": -0.2284385208797403,
       "is_abnormal": false
     },
     {
@@ -1600,7 +1600,7 @@
       "retail_avg": 2.028400674390817,
       "brent_eur": 0.5294,
       "spread": 1.499000674390817,
-      "spread_z_score": 0.049513940444486836,
+      "spread_z_score": 0.049513940444486815,
       "is_abnormal": false
     },
     {
@@ -1645,10 +1645,10 @@
     },
     {
       "date": "2026-03-13",
-      "retail_avg": 2.076700603939429,
+      "retail_avg": 2.076700603939428,
       "brent_eur": 0.5658,
-      "spread": 1.510900603939429,
-      "spread_z_score": 0.03261052184592413,
+      "spread": 1.5109006039394282,
+      "spread_z_score": 0.03261052184590712,
       "is_abnormal": false
     },
     {
@@ -1669,10 +1669,10 @@
     },
     {
       "date": "2026-03-16",
-      "retail_avg": 2.0869369770046213,
+      "retail_avg": 2.0869369770046218,
       "brent_eur": 0.5537,
-      "spread": 1.5332369770046212,
-      "spread_z_score": 0.5219705734657528,
+      "spread": 1.5332369770046217,
+      "spread_z_score": 0.5219705734657573,
       "is_abnormal": false
     },
     {
@@ -1680,7 +1680,7 @@
       "retail_avg": 2.0901284938813323,
       "brent_eur": 0.5912,
       "spread": 1.4989284938813323,
-      "spread_z_score": -0.18210228434446704,
+      "spread_z_score": -0.18210228434447173,
       "is_abnormal": false
     },
     {
@@ -1688,7 +1688,7 @@
       "retail_avg": 2.0923154153534065,
       "brent_eur": 0.6459,
       "spread": 1.4464154153534063,
-      "spread_z_score": -1.2088942870140873,
+      "spread_z_score": -1.2088942870140915,
       "is_abnormal": false
     },
     {
@@ -1696,7 +1696,7 @@
       "retail_avg": 2.1188374008285837,
       "brent_eur": 0.608,
       "spread": 1.5108374008285836,
-      "spread_z_score": 0.138199070345993,
+      "spread_z_score": 0.13819907034598816,
       "is_abnormal": false
     },
     {
@@ -1704,7 +1704,7 @@
       "retail_avg": 2.1334506139223826,
       "brent_eur": 0.6446,
       "spread": 1.4888506139223825,
-      "spread_z_score": -0.32687628512026634,
+      "spread_z_score": -0.32687628512027117,
       "is_abnormal": false
     },
     {
@@ -1712,31 +1712,31 @@
       "retail_avg": 2.1311966797547117,
       "brent_eur": 0.591,
       "spread": 1.5401966797547118,
-      "spread_z_score": 0.7762147895995468,
+      "spread_z_score": 0.7762147895995366,
       "is_abnormal": false
     },
     {
       "date": "2026-03-22",
-      "retail_avg": 2.130805834176479,
+      "retail_avg": 2.1308058341764795,
       "brent_eur": 0.641,
-      "spread": 1.489805834176479,
-      "spread_z_score": -0.3389498595164487,
+      "spread": 1.4898058341764795,
+      "spread_z_score": -0.3389498595164537,
       "is_abnormal": false
     },
     {
       "date": "2026-03-23",
-      "retail_avg": 2.129525427426149,
+      "retail_avg": 2.129525427426715,
       "brent_eur": 0.563,
-      "spread": 1.5665254274261489,
-      "spread_z_score": 1.3211576644907492,
+      "spread": 1.566525427426715,
+      "spread_z_score": 1.3211576645018261,
       "is_abnormal": false
     },
     {
       "date": "2026-03-24",
-      "retail_avg": 2.120117672761428,
+      "retail_avg": 2.1201176727610815,
       "brent_eur": 0.5893,
-      "spread": 1.5308176727614278,
-      "spread_z_score": 0.5100909085468832,
+      "spread": 1.5308176727610814,
+      "spread_z_score": 0.5100909085385107,
       "is_abnormal": false
     },
     {
@@ -1744,7 +1744,7 @@
       "retail_avg": 2.1114702762873576,
       "brent_eur": 0.5922,
       "spread": 1.5192702762873576,
-      "spread_z_score": 0.24284892631935925,
+      "spread_z_score": 0.24284892631900726,
       "is_abnormal": false
     },
     {
@@ -1752,7 +1752,7 @@
       "retail_avg": 2.0991706913739283,
       "brent_eur": 0.6181,
       "spread": 1.4810706913739282,
-      "spread_z_score": -0.624724203948449,
+      "spread_z_score": -0.624724203948315,
       "is_abnormal": false
     },
     {
@@ -1760,7 +1760,7 @@
       "retail_avg": 2.1139891329727494,
       "brent_eur": 0.6634,
       "spread": 1.4505891329727494,
-      "spread_z_score": -1.272056959665296,
+      "spread_z_score": -1.2720569596648224,
       "is_abnormal": false
     },
     {
@@ -1768,15 +1768,15 @@
       "retail_avg": 2.1286119336399767,
       "brent_eur": 0.5803,
       "spread": 1.5483119336399767,
-      "spread_z_score": 0.9533447817855694,
+      "spread_z_score": 0.9533447817848979,
       "is_abnormal": false
     },
     {
       "date": "2026-03-29",
-      "retail_avg": 2.1256743801145324,
+      "retail_avg": 2.125674380114532,
       "brent_eur": 0.6712,
-      "spread": 1.4544743801145323,
-      "spread_z_score": -1.1677831913303673,
+      "spread": 1.454474380114532,
+      "spread_z_score": -1.1677831913299979,
       "is_abnormal": false
     },
     {
@@ -1784,15 +1784,15 @@
       "retail_avg": 2.135708031526224,
       "brent_eur": 0.6675,
       "spread": 1.468208031526224,
-      "spread_z_score": -0.8281625510657828,
+      "spread_z_score": -0.8281625510655649,
       "is_abnormal": false
     },
     {
       "date": "2026-03-31",
-      "retail_avg": 2.1574334285326304,
+      "retail_avg": 2.15743342853263,
       "brent_eur": 0.693,
-      "spread": 1.4644334285326304,
-      "spread_z_score": -0.9202632849202514,
+      "spread": 1.46443342853263,
+      "spread_z_score": -0.9202632849199929,
       "is_abnormal": false
     }
   ],
